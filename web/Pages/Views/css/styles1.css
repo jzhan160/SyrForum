@@ -1,0 +1,262 @@
+*{
+  padding:0;
+  margin:0;
+  font-family: sans-serif;
+}
+body{
+  background-color:lightgrey;
+  font-size:16px;
+}
+h1{
+  font-size:4em;
+  margin:0 0 0.5em 0;
+  font-weight:700;
+}
+h2{
+  font-size:1.6em;
+  margin:0 0 0.1em 0;
+  font-weight:700;
+}
+.w_header{
+	height: 55px;
+	margin-bottom: -55px;
+	/*position:relative;*/
+	position: fixed;
+	width: 100%;
+	background: #222;
+	box-shadow:1px 3px 5px #39F;
+	opacity:.90;
+}
+header{
+  height:360px;
+  width:100%;
+  background: url(../img/Syracuse.jpg)  center top;
+  position:relative;
+
+}
+header div{
+  position:relative;
+  display:block;
+  color:white;
+  top:40%;
+  text-align: center;
+}
+section , footer{
+  position:relative;
+  width:100%;
+  display:inline-block;
+  background-color: white;
+  margin: 0 0;
+  padding:0;
+}
+section.navi{
+  height:3em;
+  padding:0;
+  margin:0em 0em;
+  background-color: #FFA500;
+  box-shadow:1px 3px 5px #39F;
+}
+.nav-bar {
+  height:45px;
+  background: #FFA500;
+  font-size: 18px;
+  font-family: Arial, sans-serif;
+  text-align: left;
+  margin:0;
+  padding:0;
+}
+.nav-menu a {
+  color: #fff;
+}
+.nav-menu,
+.nav-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-menu li {
+  position: relative;
+}
+.nav-menu a {
+  padding: 10px 3px;
+  margin: 3px 3px;
+  display: block;
+  text-decoration: none;
+  border-radius: .1em;
+  text-align:left;
+}
+.nav-menu a:hover {
+  opacity: 1.0;
+  background: #ff7733;
+}
+
+/* Navigation Bar - Level 1 Drop Down Menu */
+.nav-menu > li {
+  height:2.7em;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: -4px;
+}
+.nav-menu > li:first-child {
+  margin-left: 0;
+}
+
+/* Navigation Bar - Level 2 */
+.nav-menu > li > ul {
+  text-align: left;
+  width: auto;
+  display: none;
+  background:#ffa500;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding-bottom: 0px;
+  min-width: 140px;
+  border-radius: 0 0 .5em .5em;
+  z-index: 9999999;
+}
+.nav-menu > li:hover > ul {
+  display: block;
+}
+
+li.userconsole{
+  float:right;
+  width:2.3em;
+  padding: 0em 1em;
+}
+li.userconsole img{
+  width:1.5em;
+  height:1.5em;
+  position:relative;
+  top:0.5em;
+  /* border: 1px solid black; */
+}
+li.userconsole:hover>ul{
+  text-align: left;
+  width: auto;
+  display: block;
+  background:#FFA500;
+  position: absolute;
+  top: 100%;
+  left: -1.4em;
+  padding-bottom: 0px;
+  min-width: 100px;
+  border-radius: 0 0 .5em .5em;
+  z-index: 9999999;
+}
+
+section.userinput{
+  min-height:250px;
+  position:relative;
+  width:90%;
+  margin: 0 5%;
+  margin-top:0.25em;
+  padding:0;
+}
+section.userinput form{
+  min-height:240px;
+}
+section.userinput div{
+  margin: 1.5em 15%;
+}
+section.userinput div span{
+  display:inline-block;
+  width:13%;
+  font-size:1.2em;
+  margin:0.4em 0em;
+  text-align: center;
+}
+section.userinput div span:first-of-type{
+  font-size:1.4em;
+  font-weight: bold;
+
+}
+section.userinput div input{
+  width:83%;
+  font-size: 1.2em;
+  margin-left:0em;
+  display:inline-block;
+}
+section.userinput #plusitem{
+  margin-left: 0em;
+  font-size: 1em;
+  width:1.4em;
+  height:1.4em;
+}
+#plus label{
+  font-size: 1em;
+}
+/* new item box style */
+section.userinput .itemlist{
+  padding:0;
+  border: 2px dashed orange;
+  margin-top:0;
+  margin-bottom:0;
+}
+div.itemlist button{
+  vertical-align: top;
+  font-size:1em;
+  float:left;
+  width:1.5em;
+  height:1.5em;
+  margin-right:0.5em;
+}
+div.itemlist div.iteminput{
+  margin: 0.5em 2em;
+  padding:0;
+  font-size: 1em;
+}
+
+div.itemlist div.iteminput label{
+  width:25%;
+  display:inline-block;
+  float:left;
+}
+div.itemlist div.iteminput:first-of-type{
+  display:inline-block;
+  width:100%;
+  font-size:1.2em;
+  font-weight: bold;
+  vertical-align: bottom;
+  margin:0.5em 1.7em;
+  margin-bottom: 0;
+}
+div.itemlist div.iteminput:first-of-type label{
+  margin-top: 0.3em;
+}
+div.itemlist div.iteminput:first-of-type button{
+  float:left;
+}
+div.itemlist div.iteminput input{
+  width:70%;
+  font-size: 1em;
+  margin-left: 0;
+}
+
+div.itemlist div.iteminput textarea{
+  width:73%;
+  font-size: 1em;
+  margin-left: 0;
+}
+
+section.userinput div.buttons{
+  margin:0 30% 3em 40%;
+  margin-bottom:3em;
+}
+section.userinput div.buttons input{
+  font-size: 1em;
+  margin-left:3em;
+  border-radius: 0.3em;
+  width:4em;
+  height:1.4em;
+}
+/* footer style */
+footer{
+  background-color:	#FFA500;
+  text-align: center;
+  height:55px;
+}
+footer p{
+  font-size:16px;
+  padding-top: 18px;
+}

@@ -1,0 +1,497 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Slack like emoji selector with apple, twitter, google, emojione and custom emoji support.">
+    <meta name="keywords" content="wdt, wdt-emoji-bundle, emoji, plugin, opensource, open, source, javascript, emoji, emoticon">
+    <meta name="author" content="Nedim Arabacı (http://ned.im)">
+
+    <title>wdt-emoji-bundle - Demo</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css"/>
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800&amp;subset=latin-ext" rel="stylesheet">
+
+    <link rel="stylesheet" href="prettify.css"/>
+    <link rel="stylesheet" href="wdt-emoji-bundle.css"/>
+    <script type="text/javascript" src="prettify.js"></script>
+    <script type="text/javascript" src="emoji.min.js"></script>
+    <script type="text/javascript" src="wdt-emoji-bundle.min.js"></script>
+
+    <script type="text/javascript" src="share.min.js"></script>
+
+    <style type="text/css">
+        body {
+            font-family: 'Open Sans', sans-serif;
+            overflow-y: scroll;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .label-block {
+            display: block;
+            text-align: center;
+        }
+
+        #fullname-output,
+        #comment-output,
+        #contenteditable-output,
+        #contenteditable2-output {
+            min-height: 43px;
+            padding: 10px;
+            background-color: rgba(255, 255, 0, 0.14);
+        }
+
+        #head-title .emoji-outer {
+            width: 64px;
+            height: 64px;
+        }
+
+        .form-control {
+            padding-right: 27px;
+        }
+
+        div.form-control {
+            height: auto;
+        }
+
+        .todo-list li {
+            line-height: 26px;
+        }
+
+        .bottom-text .emoji-sizer {
+            width: 14px;
+            height: 14px;
+        }
+
+        .mobile-notice {
+            background: #ffff00;
+            padding: 10px;
+            border-radius: 20px
+        }
+
+        .set-changers {
+            margin: 20px 0;
+        }
+
+        var {
+            color: #207CE0;
+            font-style: normal;
+        }
+
+        span.info {
+            display: block;
+            margin-top: 25px;
+        }
+
+        code.block {
+            display: block;
+            padding: 7px 10px;
+            margin: 4px 0;
+        }
+
+        h4 {
+            line-height: 25px;
+        }
+
+        .sharer-btn {
+            display: inline-block !important;
+            position: relative;
+            top: 2px;
+        }
+
+        .sharer-btn label {
+            padding: 6px 10px !important;
+            background: #EEEEEE !important;
+        }
+    </style>
+
+
+</head>
+<body>
+
+<div class="container" id="app">
+    <div class="row">
+        <div class="col-md-8 col-md-push-2 col-xs-12" style="padding-top: 10px">
+
+            <h2 id="head-title" class="header text-center">wdt-emoji-bundle <br><br> :lollipop:</h2>
+
+            <h4 class="text-center">Slack like emoji picker with <br> <strong>apple</strong>, <strong>twitter</strong>, <strong>google</strong>, <strong>emojione</strong>, <strong>facebook</strong>, <strong>messenger</strong> <br> support.</h4>
+
+            <p class="text-center">
+              <a class="btn btn-warning" href="#docs">Documentation</a>
+              <span class="sharer-btn text-center"></span>
+            </p>
+
+            <p class="text-center visible-xs visible-sm hidden-md hidden-lg mobile-notice">
+              <strong> Preferably emoji bundle's pickers disabled for small screens. <br> You can use your native keyboard's picker.</strong>
+            </p>
+
+            <div class="text-center set-changers">
+              <label>Change emoji set</label>
+              <div>
+                  <a class="btn btn-default change-emoji-type" data-emoji-type="apple" href="#apple">Apple</a>
+                  <a class="btn btn-default change-emoji-type" data-emoji-type="google" href="#google">Google</a>
+                  <a class="btn btn-default change-emoji-type" data-emoji-type="twitter" href="#twitter">Twitter</a>
+                  <a class="btn btn-default change-emoji-type" data-emoji-type="emojione" href="#emojione">Emojione</a>
+                  <a class="btn btn-default change-emoji-type" data-emoji-type="facebook" href="#facebook">Facebook</a>
+                  <a class="btn btn-default change-emoji-type" data-emoji-type="messenger" href="#messenger">Messenger</a>
+              </div>
+            </div>
+
+            <div class="project-links text-center">
+                <iframe src="http://ned.im/github-buttons/ghbtn.html?user=needim&amp;repo=wdt-emoji-bundle&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="105px" height="35px"></iframe>
+
+                <iframe src="http://ned.im/github-buttons/ghbtn.html?user=needim&amp;repo=wdt-emoji-bundle&amp;type=fork&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="100px" height="35px"></iframe>
+
+                <iframe src="http://ned.im/github-buttons/ghbtn.html?user=needim&amp;type=follow&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="185px" height="35px"></iframe>
+
+                <iframe src="http://ned.im/github-buttons/ghbtn.html?user=needim&amp;repo=wdt-emoji-bundle&amp;type=download&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="160px" height="35px"></iframe>
+            </div>
+            <hr>
+            <form>
+                <div class="form-group">
+                    <label>input::text</label>
+                    <input id="fullname" type="text" value=";) Hey! check :heart_eyes:  this.  :dog:  :cat:  :hamster:" class="form-control wdt-emoji-bundle-enabled wdt-emoji-open-on-colon">
+                </div>
+                <div class="form-group">
+                    <p class="text-center"><strong>&downarrow;</strong></p>
+                    <div id="fullname-output"></div>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label>textarea</label>
+                    <textarea id="comment" name="comment" class="form-control wdt-emoji-bundle-enabled wdt-emoji-open-on-colon" rows="3">;) Hey! check :heart_eyes:  this.  :dog:  :cat:  :hamster:</textarea>
+                </div>
+                <div class="form-group">
+                    <p class="text-center"><strong>&downarrow;</strong></p>
+                    <div id="comment-output"></div>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label>div::contenteditable</label>
+                    <div id="contenteditable" class="form-control wdt-emoji-bundle-enabled" contentEditable="true">;) <strong>Hey!</strong> check :heart_eyes:  this.  :dog:  :cat:  :hamster:</div>
+                </div>
+                <div class="form-group">
+                    <p class="text-center"><strong>&downarrow;</strong></p>
+                    <div id="contenteditable-output"></div>
+                </div>
+                <hr>
+
+                <div class="form-group">
+                    <label>input::text w/ Open on colon</label>
+                    <input id="open-on-colon" type="text" value="Start typing and type sm after semicolon :" class="form-control wdt-emoji-bundle-enabled wdt-emoji-open-on-colon">
+                </div>
+
+                <hr>
+
+
+                <div class="docs" id="docs">
+
+                  <h3 class="text-center">DOCUMENTATION</h3>
+
+                  <h4>Installation</h4>
+
+                  <p>Download bundle from <a href="http://github.com/needim/wdt-emoji-bundle/releases">Github</a> and upload the files to your server.</p>
+
+                  <p>
+                    <span class="info">Or via NPM</span>
+                    <code class="block"><strong>npm</strong> i <var>wdt-emoji-bundle</var></code>
+                  </p>
+
+                  <p>
+                    <span class="info">Or via BOWER</span>
+                    <code class="block"><strong>bower</strong> i <var>wdt-emoji-bundle</var></code>
+                  </p>
+
+
+                    <p>
+                    <span class="info">Add this markup to DOM</span>
+                    </p>
+                        <pre class="prettyprint lang-javascript">&lt;div class="wdt-emoji-popup"&gt;
+  &lt;a href="#" class="wdt-emoji-popup-mobile-closer"&gt; &times; &lt;/a&gt;
+  &lt;div class="wdt-emoji-menu-content"&gt;
+    &lt;div id="wdt-emoji-menu-header"&gt;
+      &lt;a class="wdt-emoji-tab active" data-group-name="Recent"&gt;&lt;/a&gt;
+      &lt;a class="wdt-emoji-tab" data-group-name="People"&gt;&lt;/a&gt;
+      &lt;a class="wdt-emoji-tab" data-group-name="Nature"&gt;&lt;/a&gt;
+      &lt;a class="wdt-emoji-tab" data-group-name="Foods"&gt;&lt;/a&gt;
+      &lt;a class="wdt-emoji-tab" data-group-name="Activity"&gt;&lt;/a&gt;
+      &lt;a class="wdt-emoji-tab" data-group-name="Places"&gt;&lt;/a&gt;
+      &lt;a class="wdt-emoji-tab" data-group-name="Objects"&gt;&lt;/a&gt;
+      &lt;a class="wdt-emoji-tab" data-group-name="Symbols"&gt;&lt;/a&gt;
+      &lt;a class="wdt-emoji-tab" data-group-name="Flags"&gt;&lt;/a&gt;
+      &lt;a class="wdt-emoji-tab" data-group-name="Custom"&gt;&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div class="wdt-emoji-scroll-wrapper"&gt;
+      &lt;div id="wdt-emoji-menu-items"&gt;
+        &lt;input id="wdt-emoji-search" type="text" placeholder="Search"&gt;
+        &lt;h3 id="wdt-emoji-search-result-title"&gt;Search Results&lt;/h3&gt;
+        &lt;div class="wdt-emoji-sections"&gt;&lt;/div&gt;
+        &lt;div id="wdt-emoji-no-result"&gt;No emoji found&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div id="wdt-emoji-footer"&gt;
+      &lt;div id="wdt-emoji-preview"&gt;
+        &lt;span id="wdt-emoji-preview-img"&gt;&lt;/span&gt;
+        &lt;div id="wdt-emoji-preview-text"&gt;
+          &lt;span id="wdt-emoji-preview-name"&gt;&lt;/span&gt;&lt;br&gt;
+          &lt;span id="wdt-emoji-preview-aliases"&gt;&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div id="wdt-emoji-preview-bundle"&gt;
+        &lt;span&gt;WDT Emoji Bundle&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+                  <p>
+                    <span class="info">Include <strong>emoji.min.js</strong></span>
+                    <pre class="prettyprint lang-html">&lt;script type="text/javascript" src="emoji.min.js">&lt;/script&gt;
+                    </pre>
+                    </p>
+                    <p>
+                    <span class="info">Include <strong>wdt-emoji-bundle.min.js</strong></span>
+                    <pre class="prettyprint lang-html">&lt;script type="text/javascript" src="wdt-emoji-bundle.min.js">&lt;/script&gt;
+                    </pre>
+                    </p>
+
+                    <hr>
+
+                  <h4>Initializing the bundle</h4>
+
+                  <p>
+                    <span class="info">RUN</span>
+                    <code class="block"><strong>wdtEmojiBundle</strong>.init(<var>'.your-inputs-selector'</var>);</code>
+                  </p>
+
+                  <hr>
+
+                  <h4>Options / Configs</h4>
+
+                  <p>
+                    <span class="info">You can change sheet's urls, I recommend use a CDN, they are huge.</span>
+                    <code class="block"><strong>wdtEmojiBundle</strong>.defaults.emojiSheets.apple = <var>'./sheet_apple.png'</var>;</code>
+                    <code class="block"><strong>wdtEmojiBundle</strong>.defaults.emojiSheets.google = <var>'./sheet_google.png'</var>;</code>
+                    <code class="block"><strong>wdtEmojiBundle</strong>.defaults.emojiSheets.twitter = <var>'./sheet_twitter.png'</var>;</code>
+                    <code class="block"><strong>wdtEmojiBundle</strong>.defaults.emojiSheets.emojione = <var>'./sheet_emojione.png'</var>;</code>
+                  </p>
+                  <p>
+                    <span class="info">Default emoji set, available sets: <var>['apple', 'google', 'twitter', 'emojione']</var></span>
+                    <code class="block"><strong>wdtEmojiBundle</strong>.defaults.type = <var>'apple'</var>;</code>
+                  </p>
+                  <p>
+                    <span class="info">Hover color classes for picker's emoji's</span>
+                    <code class="block"><strong>wdtEmojiBundle</strong>.defaults.pickerColors = <var>[<br>&nbsp;&nbsp;'green', 'pink', 'yellow', 'blue', 'gray'<br>]</var>;</code>
+                    <span class="info-alt">Bundle picks a random element from this array and adds to emojis classlist.</span>
+
+                    <span class="info">Sample css selector for 'other-color':</span>
+                    <code class="block">
+                      .wdt-emoji<strong>.other-color</strong>:hover {background-color: <var>#######</var>;}
+                    </code>
+                  </p>
+                  <p>
+                    <span class="info">Picker tab section's orders, higher is first. Bundle render the sections according to this values.</span>
+                    <code class="block"><strong>wdtEmojiBundle</strong>.defaults.sectionOrders =  {
+                      <br>&nbsp;&nbsp;'Recent'  &nbsp: <var>10</var>,
+                      <br>&nbsp;&nbsp;'Custom'  &nbsp: <var>9</var>,
+                      <br>&nbsp;&nbsp;'People'  &nbsp: <var>8</var>,
+                      <br>&nbsp;&nbsp;'Nature'  &nbsp: <var>7</var>,
+                      <br>&nbsp;&nbsp;'Foods'  &nbsp&nbsp: <var>6</var>,
+                      <br>&nbsp;&nbsp;'Activity': <var>5</var>,
+                      <br>&nbsp;&nbsp;'Places'  &nbsp: <var>4</var>,
+                      <br>&nbsp;&nbsp;'Objects' : <var>3</var>,
+                      <br>&nbsp;&nbsp;'Symbols' : <var>2</var>,
+                      <br>&nbsp;&nbsp;'Flags'   &nbsp&nbsp: <var>1</var><br>};</code>
+                  </p>
+
+                  <br><br>
+                  <h4>API</h4>
+                  <p>
+                    <span class="info">Render function takes any html string and convert to emojies based on the current bundle emoji type. (apple, google, twitter, emojione)</span>
+                    <code class="block">var output = <strong>wdtEmojiBundle</strong>.render('<var>Lorem ipsum :) 🙊</var>');</code>
+
+                    <span class="info">output will be &downarrow; Change to &rightarrow;
+                        <a class="change-emoji-type" data-emoji-type="apple" href="#apple">Apple</a>,
+                        <a class="change-emoji-type" data-emoji-type="google" href="#google">Google</a>,
+                        <a class="change-emoji-type" data-emoji-type="twitter" href="#twitter">Twitter</a>,
+                        <a class="change-emoji-type" data-emoji-type="emojione" href="#emojione">Emojione</a>,
+                        <a class="change-emoji-type" data-emoji-type="facebook" href="#facebook">Facebook</a>,
+                        <a class="change-emoji-type" data-emoji-type="messenger" href="#emojione">Messenger</a>
+                    </span>
+                    <code class="block" id="doc-render-output"></code>
+                  </p>
+
+                </div>
+
+                <hr>
+                <div class="form-group">
+                    <label>TODO:</label>
+                    <div>
+                        <ul class="todo-list">
+                            <li>Better documentation. :neutral_face:</li>
+                            <li>Responsive Improvements. :wink:</li>
+                            <li>Better popup positioning :+1:</li>
+                            <li>Open on colon support for contenteditables :candy:</li>
+                            <li>Frequently used emoji list with localstorage and/or API. :robot_face:</li>
+                            <li>Provide more events; open, close, pickeropen, pickerclose etc. :tada: </li>
+                            <li>Custom emoji support. :wine_glass:</li>
+                            <li>Skin color support for apple/ios. :lion_face:</li>
+                            <li>Better contenteditable support, WYSIWYG? :nerd_face:</li>
+                            <li>Check browser compatibilities. :joystick:</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group text-center bottom-text">
+                    <br>
+                    <div class="text-center">
+                      <span class="sharer-btn text-center"></span>
+                    </div>
+                    <br>
+                    <p>I :heart: opensource.</p>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="wdt-emoji-popup">
+  <a href="#" class="wdt-emoji-popup-mobile-closer"> &times; </a>
+	<div class="wdt-emoji-menu-content">
+		<div id="wdt-emoji-menu-header">
+      <a class="wdt-emoji-tab active" data-group-name="Recent"></a>
+      <a class="wdt-emoji-tab" data-group-name="People"></a>
+      <a class="wdt-emoji-tab" data-group-name="Nature"></a>
+      <a class="wdt-emoji-tab" data-group-name="Foods"></a>
+      <a class="wdt-emoji-tab" data-group-name="Activity"></a>
+      <a class="wdt-emoji-tab" data-group-name="Places"></a>
+      <a class="wdt-emoji-tab" data-group-name="Objects"></a>
+      <a class="wdt-emoji-tab" data-group-name="Symbols"></a>
+      <a class="wdt-emoji-tab" data-group-name="Flags"></a>
+      <a class="wdt-emoji-tab" data-group-name="Custom"></a>
+    </div>
+		<div class="wdt-emoji-scroll-wrapper">
+      <div id="wdt-emoji-menu-items">
+        <input id="wdt-emoji-search" type="text" placeholder="Search">
+        <h3 id="wdt-emoji-search-result-title">Search Results</h3>
+        <div class="wdt-emoji-sections"></div>
+        <div id="wdt-emoji-no-result">No emoji found</div>
+      </div>
+    </div>
+		<div id="wdt-emoji-footer">
+      <div id="wdt-emoji-preview">
+        <span id="wdt-emoji-preview-img"></span>
+        <div id="wdt-emoji-preview-text">
+          <span id="wdt-emoji-preview-name"></span><br>
+          <span id="wdt-emoji-preview-aliases"></span>
+        </div>
+      </div>
+      <div id="wdt-emoji-preview-bundle">
+        <span>WDT Emoji Bundle</span>
+      </div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+    (function () {
+        window.prettyPrint && prettyPrint();
+        wdtEmojiBundle.defaults.emojiSheets = {
+            'apple'    : './sheets/sheet_apple_64_indexed_128.png',
+            'google'   : './sheets/sheet_google_64_indexed_128.png',
+            'twitter'  : './sheets/sheet_twitter_64_indexed_128.png',
+            'emojione' : './sheets/sheet_emojione_64_indexed_128.png',
+            'facebook' : './sheets/sheet_facebook_64_indexed_128.png',
+            'messenger': './sheets/sheet_messenger_64_indexed_128.png'
+        };
+
+        wdtEmojiBundle.init('.wdt-emoji-bundle-enabled');
+
+        var typeChangers = document.querySelectorAll('.change-emoji-type');
+        for (var i = 0; i < typeChangers.length; i++) {
+            typeChangers[i].addEventListener('click', function () {
+                wdtEmojiBundle.changeType(this.dataset.emojiType);
+                return false;
+            });
+        }
+        var ev = document.createEvent('Event');
+        ev.initEvent('input', true, true);
+
+        // ------------------------------------------------------
+        document.getElementById('fullname').addEventListener('input', function () {
+            document.getElementById('fullname-output').innerHTML = wdtEmojiBundle.render(this.value);
+        });
+        document.getElementById('fullname').dispatchEvent(ev);
+        // ------------------------------------------------------
+
+        // ------------------------------------------------------
+        document.getElementById('comment').addEventListener('input', function () {
+            document.getElementById('comment-output').innerHTML = wdtEmojiBundle.render(this.value);
+        });
+        document.getElementById('comment').dispatchEvent(ev);
+        // ------------------------------------------------------
+
+        document.getElementById('contenteditable').addEventListener('input', function () {
+            document.getElementById('contenteditable-output').innerHTML = wdtEmojiBundle.render(this.innerHTML);
+        });
+        document.getElementById('contenteditable').dispatchEvent(ev);
+
+        document.getElementById('head-title').innerHTML        = wdtEmojiBundle.render(document.getElementById('head-title').innerHTML);
+        document.querySelector('.todo-list').innerHTML         = wdtEmojiBundle.render(document.querySelector('.todo-list').innerHTML);
+        document.querySelector('.bottom-text').innerHTML       = wdtEmojiBundle.render(document.querySelector('.bottom-text').innerHTML);
+        document.querySelector('#doc-render-output').innerHTML = wdtEmojiBundle.render(':) 🙊');
+
+
+        new Share(".sharer-btn", {
+            title      : 'wdt-emoji-bundle - Slack like emoji picker.',
+            description: 'Slack like emoji picker with apple, twitter, google, emojione support.',
+            image      : 'https://cdn.rawgit.com/needim/wdt-emoji-bundle/master/wdt-emoji-bundle.gif',
+            networks   : {
+                pinterest: {
+                    enabled: false
+                },
+                facebook : {
+                    load_sdk   : true,
+                    app_id     : '198259823578303',
+                    title      : 'wdt-emoji-bundle - Slack like emoji picker.',
+                    caption    : 'wdt-emoji-bundle - Slack like emoji picker.',
+                    description: 'Slack like emoji picker with apple, twitter, google, emojione support.',
+                    image      : 'https://cdn.rawgit.com/needim/wdt-emoji-bundle/master/wdt-emoji-bundle.gif'
+                },
+                twitter  : {
+                    description: encodeURIComponent('Slack like #emoji picker #plugin with #apple, #twitter, #google, #emojione support. via @needim')
+                }
+            }
+        });
+
+
+    })();
+</script>
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src   = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-46744044-1', 'auto');
+        ga('send', 'pageview', '/wdt-emoji-bundle');
+    </script>
+
+</body>
+</html>

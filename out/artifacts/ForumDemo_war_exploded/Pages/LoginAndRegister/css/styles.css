@@ -1,0 +1,239 @@
+@CHARSET "ISO-8859-1";
+/*Basic style setting*/
+body {
+    background-image: url("../images/Syracuse.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+     #login_frame {  
+    width:  30em;
+    height: 16.25em;  
+    padding: 0.8125em;  
+  
+    position: absolute;  
+    left: 50%;  
+    top: 50%;  
+    margin-left: -12.5em;  
+    margin-top: -12.5em;  
+  
+    background-color: rgba(240, 255, 255, 0.5);  
+  
+    border-radius: 10px;  
+    text-align: center;  
+    } 
+
+    h1 {
+        color: white;
+        text-align: center;
+        font-size: 48px;
+    }
+    /*All button basic setting*/
+    button {
+        background-color: #ffa500; /* white */
+        border: none;
+        color: white;
+        padding: 1em 2em;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1em;
+        margin: 0.25em 0;
+        cursor: pointer;
+        -webkit-transition-duration: 0.4s; /* Safari */
+        transition-duration: 0.4s;
+     }
+     button:hover {
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+     }
+
+/*--------------------------------------------------------------------------*/
+/*Login form*/ 
+/* Full-width input fields */
+input[type=login_text], input[type=password] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 5px 22px 5px;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+}
+
+/* Extra styles for the cancel button */
+.login_cancelbtn {
+    background-color: #f44336;
+} 
+
+/* Center the image and position the close button */
+.login_imgcontainer {
+    text-align: center;
+    margin: 0.3125em 0.3125em 0.75em 0.3125em;
+    position: relative;
+}
+
+.login_container {
+    padding: 2em;
+}
+
+span.login_psw {
+    float: right;
+    padding-top: 1em;
+}
+
+/* The Modal (background) */
+.login_modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: q; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 3.75em;
+}
+
+/* Modal Content/Box */
+.login_modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 50%; /* Could be more or less, depending on screen size */
+    font-size: 18px;
+}
+
+/* The Close Button (x) */
+.login_close {
+    position: absolute;
+    right: 25px;
+    top: 0;
+    color: #000;
+    font-size: 35px;
+    font-weight: bold;
+}
+.login_subbtn, .login_cancelbtn {
+  float: left;
+  width: 50%;
+}
+.login_close:hover,
+.login_close:focus {
+    color: red;
+    cursor: pointer;
+}
+
+/* username and password validation*/
+#login_validation{
+	text-align:left;
+	font-weight:bold;
+	color:#FF3030;
+	font-size:85%; 
+}
+/* Add Zoom Animation */
+.login_animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0)} 
+    to {-webkit-transform: scale(1)}
+}
+    
+@keyframes animatezoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+    span.psw {
+       display: block;
+       float: none;
+    }
+}
+
+/*----------------------------------------------------------------*/
+/*Sign up form*/ 
+* {box-sizing: border-box}
+    input[type=signup_text], input[type=password] {
+        width: 100%;
+        padding: 15px;
+        margin: 5px 5px 22px 5px;
+        display: inline-block;
+        border: none;
+        background: #f1f1f1;
+    }
+    /* Add a background color when the inputs get focus */
+    input[type=signup_text]:focus, input[type=password]:focus {
+        background-color: #ddd;
+        outline: none;
+    }
+
+    .signup_cancelbtn {
+        background-color: #f44336;
+    }
+    
+    /* Add padding to container elements */
+    .signup_container {
+        padding:32px;
+    }
+    
+    /* The Modal (background) */
+    .signup_modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /*#474e5d*/
+        padding-top: 50px;
+    }
+    /* Modal Content/Box */
+    .signup_modal-content {
+        background-color: #fefefe;
+        margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+        border: 1px solid #888;
+        width: 50%; /* Could be more or less, depending on screen size */
+    }
+	
+	/* Center the image and position the close button */
+	.signup_imgcontainer { 
+	    text-align: center;
+	    margin: 0.3125em 0.3125em 0.75em 0.3125em;
+	    position: relative;
+	}
+	
+    /* The Close Button (x) */
+    .signup_close {
+        position: absolute;
+	    right: 25px;
+	    top: 0;
+	    color: #000;
+	    font-size: 35px;
+	    font-weight: bold;
+    }
+     .signup_close:hover,
+     .signup_close:focus {
+         color: #f44336;
+         cursor: pointer;
+     }
+    /* Clear floats */
+    .signup_clearfix::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+    /* Float cancel and signup buttons and add an equal width */
+    .signup_cancelbtn, .signup_signupbtn {
+            width: 100%;
+            float: left;
+            width: 50%;
+    }
+/*--------------------------------------------------------------------------*/
+
+
+

@@ -1,0 +1,148 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <script src="Pages/Profile/js/jquery-3.3.1.js"></script>
+  <script src="Pages/Profile/js/myprofile.js"></script>
+  <link rel="icon" href="img/ddd.ico">
+  <link rel="stylesheet" href="Pages/Profile/css/myprofile.css">
+  <title>My Profile</title>
+</head>
+
+
+<body>
+  <div class="frame">
+    <header>
+      <div>
+        <h1>Syracuse Forum</h1>
+        <h2>An Online Community of Second Hand Market</h2>
+      </div>
+    </header>
+
+
+    <section class="navi">
+      <div class="nav-bar">
+        <ul class="nav-menu">
+            <li><a href="/DispatcherServlet?method=main&userName=<%=request.getParameter("userName")%>">HOME</a></li>
+          <li><a href="">SECTION</a>
+              <ul>
+                  <li><a href="<%=request.getContextPath()%>/DispatcherServlet?method=view&userName=<%=request.getParameter("userName")%>&category=books">Used Books</a></li>
+                  <li><a href="<%=request.getContextPath()%>/DispatcherServlet?method=view&userName=<%=request.getParameter("userName")%>&category=cars">Used Cars</a></li>
+                  <li><a href="<%=request.getContextPath()%>/DispatcherServlet?method=view&userName=<%=request.getParameter("userName")%>&category=furniture">Used Furniture</a></li>
+              </ul>
+          </li>
+          </li>
+          <li class="user_console"><img src="Pages/Profile/img/user.svg" >
+              <ul>
+                  <li><a href="<%=request.getContextPath()%>/DispatcherServlet?method=profile&userName=<%=request.getParameter("userName")%>">My Profile</a></li>
+                  <li><a href="#">Setting</a></li>
+                  <li><a href="<%=request.getContextPath()%>/DispatcherServlet?method=logout">Logout</a></li>
+              </ul>
+          </li>
+          <li class="user_console">
+            <div class="notification_button">
+              <img src="Pages/Profile/img/notifications-bell-button.svg" />
+              <span class="button__badge">2</span>
+            </div>
+          </li>
+
+          <li class="user_console"><img src="Pages/Profile/img/magnifier.svg" >
+            <ul>
+              <li>
+                <div class="w_search">
+                      <form class="w_searchbox" method="post" action="<%=request.getContextPath()%>/DispatcherServlet?method=search&userName=<%=request.getParameter("userName")%>">
+                          <input type="text" placeholder="search" name="keyword"/>
+                          <button type="submit">Search</button>
+                      </form>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </section>
+    <!-- <div class="clearfix"></div > -->
+
+    <section>
+      <div class="profile_frame">
+        <div class="containner">
+          <div class="profile">
+            <!-- profile section -->
+            <img id="profileImage" src="Pages/Profile/img/sampleprofile.jpg" alt="myprofile">
+            <input type="button" id="editProfileBtn" value="Edit profile image" name="edit_profile">
+            <a href="<%=request.getContextPath()%>/DispatcherServlet?method=editPassword&userName=<%=request.getParameter("userName")%>"><input type="button" id="editPasswordBtn" value="Edit password" name="edit_password"></a>
+          </div>
+
+          <!--personal info <section>
+
+          </section>  -->
+          <div class="personal_info">
+            <div>
+              <p><b>Personal Info:</b></p>
+            </div>
+            <div>
+              <p>Username:</p><span><%=request.getParameter("userName")%></span>
+            </div>
+            <div>
+              <p>Joined:</p><span><%=request.getAttribute("createTime")%></span>
+            </div>
+            <div>
+              <p>Born:</p><span><%=request.getAttribute("birthday")%></span>
+            </div>
+            <div>
+              <p>Email:</p><span><%=request.getAttribute("email")%></span>
+            </div>
+          </div>
+
+          <!-- recent posts section -->
+          <div class="recent_posts">
+            <p><b>Recent Posts:</b></p>
+
+              <c:forEach items="${topics}" var="topic">
+                  <div>
+                      <p>${topic.getTitle()}</p>
+                      <p>${topic.getCreateTime()}</p>
+                      <a href="<%=request.getContextPath()%>/DispatcherServlet?method=personalTopic&topicId=${topic.getId()}&userName=<%=request.getParameter("userName")%>" name="recent_post1">Open</a><span>Delete</span>
+                  </div>
+              </c:forEach>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- hidden popup window -->
+    <div id="interface">
+      <p>Select your profile image:</p>
+      <div>
+        <img class="profileselection" src="Pages/Profile/img/profile1.jpg">
+        <img class="profileselection" src="Pages/Profile/img/profile2.jpg">
+        <img class="profileselection" src="Pages/Profile/img/profile3.jpg">
+        <img class="profileselection" src="Pages/Profile/img/profile4.jpg">
+        <img class="profileselection" src="Pages/Profile/img/profile5.jpg">
+        <img class="profileselection" src="Pages/Profile/img/profile6.jpg">
+      </div>
+      <div>
+        <input type="radio"  name="profile" value="1" checked>
+        <input type="radio"  name="profile" value="2">
+        <input type="radio"  name="profile" value="3">
+        <input type="radio"  name="profile" value="4">
+        <input type="radio"  name="profile" value="5">
+        <input type="radio"  name="profile" value="6">
+      </div>
+
+      <input type="button" value="Cancel">
+      <input type="button" value="Select">
+
+
+    </div>
+
+    <!-- <div class="clearfix"></div > -->
+    <footer>
+      <p>Copyright (c) 2018 Copyright Holder All Rights Reserved.</p>
+    </footer>
+
+  </body>
+  </html>
