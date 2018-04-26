@@ -118,6 +118,10 @@ public class UploadHandleServlet extends HttpServlet {
                     String filename = fileItem.getName();
                     //System.out.println(filename);
                     if (filename == null || filename.trim().equals("")) {
+                        item.setImagePath("");
+                        items.add(item);
+                        System.out.println(item);
+                        item = new Item();
                         continue;
                     }
                     filename = filename.substring(filename.lastIndexOf("\\") + 1); //remove path to get file name

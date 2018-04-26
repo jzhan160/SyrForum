@@ -136,7 +136,9 @@
 									<div class="row">
 										<a href="#" class="works-grid">
 											<ul>
-												<li><img id="main" src="<%=request.getAttribute("imagePath")%>" alt="..." /></li>
+												<c:if test="${!empty imagePath}">
+													<li><img id="main" src="<%=request.getAttribute("imagePath")%>" alt="..." /></li>
+												</c:if>
 											</ul>
 										</a>
 									</div>

@@ -100,7 +100,9 @@
                             <div class="row">
                                 <a href="#" class="works-grid">
                                     <ul>
-                                        <li><img id="main" src="${item.getImagePath()}" alt="..." /></li>
+                                        <c:if test="${item.getImagePath() != ''}">
+                                            <li><img id="main" src="${item.getImagePath()}" alt="..." /></li>
+                                        </c:if>
                                     </ul>
                                 </a>
                             </div>

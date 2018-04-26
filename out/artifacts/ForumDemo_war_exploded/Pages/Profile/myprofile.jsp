@@ -105,7 +105,9 @@
                   <div>
                       <p>${topic.getTitle()}</p>
                       <p>${topic.getCreateTime()}</p>
-                      <a href="<%=request.getContextPath()%>/DispatcherServlet?method=personalTopic&topicId=${topic.getId()}&userName=<%=request.getParameter("userName")%>" name="recent_post1">Open</a><span>Delete</span>
+                      <a href="<%=request.getContextPath()%>/DispatcherServlet?method=personalTopic&topicId=${topic.getId()}&userName=<%=request.getParameter("userName")%>"
+                         name="recent_post1">Open</a>
+                      <a href="<%=request.getContextPath()%>/DispatcherServlet?method=deleteTopic&topicId=${topic.getId()}&userName=<%=request.getParameter("userName")%>">Delete</a>
                   </div>
               </c:forEach>
           </div>

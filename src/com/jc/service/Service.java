@@ -174,6 +174,27 @@ public class Service {
         }
     }
 
+    public void deleteTopic(int topicId){
+        Connection conn = null;
+        try {
+            conn = ConnectionFactory.getInstance().makeConnection();
+            conn.setAutoCommit(false);
+            Dao topicDao = DaoFactory.getInstance().makeDao("Topic");
+            Topic topic = new Topic();
+            topic.setId(topicId);
+            topicDao.delete(conn, topic);
+            conn.commit();
+        }catch(Exception ex){
+            try{
+                System.out.println("roll back");
+                conn.rollback();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
+    }
+
     //-----------------< return all topics have the item with this carId s>--------------------------
     public List<Topic> readAllTopic(int catId){
         Connection conn = ConnectionFactory.getInstance().makeConnection();
