@@ -5,9 +5,7 @@ package com.jc.entity;
 public class Favorite implements Entity {
     int ID;
     int UserID;
-    int CommentID;
-    int viewed;
-    String Author;
+    int ItemID;
 
     public int getUserID() {
         return UserID;
@@ -17,36 +15,29 @@ public class Favorite implements Entity {
         UserID = userID;
     }
 
+    @Override
+    public String toString() {
+        return "Favorite{" +
+                "ID=" + ID +
+                ", UserID=" + UserID +
+                ", ItemID=" + ItemID +
+                '}';
+    }
+
+    public int getItemID() {
+        return ItemID;
+    }
+
+    public void setItemID(int itemID) {
+        ItemID = itemID;
+    }
+
     public int getId() {
+
         return ID;
     }
 
     public void setId(int ID) {
         this.ID = ID;
     }
-
-    public int getCommentID() {
-        return CommentID;
-    }
-
-    public void setCommentID(int commentID) {
-        CommentID = commentID;
-    }
-
-    public int getViewed() {
-        return viewed;
-    }
-
-    public void setViewed(int viewed) {
-        this.viewed = viewed;
-    }
-
-    public String getAuthor() {
-        return Author;
-    }
-
-    public void setAuthor(String author) {
-        Author = author;
-    }
-
 }

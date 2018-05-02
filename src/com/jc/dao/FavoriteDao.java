@@ -29,13 +29,11 @@ public class FavoriteDao implements Dao{
 
     public void create(Connection conn, Entity entity) throws SQLException{
         Favorite favorite = (Favorite) entity;
-        String insertSql = "INSERT INTO favorites (UserID, CommentID,Viewed,Author)" +
-                "VALUES (?,?,?,?);";
+        String insertSql = "INSERT INTO favorites (UserID, itemID)" +
+                "VALUES (?,?);";
         PreparedStatement ps = conn.prepareCall(insertSql);
         ps.setInt(1,favorite.getUserID());
-        ps.setInt(2,favorite.getCommentID());
-        ps.setInt(3,favorite.getViewed());
-        ps.setString(4,favorite.getAuthor());
+        ps.setInt(2,favorite.getItemID());
         System.out.println(ps);
         ps.execute();
     }
