@@ -1,10 +1,21 @@
+
+
 package com.jc.entity;
 
 public class Favorite implements Entity {
     int ID;
+    int UserID;
     int CommentID;
     int viewed;
     String Author;
+
+    public int getUserID() {
+        return UserID;
+    }
+
+    public void setUserID(int userID) {
+        UserID = userID;
+    }
 
     public int getId() {
         return ID;
