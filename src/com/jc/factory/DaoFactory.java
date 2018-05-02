@@ -7,7 +7,9 @@ public class DaoFactory {
     private static final TopicDao topicDao = new TopicDao();
     private static final CommentDao commentDao = new CommentDao();
     private static final ItemDao itemDao = new ItemDao();
+    private static final FavoriteDao favoriteDao = new FavoriteDao();
     private static DaoFactory factory =new DaoFactory();
+
 
     public Dao makeDao(String DaoImpl){
         Dao dao = null;
@@ -25,6 +27,8 @@ public class DaoFactory {
                 case "Comment":
                     dao = commentDao;
                     break;
+                case "Favorite":
+                    dao = favoriteDao;
                 default:
                     break;
             }
