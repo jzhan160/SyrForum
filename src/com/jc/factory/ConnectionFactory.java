@@ -17,7 +17,7 @@ public class ConnectionFactory {
             InputStream in = ConnectionFactory.class.getClassLoader().getResourceAsStream("dbconfig.properties");
             properties.load(in);
         } catch (Exception e) {
-            System.out.println("读取错误");
+            System.out.println("read error");
         }
         driver = properties.getProperty("driver");
         db_url = properties.getProperty("db_url");

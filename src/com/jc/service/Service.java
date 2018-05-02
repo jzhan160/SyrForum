@@ -96,6 +96,7 @@ public class Service {
                 user.setGender(res.getString("Gender"));
                 user.setEmail(res.getString("Email"));
             }
+
             conn.commit();
         }
         catch(SQLException e)
@@ -257,6 +258,26 @@ public class Service {
         return topic;
     }
 
+    public int countComments(int itemId){
+        int count = 0;
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        try {
+            conn.setAutoCommit(false);
+            Dao commentDao = DaoFactory.getInstance().makeDao("Comment");
+           Comment comment = new Comment();
+            comment.setItemID(itemId);
+            ResultSet rs = commentDao.read(conn, comment);
+            if(rs.next()) {
+                count = rs.getInt("CommentsCount");
+            }
+            conn.commit();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return count;
+
+    }
+
     public Topic readOneTopicByItemId(int itemId) {
         Topic topic = new Topic();
         Connection conn = ConnectionFactory.getInstance().makeConnection();
@@ -277,6 +298,7 @@ public class Service {
                     topic.setContact(topicResult.getString("Contact"));
                     topic.setAddress(topicResult.getString("Address"));
                     topic.setId(topicResult.getInt("TopicID"));
+                    topic.setUsers_UserID(topicResult.getInt("Users_UserID"));
                 }
             }
             conn.commit();
@@ -323,13 +345,17 @@ public class Service {
             Item temp = new Item();
             temp.setId(itemId);
             ResultSet rs = itemDao.read(conn,temp);
+            int count = 0;
             if(rs.next()){
                 item.setItemName(rs.getString("ItemName"));
                 item.setDescription(rs.getString("Description"));
                 item.setPrice(rs.getDouble("Price"));
                 item.setImagePath(rs.getString("ImagePath"));
-
+                count = rs.getInt("ReadingTimes");
+                item.setReadingTimes(++count);
             }
+            temp.setReadingTimes(count);
+            itemDao.update(conn,temp);
             conn.commit();
         }
         catch(Exception e)
@@ -354,7 +380,7 @@ public class Service {
                 Item getItem = new Item();
                 getItem.setId(rs.getInt("ItemID"));
                 getItem.setItemName(rs.getString("ItemName"));
-                System.out.println(getItem);
+                getItem.setReadingTimes(rs.getInt("ReadingTimes"));
                 items.add(getItem);
             }
             conn.commit();

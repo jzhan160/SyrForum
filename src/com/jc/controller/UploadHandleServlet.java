@@ -1,3 +1,17 @@
+//////////////////////////////////////////////////////////////
+// UploadHandleServlet.java  response to post requests      //
+// ver 1.0                                                  //
+// Author: Jiacheng Zhang                                   //
+//////////////////////////////////////////////////////////////
+/*
+ * This package provides one Java class
+ *
+ *
+ *
+ *
+ *
+ *
+ * */
 package com.jc.controller;
 
 import java.io.File;
@@ -25,7 +39,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 public class UploadHandleServlet extends HttpServlet {
     private Service service = new Service();
-    private String saveSpec = "/upload";
+    private String saveSpec = "/upload"; //directory that saves images post by users
     private String tempSpec = "/temp";
 
     public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -39,12 +53,11 @@ public class UploadHandleServlet extends HttpServlet {
        // System.out.println(savePath);
         String tempPath = this.getServletContext().getRealPath(tempSpec);
        // System.out.println(tempPath);
-
         request = uploadFile(request, tempPath, savePath);
         request.getRequestDispatcher("/Pages/HomePage/mainPage.jsp").forward(request, response);
     }
 
-
+    //-------------------<accept data from the form and images>----------------------
     private HttpServletRequest uploadFile(HttpServletRequest request, String tempPath, String savePath) {
 
         File tmpFile = new File(tempPath);
@@ -53,32 +66,29 @@ public class UploadHandleServlet extends HttpServlet {
         }
         String message = "";
         try {
-            //使用Apache文件上传组件处理文件上传步骤：
-            //1、创建一个DiskFileItemFactory工厂
+
             DiskFileItemFactory factory = new DiskFileItemFactory();
-            //设置工厂的缓冲区的大小，当上传的文件大小超过缓冲区的大小时，就会生成一个临时文件存放到指定的临时目录当中。
-            factory.setSizeThreshold(1024 * 100);//设置缓冲区的大小为100KB，如果不指定，那么缓冲区的大小默认是10KB
-            //设置上传时生成的临时文件的保存目录
+            //set a upper bound of the image size if going beyond, move to temp dir
+            factory.setSizeThreshold(1024 * 100);
+
             factory.setRepository(tmpFile);
-            //2、创建一个文件上传解析器
+
             ServletFileUpload upload = new ServletFileUpload(factory);
-            //监听文件上传进度
+
             upload.setProgressListener(new ProgressListener() {
                 public void update(long pBytesRead, long pContentLength, int arg2) {
                     //System.out.println("file size：" + pContentLength + ",done：" + pBytesRead);
                 }
             });
             upload.setHeaderEncoding("UTF-8");
-            //3、判断提交上来的数据是否是上传表单的数据
+            //detect whether data is from the form
             if (!ServletFileUpload.isMultipartContent(request)) {
                 return request;
             }
 
-            //设置上传单个文件的大小的最大值，目前是设置为1024*1024字节，也就是1MB
             upload.setFileSizeMax(1024 * 1024);
             //设置上传文件总量的最大值，最大值=同时上传的多个文件的大小的最大值的和，目前设置为10MB
             upload.setSizeMax(1024 * 1024 * 10);
-            //4、使用ServletFileUpload解析器解析上传数据，解析结果返回的是一个List<FileItem>集合，每一个FileItem对应一个Form表单的输入项
             List<FileItem> list = upload.parseRequest(request);
             System.out.println("list size:"+ list.size());
             Topic topic = new Topic();
@@ -86,7 +96,7 @@ public class UploadHandleServlet extends HttpServlet {
             Item item = new Item();
             String userName = request.getParameter("userName");
             for (FileItem fileItem : list) {
-                //如果fileitem中封装的是普通输入项的数据
+                //for common data
                 if (fileItem.isFormField()) {
                     String itemName = fileItem.getFieldName();
                     if (itemName.equals("Title"))
@@ -114,7 +124,7 @@ public class UploadHandleServlet extends HttpServlet {
                         }
                     }
 
-                } else {
+                } else {//for images
                     String filename = fileItem.getName();
                     //System.out.println(filename);
                     if (filename == null || filename.trim().equals("")) {
@@ -164,11 +174,13 @@ public class UploadHandleServlet extends HttpServlet {
         }
     }
 
-    private String makeFileName(String filename) {  //2.jpg
-        //为防止文件覆盖的现象发生，要为上传文件产生一个唯一的文件名
+
+    //-------------------<generate a file name>-------------------------------
+    private String makeFileName(String filename) {
         return UUID.randomUUID().toString() + "_" + filename;
     }
 
+    //-------------------<generate a unique dir for each user>-------------------------------
     private String[] makePath(String filename, String savePath) {
         int hashcode = filename.hashCode();
         int dir1 = hashcode & 0xf;  //0--15

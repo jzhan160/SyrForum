@@ -74,17 +74,19 @@
         <button onclick="document.getElementById('SignUp').style.display='block'" style="width:200px;">Sign Up</button>
     </div>
     <div id="SignUp" class="login_modal">
-        <span onclick="document.getElementById('SignUp').style.display='none'" class="signup_close" title="Close Modal">&times;</span>
         <form class="login_modal-content login_animate"
-              action="<%=request.getContextPath()%>/DispatcherServlet?method=register" method="post"
-        " method="post">
+              action="<%=request.getContextPath()%>/DispatcherServlet?method=register" method="post">
+            <div class="signup_imgcontainer">
+                <span onclick="document.getElementById('SignUp').style.display='none'" class="signup_close" title="Close Modal">&times;</span>
+            </div>
         <div class="login_container ">
             <c:if test="${requestScope.registerMsg != 'error'}">  </c:if>
             <c:if test="${requestScope.registerMsg == 'error' }">
                 <div style="color:#FF3030" style="font-size:10px"> The account has already existed! </div>
             </c:if>
             <label><b>UserName</b></label>
-            <input type="signup_text" placeholder="Enter UserName" name="userName" required>
+            <input type="signup_text" placeholder="Enter UserName: only letters and numbers" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')" 
+            onpaste="value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')" oncontextmenu="value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')" name="userName" required>
 
             <label><b>Email</b></label>
             <input type="signup_text" placeholder="Enter Email" name="email" required>
@@ -94,13 +96,20 @@
 
             <label><b>Repeat Password</b></label>
             <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
-
-            <label><b>Gender</b></label>
-            <input type="login_text" placeholder="Enter Gender" name="gender" required>
-
-            <label>
+  
+            <label><b>Gender</b></label> <br />
+			<select id="gender" name="gender" required>
+			<option>Select one</option> 
+			<option>Male</option>
+			<option>Female</option>
+			<option>Not specified</option>
+			</select>
+			
+            <div>
+         <%--   <label>
                 <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
-            </label>
+            </label>--%>
+            </div>
 
             <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
 

@@ -47,7 +47,7 @@ public class TopicDao implements Dao {
         String condition = "";
         condition += topic.getId()== 0? "TopicID = TopicID":(" TopicID =" + topic.getId());
         condition += topic.getUsers_UserID() == 0?"":(" AND Users_UserID =" + topic.getUsers_UserID());
-        readSql += condition + ";";
+        readSql += condition + " ORDER BY CreateTime DESC;";
         PreparedStatement ps = conn.prepareCall(readSql);
         return ps.executeQuery();
     }

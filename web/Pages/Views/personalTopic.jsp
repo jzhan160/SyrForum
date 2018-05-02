@@ -82,12 +82,7 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <h3>${topic.getTitle()}</h3>
-                <ul class="tools">
-                    <li><span class="glyphicon glyphicon-user" aria-hidden="true">admin</span><p></p></li>
-                    <li><span class="glyphicon glyphicon-eye-open" aria-hidden="true">Reading:6</span><p></p></li>
-                    <li><span class="glyphicon glyphicon-comment" aria-hidden="true">Comments:3</span><p></p></li>
-                    <li><span class="glyphicon glyphicon-time" aria-hidden="true">${topic.getCreateTime()}</span></li>
-                </ul>
+
                 <div class="panel panel-default">
                     <c:forEach items="${items}" var="item">
                     <div class="panel-body">
@@ -101,7 +96,7 @@
                                 <a href="#" class="works-grid">
                                     <ul>
                                         <c:if test="${item.getImagePath() != ''}">
-                                            <li><img id="main" src="${item.getImagePath()}" alt="..." /></li>
+                                                <li><img id="main" src="${item.getImagePath()}" alt="..." /></li>
                                         </c:if>
                                     </ul>
                                 </a>

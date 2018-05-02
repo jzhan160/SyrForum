@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////
 // DispatcherServlet.java  response to web requests         //
 // ver 1.0                                                  //
-//                                                          //
+// Author: Jiacheng Zhang, Cankan He, Biao A                //
 //////////////////////////////////////////////////////////////
 /*
  * This package provides one Java class DispatcherServlet
@@ -17,10 +17,7 @@
  * */
 package com.jc.controller;
 
-import com.jc.entity.Comment;
-import com.jc.entity.Item;
-import com.jc.entity.Topic;
-import com.jc.entity.User;
+import com.jc.entity.*;
 import com.jc.service.Service;
 
 import javax.servlet.RequestDispatcher;
@@ -51,6 +48,7 @@ public class DispatcherServlet extends HttpServlet {
         doPost(request, response);
     }
 
+    //----------------<assign requests to different services according to the method parameter>-------------------------------
     private void dispatcher(String method, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             if ("register".equals(method)) {
@@ -83,6 +81,7 @@ public class DispatcherServlet extends HttpServlet {
         }
     }
 
+    //------------------<method to deal with the login request>----------------------------
     private void login(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
         String userName = req.getParameter("userName");
@@ -102,7 +101,6 @@ public class DispatcherServlet extends HttpServlet {
             // req.setAttribute("userName", userName);
         } else {
             //res.sendRedirect(req.getContextPath()+"/Pages/error.jsp");
-            // JOptionPane.showMessageDialog(null, "error");
             req.setAttribute("loginMsg", "error");
             forward = "/Pages/LoginAndRegister/login.jsp";
         }
@@ -114,21 +112,27 @@ public class DispatcherServlet extends HttpServlet {
         //But sendRedirect can go outside.
     }
 
+    private void admin(HttpServletRequest req, HttpServletResponse res)
+            throws ServletException, IOException, SQLException{
+
+    }
+
+    //------------------<method to deal with the register request>----------------------------
     private void register(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
         String userName = req.getParameter("userName");
-        String passWord = req.getParameter("password");
         String email = req.getParameter("email");
+        String passWord = req.getParameter("password");
         String gender = req.getParameter("gender");
         RequestDispatcher requestDispatcher = null;
         String forward = null;
         User user = new User();
         user.setUserName(userName);
         user.setEmail(email);
-        user.setGender(gender);
         boolean result = service.check(user);
         if (!result) {
             user.setUserPassword(passWord);
+            user.setGender(gender);
             service.register(user);
             forward = "/Pages/HomePage/mainPage.jsp";
         } else {
@@ -139,7 +143,7 @@ public class DispatcherServlet extends HttpServlet {
         requestDispatcher.forward(req, res);
     }
 
-    // go to the profile page
+    //------------------<method to deal with the showing profile request>----------------------------
     private void profile(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
         String userName = req.getParameter("userName");
@@ -156,6 +160,8 @@ public class DispatcherServlet extends HttpServlet {
         rDispatcher.forward(req, res);
     }
 
+
+    //------------------<method to deal with the deleting topic request>----------------------------
     private void deleteTopic(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
         int topicId = Integer.parseInt(req.getParameter("topicId"));
@@ -163,7 +169,7 @@ public class DispatcherServlet extends HttpServlet {
         profile(req,res);
     }
 
-
+    //------------------<method to deal with the editing password request>----------------------------
     private void editPassword(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
         String newPassword = req.getParameter("password");
@@ -184,6 +190,7 @@ public class DispatcherServlet extends HttpServlet {
         rDispatcher.forward(req, res);
     }
 
+    //------------------<method to deal with the seeing previous posted topics request>----------------------------
     private void personalTopic(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
         int topicId = Integer.parseInt(req.getParameter("topicId"));
@@ -196,15 +203,16 @@ public class DispatcherServlet extends HttpServlet {
         rDispatcher.forward(req, res);
     }
 
-    // go to the main page
+    //------------------<method to  redirect to home page>----------------------------
     private void main(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
-        String userName = req.getParameter("userName");
+       // String userName = req.getParameter("userName");
         // req.setAttribute("userName",userName);
         RequestDispatcher rDispatcher = req.getRequestDispatcher("/Pages/HomePage/mainPage.jsp");
         rDispatcher.forward(req, res);
     }
 
+    //------------------<method to  redirect to pages of different categories >----------------------------
     private void view(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
         String forward = null;
@@ -226,11 +234,22 @@ public class DispatcherServlet extends HttpServlet {
         }
 
         List<Item> items = service.readAllItems(catId);
-        req.setAttribute("items", items);
+        List<ItemInfo> itemsInfo = new ArrayList<>();
+        for (Item item: items){
+            ItemInfo itemInfo = new ItemInfo();
+            Topic topic = service.readOneTopicByItemId(item.getId());
+            itemInfo.setItem(item);
+            itemInfo.setCommentCount(service.readComments(item.getId()).size());
+            itemInfo.setCreateTime(topic.getCreateTime());
+            itemInfo.setUserName(service.getUserById(topic.getUsers_UserID()));
+            itemsInfo.add(itemInfo);
+        }
+        req.setAttribute("itemsInfo", itemsInfo);
         requestDispatcher = req.getRequestDispatcher(forward);
         requestDispatcher.forward(req, res);
     }
 
+    //------------------<method to  add comments >----------------------------
     private void addComment(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
         int itemId = Integer.parseInt(req.getParameter("itemId"));
@@ -239,7 +258,7 @@ public class DispatcherServlet extends HttpServlet {
         Comment comment = new Comment();
         comment.setContent(contents);
         comment.setItemID(itemId);
-        System.out.println(req.getParameter("userName"));
+       // System.out.println(req.getParameter("userName"));
         service.addComment(comment, userName);
         RequestDispatcher requestDispatcher = null;
         String forward = null;
@@ -251,12 +270,14 @@ public class DispatcherServlet extends HttpServlet {
 
     }
 
+    //------------------<method to logout>----------------------------
     private void logout(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("Pages/LoginAndRegister/login.jsp");
         requestDispatcher.forward(req, res);
     }
 
+    //------------------<method to search items by keywords>----------------------------
     private void search(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
         String keyword = req.getParameter("keyword");
@@ -267,15 +288,24 @@ public class DispatcherServlet extends HttpServlet {
         if (items.size() == 0)
             System.out.println("NO found!");
         else {
-            req.setAttribute("items", items);
-            for (int i = 0; i < items.size(); i++)
-                System.out.println(items.get(i));
+            List<ItemInfo> itemsInfo = new ArrayList<>();
+            for (Item it: items){
+                ItemInfo itemInfo = new ItemInfo();
+                Topic topic = service.readOneTopicByItemId(it.getId());
+                itemInfo.setItem(it);
+                itemInfo.setCommentCount(service.readComments(it.getId()).size());
+                itemInfo.setCreateTime(topic.getCreateTime());
+                itemInfo.setUserName(service.getUserById(topic.getUsers_UserID()));
+                itemsInfo.add(itemInfo);
+            }
+            req.setAttribute("itemsInfo", itemsInfo);
         }
         req.setAttribute("userName", req.getParameter("userName"));
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("Pages/Views/searchItems.jsp");
         requestDispatcher.forward(req, res);
     }
 
+    //------------------<method to show one item in detail>----------------------------
     private void item(HttpServletRequest req, HttpServletResponse res)//search topic by item id
             throws ServletException, IOException, SQLException {
         int itemId = Integer.parseInt(req.getParameter("itemId"));
@@ -283,7 +313,7 @@ public class DispatcherServlet extends HttpServlet {
         String forward = null;
 
         Topic topic = service.readOneTopicByItemId(itemId);
-        req.setAttribute("topicId", itemId);
+       //req.setAttribute("topicId", itemId);
         req.setAttribute("createTime", topic.getCreateTime());
         req.setAttribute("contact", topic.getContact());
         req.setAttribute("address", topic.getAddress());
@@ -293,7 +323,7 @@ public class DispatcherServlet extends HttpServlet {
         req.setAttribute("price", item.getPrice());
         req.setAttribute("itemId", itemId);
         req.setAttribute("imagePath", item.getImagePath());
-
+        req.setAttribute("readingTimes",item.getReadingTimes());
         List<Comment> tempComments = service.readComments(itemId);
         Map<String, Comment> comments = new LinkedHashMap<>();
         int count = 1;
@@ -301,11 +331,10 @@ public class DispatcherServlet extends HttpServlet {
             String name = service.getUserById(c.getUsers_UserID()) + " " + count;
             comments.put(name, c);
             count++;
-            //System.out.println(c);
         }
-        // System.out.println(comments.size());
-
         req.setAttribute("comments", comments);
+        req.setAttribute("author",req.getParameter("author"));
+        req.setAttribute("commentCount",req.getParameter("commentCount"));
         if (req.getParameter("category").equals("books") || req.getParameter("category").equals("2")) {
             forward = "/Pages/Views/bookTopics.jsp";
         } else if (req.getParameter("category").equals("cars") || req.getParameter("category").equals("1"))
@@ -318,3 +347,5 @@ public class DispatcherServlet extends HttpServlet {
     }
 
 }
+
+

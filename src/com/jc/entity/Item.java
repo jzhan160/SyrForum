@@ -8,6 +8,15 @@ public class Item implements Entity{
     private int TopicID;
     private double Price;
     private int ID;
+    private int readingTimes;
+
+    public int getReadingTimes() {
+        return readingTimes;
+    }
+
+    public void setReadingTimes(int readingTimes) {
+        this.readingTimes = readingTimes;
+    }
 
     @Override
     public int getId() {
@@ -21,8 +30,16 @@ public class Item implements Entity{
 
     @Override
     public String toString() {
-        return "Item [ItemName=" + ItemName + ", Description=" + Description + ", CatID=" + CatID + ", ImagePath="
-                + ImagePath + ", TopicID=" + TopicID + ", Price=" + Price + "]";
+        return "Item{" +
+                "ItemName='" + ItemName + '\'' +
+                ", Description='" + Description + '\'' +
+                ", CatID=" + CatID +
+                ", ImagePath='" + ImagePath + '\'' +
+                ", TopicID=" + TopicID +
+                ", Price=" + Price +
+                ", ID=" + ID +
+                ", readingTimes=" + readingTimes +
+                '}';
     }
 
     public String getItemName() {

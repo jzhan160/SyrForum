@@ -12,8 +12,7 @@
 	<script src="Pages/Views/plugin/jquery.min.js"></script>
 	<script src="Pages/Views/plugin/largethumb.js"></script>
 	<script src="Pages/Views/plugin/bootstrap/js/bootstrap.min.js"></script>
-	<!--<script type="text/javascript" src="plugin/jquery.page.js"></script>-->
-	<!--<script src="js/common.js"></script>-->
+
 	<script src="Pages/Views/page.js"></script>
 
 	<body>
@@ -118,9 +117,9 @@
 					<div class="panel-body">
 						<h3> <%=request.getAttribute( "itemName")%></h3>
 						<ul class="tools">
-							<li><span class="glyphicon glyphicon-user" aria-hidden="true">admin</span><p></p></li>
-							<li><span class="glyphicon glyphicon-eye-open" aria-hidden="true">Reading:6</span><p></p></li>
-							<li><span class="glyphicon glyphicon-comment" aria-hidden="true">Comments:3</span><p></p></li>
+							<li><span class="glyphicon glyphicon-user" aria-hidden="true"><%=request.getAttribute("author")%></span><p></p></li>
+							<li><span class="glyphicon glyphicon-eye-open" aria-hidden="true">Reading:<%=request.getAttribute("readingTimes")%></span><p></p></li>
+							<li><span class="glyphicon glyphicon-comment" aria-hidden="true">Comments:<%=request.getAttribute("commentCount")%></span><p></p></li>
 							<li><span class="glyphicon glyphicon-time" aria-hidden="true"><%=request.getAttribute("createTime")%></span></li>
 						</ul>
 						<div class="panel panel-default">
@@ -178,7 +177,7 @@
 					<div class="panel-body">
 						<div class="leave_comment">
 							<h3><span>Reply</span></h3>
-							<form action="<%=request.getContextPath()%>/DispatcherServlet?method=addComment&itemId=<%=request.getAttribute("itemId")%>&userName=<%=request.getParameter("userName")%>&category=<%=request.getParameter("category")%>" method="post">
+							<form action="<%=request.getContextPath()%>/DispatcherServlet?method=addComment&itemId=<%=request.getAttribute("itemId")%>&userName=<%=request.getParameter("userName")%>&category=<%=request.getParameter("category")%>&author=<%=request.getAttribute("author")%>&commentCount=<%=Integer.parseInt((String) request.getAttribute("commentCount"))+1%>" method="post">
 								<textarea placeholder="contents" name="contents" required=""></textarea>
 								<input type="submit" value="SUBMIT">
 							</form>

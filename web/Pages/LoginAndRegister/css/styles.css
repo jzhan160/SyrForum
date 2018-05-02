@@ -156,7 +156,7 @@ span.login_psw {
 /*----------------------------------------------------------------*/
 /*Sign up form*/ 
 * {box-sizing: border-box}
-    input[type=signup_text], input[type=password] {
+    input[type=signup_text], input[type=password],#gender {
         width: 100%;
         padding: 15px;
         margin: 5px 5px 22px 5px;

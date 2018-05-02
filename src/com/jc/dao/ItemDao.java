@@ -73,15 +73,12 @@ public class ItemDao implements Dao {
     @Override
     public void update(Connection conn, Entity entity) throws SQLException {
         Item item = (Item)entity;
-        String insertSql = "UPDATE items SET ItemName = ?, Description = ?, CatID = ?, ImagePath = ?, Price = ?" +
+        String insertSql = "UPDATE items SET ReadingTimes = ? " +
                 "WHERE ItemID = ?;";
         PreparedStatement ps = conn.prepareCall(insertSql);
-        ps.setString(1,item.getItemName());
-        ps.setString(2,item.getDescription());
-        ps.setInt(3,item.getCatID());
-        ps.setString(4,item.getImagePath());
-        ps.setDouble(5,item.getPrice());
-        ps.setInt(6,item.getId());
+        ps.setInt(1,item.getReadingTimes());
+        ps.setInt(2,item.getId());
+
         ps.execute();
     }
 

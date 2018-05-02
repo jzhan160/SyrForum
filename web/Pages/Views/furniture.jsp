@@ -129,16 +129,28 @@
 
 							<div class="panel-body">
 								<!--Posts Start-->
-								<c:if test="${!empty items}">
+								<c:if test="${!empty itemsInfo}">
 									<div class="contentList">
-										<c:forEach items = "${items}" var = "temp">
+										<c:forEach items="${itemsInfo}" var="temp">
 											<!-- post contents -->
 											<div class="panel panel-default">
 												<div class="panel-body">
-													<h4><a class="title" href="/DispatcherServlet?method=item&itemId=${temp.getId()}&userName=<%=request.getAttribute("userName")%>&category=<%=request.getAttribute("category")%>">${temp.getItemName()}</ a>
+													<h4><a class="title"
+														   href="/DispatcherServlet?method=item&itemId=${temp.getItem().getId()}&userName=<%=request.getAttribute("userName")%>&category=<%=request.getAttribute("category")%>&author=${temp.getUserName()}&commentCount=${temp.getCommentCount()}">${temp.getItem().getItemName()}</
+														a>
 													</h4>
-													<p class="overView"></p >
-													<p><span class="count"><i class="glyphicon glyphicon-user"></i><a href="#">admin</a></span> <span class="count"><i class="glyphicon glyphicon-eye-open"></i>Reading:666</span><span class="count"><i class="glyphicon glyphicon-comment"></i>Comments:18</span><span class="count"><i class="glyphicon glyphicon-time"></i>2018-04-01</span></p >
+													<p class="overView"></p>
+													<p>
+														<span class="count">
+														<i class="glyphicon glyphicon-user"></i>
+																${temp.getUserName()}</span>
+														<span class="count"><i class="glyphicon glyphicon-eye-open">
+
+														</i>Reading:${temp.getItem().getReadingTimes()}</span><span class="count">
+														<i class="glyphicon glyphicon-comment"></i>Comments:${temp.getCommentCount()}</span><span
+															class="count"><i
+															class="glyphicon glyphicon-time"></i>${temp.getCreateTime()}</span>
+													</p>
 												</div>
 											</div>
 
