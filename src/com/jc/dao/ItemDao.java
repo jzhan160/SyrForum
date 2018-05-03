@@ -23,6 +23,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemDao implements Dao {
     //----------------<Insert new entity into the items table>-----------------------
@@ -65,6 +67,7 @@ public class ItemDao implements Dao {
         condition += item.getCatID() == 0?" ":(" AND CatID = " + item.getCatID());
         condition+=" ORDER BY ItemID DESC";
         readSql += condition + ";";
+     //   System.out.println(readSql);
         PreparedStatement ps = conn.prepareCall(readSql);
         return  ps.executeQuery();
     }
@@ -86,6 +89,29 @@ public class ItemDao implements Dao {
     @Override
     public void delete(Connection conn, Entity entity) throws SQLException {
         Item item = (Item)entity;
+
+        //delete FK item from favorite table
+        String deleteFKFavorite = "DELETE FROM favorites WHERE ItemID = ?;";
+        PreparedStatement psFavorite = conn.prepareCall(deleteFKFavorite);
+        psFavorite.setInt(1,item.getId());
+        psFavorite.execute();
+
+        //find FK item from comments table
+        String findComments = "SELECT CommentID FROM comments WHERE ItemID ="+item.getId();
+        PreparedStatement psAllComments = conn.prepareCall(findComments);
+        ResultSet resultSet = psAllComments.executeQuery();
+        List<Integer> comments = new ArrayList<Integer>();
+        while(resultSet.next()){
+            comments.add(resultSet.getInt("CommentID"));
+        }
+
+        //delete FK comment from notification table
+        for(int id : comments){
+            String deleteFKNotification = "DELETE FROM notifications WHERE CommentID = " +id;
+            PreparedStatement psNote = conn.prepareCall(deleteFKNotification);
+            psNote.execute();
+        }
+        //delete item from items table
         String deleteSql = "DELETE FROM items WHERE ItemID = ?";
         PreparedStatement ps = conn.prepareCall(deleteSql);
         ps.setInt(1,item.getId());

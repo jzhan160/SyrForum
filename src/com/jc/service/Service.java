@@ -82,33 +82,71 @@ public class Service {
     }
 
     // get user information to show in the profile
-    public User getUser(User user) {
+    public List<User> getUsers(User user) {
+        List<User> users = new ArrayList<>();
         Connection conn = ConnectionFactory.getInstance().makeConnection();
         try
         {
             conn.setAutoCommit(false);
             Dao userDao =  DaoFactory.getInstance().makeDao("User");
             ResultSet res = userDao.read(conn,user);
-            if(res.next()){
-                user.setId(res.getInt("UserID"));
-                user.setCreateTime(res.getString("CreateTime"));
-                user.setUserBirthday(res.getString("UserBirthday"));
-                user.setGender(res.getString("Gender"));
-                user.setEmail(res.getString("Email"));
+            while(res.next()){
+                User getUser = new User();
+                getUser.setUserName(res.getString("UserName"));
+                getUser.setId(res.getInt("UserID"));
+                getUser.setCreateTime(res.getString("CreateTime"));
+                getUser.setUserBirthday(res.getString("UserBirthday"));
+                getUser.setGender(res.getString("Gender"));
+                getUser.setEmail(res.getString("Email"));
+                System.out.println(getUser);
+                users.add(getUser);
             }
 
             conn.commit();
         }
         catch(SQLException e)
         {
-            System.out.println(e.getMessage());
+            try{
+                System.out.println("roll back");
+                conn.rollback();
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
         }
-        return user;
+        return users;
     }
 
-    public List<Topic> getPreviousTopics(User user){
+
+    public List<Item> getAllItems(){
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        List<Item> items = new ArrayList<>();
+        try{
+            conn.setAutoCommit(false);
+            Dao itemDao = DaoFactory.getInstance().makeDao("Item");
+            Item mockItem = new Item();
+            ResultSet rs = itemDao.read(conn,mockItem);
+            while(rs.next()) {
+                Item getItem = new Item();
+                getItem.setId(rs.getInt("ItemID"));
+                getItem.setItemName(rs.getString("ItemName"));
+                getItem.setReadingTimes(rs.getInt("ReadingTimes"));
+                getItem.setCatID(rs.getInt("CatID"));
+                items.add(getItem);
+            }
+            conn.commit();
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        finally {
+            return items;
+        }
+    }
+
+    public List<Item> getPreviousItems(User user){
         Connection conn = null;
-        List<Topic> topicList  = new ArrayList<>();
+      //  List<Topic> topics  = new ArrayList<>();
+        List<Item> itemList  = new ArrayList<>();
         try {
             conn = ConnectionFactory.getInstance().makeConnection();
             conn.setAutoCommit(false);
@@ -126,9 +164,8 @@ public class Service {
                ids.add(topicRs.getInt("TopicID"));
             }
             for (int i = 0; i <ids.size() ; i++) {
-                Topic prevTopic =  readOneTopicByTopicId(ids.get(i));
-                prevTopic.setId(ids.get(i));
-                topicList.add(prevTopic);
+                List<Item> itemsInOneTopic =  readItemsByTopicId(ids.get(i));
+                itemList.addAll(itemsInOneTopic);
             }
             conn.commit();
         }catch(Exception ex){
@@ -138,7 +175,7 @@ public class Service {
                 e.printStackTrace();
             }
         }finally {
-            return topicList;
+            return itemList;
         }
     }
 
@@ -175,15 +212,26 @@ public class Service {
         }
     }
 
-    public void deleteTopic(int topicId){
+    public void deleteItem(int itemId){
         Connection conn = null;
         try {
             conn = ConnectionFactory.getInstance().makeConnection();
             conn.setAutoCommit(false);
+            Dao itemDao = DaoFactory.getInstance().makeDao("Item");
             Dao topicDao = DaoFactory.getInstance().makeDao("Topic");
+            Item item = new Item();
+            item.setId(itemId);
+            ResultSet  rs = itemDao.read(conn,item);
             Topic topic = new Topic();
-            topic.setId(topicId);
-            topicDao.delete(conn, topic);
+            while(rs.next())
+                topic.setId(rs.getInt("TopicID"));
+            Item itemInTheSameTopic = new Item();
+            itemInTheSameTopic.setTopicID(topic.getId());
+            itemDao.delete(conn, item);
+            ResultSet  rs1 = itemDao.read(conn,itemInTheSameTopic);
+            if (!rs1.next()) {
+                topicDao.delete(conn,topic);
+            }
             conn.commit();
         }catch(Exception ex){
             try{
@@ -308,8 +356,6 @@ public class Service {
         return topic;
     }
 
-
-
     public List<Item> readItemsByTopicId(int topicId){
         List<Item> items = new ArrayList<>();
         Connection conn = ConnectionFactory.getInstance().makeConnection();
@@ -321,8 +367,10 @@ public class Service {
             ResultSet rs = itemDao.read(conn,temp);
             while(rs.next()){
                 Item item =new Item();
+                item.setId(rs.getInt("ItemID"));
                 item.setItemName(rs.getString("ItemName"));
                 item.setDescription(rs.getString("Description"));
+                item.setCatID(rs.getInt("CatID"));
                 item.setPrice(rs.getDouble("Price"));
                 item.setImagePath(rs.getString("ImagePath"));
                 items.add(item);

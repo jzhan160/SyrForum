@@ -74,11 +74,19 @@
         <button onclick="document.getElementById('SignUp').style.display='block'" style="width:200px;">Sign Up</button>
     </div>
     <div id="SignUp" class="login_modal">
+<<<<<<< HEAD
         <form class="login_modal-content login_animate"
               action="<%=request.getContextPath()%>/DispatcherServlet?method=register" method="post">
             <div class="signup_imgcontainer">
                 <span onclick="document.getElementById('SignUp').style.display='none'" class="signup_close" title="Close Modal">&times;</span>
             </div>
+=======
+       
+        <form class="login_modal-content login_animate"
+              action="<%=request.getContextPath()%>/DispatcherServlet?method=register" method="post">
+              <span onclick="document.getElementById('SignUp').style.display='none'" class="signup_close" title="Close Modal">&times;</span>
+
+>>>>>>> 2766363151cc513a09a55d4d8a3acdaecd5863b6
         <div class="login_container ">
             <c:if test="${requestScope.registerMsg != 'error'}">  </c:if>
             <c:if test="${requestScope.registerMsg == 'error' }">
@@ -96,7 +104,11 @@
 
             <label><b>Repeat Password</b></label>
             <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> 2766363151cc513a09a55d4d8a3acdaecd5863b6
             <label><b>Gender</b></label> <br />
 			<select id="gender" name="gender" required>
 			<option>Select one</option> 
@@ -104,12 +116,15 @@
 			<option>Female</option>
 			<option>Not specified</option>
 			</select>
+<<<<<<< HEAD
 			
             <div>
          <%--   <label>
                 <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
             </label>--%>
             </div>
+=======
+>>>>>>> 2766363151cc513a09a55d4d8a3acdaecd5863b6
 
             <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
 

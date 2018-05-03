@@ -55,7 +55,15 @@ public class DispatcherServlet extends HttpServlet {
                 register(request, response);
             } else if ("login".equals(method)) {
                 login(request, response);
-            } else if ("profile".equals(method)) {
+            } else if ("showUsers".equals(method)){
+                showUsers(request,response);
+            }
+            else if ("showItems".equals(method)){
+                showItems(request,response);
+            }else if ("deleteItem".equals(method)){
+                deleteItem(request,response);
+            }
+            else if ("profile".equals(method)) {
                 profile(request, response);
             } else if ("main".equals(method)) {
                 main(request, response);
@@ -73,8 +81,6 @@ public class DispatcherServlet extends HttpServlet {
                 item(request, response);
             } else if ("editPassword".equals(method)) {
                 editPassword(request, response);
-            } else if ("deleteTopic".equals(method)) {
-                deleteTopic(request, response);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -94,6 +100,9 @@ public class DispatcherServlet extends HttpServlet {
 
         boolean result = service.check(user);
         if (result) {
+            if (userName.equals("admin"))
+                forward = "admin.jsp";
+            else
             //request redirect cannot catch form information
             //res.sendRedirect(req.getContextPath()+"/Pages/mainPage.jsp");
             //request dispatcher can take form information
@@ -149,25 +158,27 @@ public class DispatcherServlet extends HttpServlet {
         String userName = req.getParameter("userName");
         User user = new User();
         user.setUserName(userName);
-        user = service.getUser(user);
+        user = service.getUsers(user).get(0);
         req.setAttribute("userName", userName);
         req.setAttribute("birthday", user.getUserBirthday());
         req.setAttribute("createTime", user.getCreateTime());
         req.setAttribute("email", user.getEmail());
-        List<Topic> topics = service.getPreviousTopics(user);
-        req.setAttribute("topics", topics);
+        List<Item> items = service.getPreviousItems(user);
+        List<ItemInfo> itemsInfo = new ArrayList<>();
+        for (Item item: items){
+            ItemInfo itemInfo = new ItemInfo();
+            Topic topic = service.readOneTopicByItemId(item.getId());
+            itemInfo.setItem(item);
+            itemInfo.setCommentCount(service.readComments(item.getId()).size());
+            itemInfo.setCreateTime(topic.getCreateTime());
+            itemInfo.setUserName(service.getUserById(topic.getUsers_UserID()));
+            itemsInfo.add(itemInfo);
+        }
+        req.setAttribute("itemsInfo", itemsInfo);
         RequestDispatcher rDispatcher = req.getRequestDispatcher("/Pages/Profile/myprofile.jsp");
         rDispatcher.forward(req, res);
     }
 
-
-    //------------------<method to deal with the deleting topic request>----------------------------
-    private void deleteTopic(HttpServletRequest req, HttpServletResponse res)
-            throws ServletException, IOException, SQLException {
-        int topicId = Integer.parseInt(req.getParameter("topicId"));
-        service.deleteTopic(topicId);
-        profile(req,res);
-    }
 
     //------------------<method to deal with the editing password request>----------------------------
     private void editPassword(HttpServletRequest req, HttpServletResponse res)
@@ -181,7 +192,7 @@ public class DispatcherServlet extends HttpServlet {
             String userName = req.getParameter("userName");
             User user = new User();
             user.setUserName(userName);
-            user.setId(service.getUser(user).getId());
+            user.setId(service.getUsers(user).get(0).getId());
             user.setUserPassword(newPassword);
             service.changePassword(user);
             forward = "DispatcherServlet?method=profile&userName=" + userName;
@@ -344,6 +355,46 @@ public class DispatcherServlet extends HttpServlet {
 
         requestDispatcher = req.getRequestDispatcher(forward);
         requestDispatcher.forward(req, res);
+    }
+
+    private void showUsers(HttpServletRequest req, HttpServletResponse res)
+            throws ServletException, IOException, SQLException{
+        User mockUser = new User();
+        List<User> users = service.getUsers(mockUser);
+        req.setAttribute("users",users);
+         RequestDispatcher requestDispatcher = req.getRequestDispatcher("admin.jsp");
+        requestDispatcher.forward(req, res);
+    }
+
+    private void showItems(HttpServletRequest req, HttpServletResponse res)
+            throws ServletException, IOException, SQLException{
+        List<Item> items = service.getAllItems();
+        List<ItemInfo> itemsInfo = new ArrayList<>();
+        for(Item item : items){
+            ItemInfo itemInfo = new ItemInfo();
+            itemInfo.setItem(item);
+            Topic topic = service.readOneTopicByItemId(item.getId());
+            itemInfo.setCommentCount(service.readComments(item.getId()).size());
+            itemInfo.setCreateTime(topic.getCreateTime());
+            itemInfo.setUserName(service.getUserById(topic.getUsers_UserID()));
+            itemsInfo.add(itemInfo);
+        }
+        req.setAttribute("itemsInfo",itemsInfo);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("admin.jsp");
+        requestDispatcher.forward(req, res);
+
+
+    }
+
+    private void deleteItem(HttpServletRequest req, HttpServletResponse res)
+            throws ServletException, IOException, SQLException{
+
+        int itemId = Integer.parseInt(req.getParameter("itemId"));
+        service.deleteItem(itemId);
+        if(!req.getParameter("userName").equals("admin"))
+            profile(req,res);
+        else
+            showItems(req,res);
     }
 
 }

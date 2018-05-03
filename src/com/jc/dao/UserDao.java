@@ -76,7 +76,8 @@ public class UserDao implements Dao {
         condition += user.getEmail() == null ? "" :
                 (" OR Email = '" + user.getEmail() + "'");
         checkSql += condition + ";";
-        //System.out.println(checkSql);
+
+      //  System.out.println(checkSql);
         PreparedStatement ps = conn.prepareCall(checkSql);
         return ps.executeQuery();
     }

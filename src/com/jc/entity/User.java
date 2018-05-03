@@ -9,6 +9,15 @@ public class User implements Entity{
     private String CreateTime;
     private int IsAdmin;
     private int ID;
+    private int ImageID;
+
+    public int getImageID() {
+        return ImageID;
+    }
+
+    public void setImageID(int imageID) {
+        ImageID = imageID;
+    }
 
     @Override
     public int getId() {
@@ -19,11 +28,20 @@ public class User implements Entity{
     public void setId(int id) {
         ID = id;
     }
+
     @Override
     public String toString() {
-        return "User [UserName=" + UserName + ", UserPassword=" + UserPassword + ", Email=" + Email + ", Gender="
-                + Gender + ", UserBirthday=" + UserBirthday + ", CreateTime=" + CreateTime + ", IsAdmin=" + IsAdmin
-                + "]";
+        return "User{" +
+                "UserName='" + UserName + '\'' +
+                ", UserPassword='" + UserPassword + '\'' +
+                ", Email='" + Email + '\'' +
+                ", Gender='" + Gender + '\'' +
+                ", UserBirthday='" + UserBirthday + '\'' +
+                ", CreateTime='" + CreateTime + '\'' +
+                ", IsAdmin=" + IsAdmin +
+                ", ID=" + ID +
+                ", ImageID=" + ImageID +
+                '}';
     }
 
     public String getUserName() {

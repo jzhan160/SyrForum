@@ -101,13 +101,12 @@
           <div class="recent_posts">
             <p><b>Recent Posts:</b></p>
 
-              <c:forEach items="${topics}" var="topic">
+              <c:forEach items="${itemsInfo}" var="temp">
                   <div>
-                      <p>${topic.getTitle()}</p>
-                      <p>${topic.getCreateTime()}</p>
-                      <a href="<%=request.getContextPath()%>/DispatcherServlet?method=personalTopic&topicId=${topic.getId()}&userName=<%=request.getParameter("userName")%>"
+                      <p>${temp.getItem().getItemName()}</p>
+                      <a  href="/DispatcherServlet?method=item&itemId=${temp.getItem().getId()}&userName=<%=request.getParameter("userName")%>&category=${temp.getItem().getCatID()}&author=${temp.getUserName()}&commentCount=${temp.getCommentCount()}"
                          name="recent_post1">Open</a>
-                      <a href="<%=request.getContextPath()%>/DispatcherServlet?method=deleteTopic&topicId=${topic.getId()}&userName=<%=request.getParameter("userName")%>">Delete</a>
+                      <a href="<%=request.getContextPath()%>/DispatcherServlet?method=deleteItem&itemId=${temp.getItem().getId()}&userName=<%=request.getParameter("userName")%>">Delete</a>
                   </div>
               </c:forEach>
           </div>

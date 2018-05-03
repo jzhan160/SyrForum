@@ -71,26 +71,6 @@ public class TopicDao implements Dao {
     //                         and also delete foreign terms in comments and items>-----------------------
     public void delete(Connection conn, Entity entity) throws SQLException {
         Topic topic = (Topic)entity;
-        //find items in this topic
-        String findItems = "SELECT ItemID FROM items WHERE TopicID ="+topic.getId();
-        PreparedStatement psAllItems = conn.prepareCall(findItems);
-        ResultSet resultSet = psAllItems.executeQuery();
-        List<Integer> items = new ArrayList<Integer>();
-        while(resultSet.next()){
-            items.add(resultSet.getInt("ItemID"));
-        }
-        //delete foreign key
-        for(int id : items){
-            String deleteFKComment = "DELETE FROM comments WHERE ItemID = ?;";
-            PreparedStatement psComment = conn.prepareCall(deleteFKComment);
-            psComment.setInt(1,id);
-            psComment.execute();
-        }
-
-        String deleteFKItem = "DELETE FROM items WHERE TopicID = ?;";
-        PreparedStatement psItem = conn.prepareCall(deleteFKItem);
-        psItem.setInt(1,topic.getId());
-        psItem.execute();
 
         String insertSql = "DELETE FROM topics " +
                 "WHERE TopicID = ?;";
