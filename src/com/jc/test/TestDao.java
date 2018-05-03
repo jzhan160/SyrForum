@@ -1,8 +1,20 @@
+/////////////////////////////////////////
+// TestDao.java   test class           //
+// ver 1.0                             //
+// Biao A                              //
+/////////////////////////////////////////
+/*
+ *
+ * Maintenance History:
+ * --------------------
+ * 05/02/2018
+ * ver 1.0
+ *
+ *
+ * */
 package com.jc.test;
 import com.jc.dao.Dao;
-import com.jc.entity.Comment;
-import com.jc.entity.Item;
-import com.jc.entity.Topic;
+import com.jc.entity.*;
 import com.jc.factory.ConnectionFactory;
 import com.jc.factory.DaoFactory;
 import com.mysql.jdbc.Connection;
@@ -42,6 +54,37 @@ public class TestDao {
         //itemDao.delete(conn,item);passed
     }
 
+    static void TestCommentDao(Connection conn) throws SQLException{
+        Dao commentDao =  DaoFactory.getInstance().makeDao("Comment");
+        Comment comment = new Comment();
+        comment.setContent("demodddddddd");
+        comment.setUsers_UserID(2);
+        comment.setId(4);
+        //commentDao.create(conn,comment); passed
+        //commentDao.update(conn,comment); passed
+        //ResultSet rset = commentDao.read(conn,comment); passed
+        //commentDao.delete(conn,comment); passed
+
+    }
+
+    static void TestUserDao(Connection conn) throws SQLException{
+        Dao userDao = DaoFactory.getInstance().makeDao("User");
+        User user = new User();
+        //user.setId(7);
+        user.setUserName("deee");
+        user.setEmail("ba100@syr.edu");
+        user.setUserPassword("sssssss");
+        user.setUserBirthday("1994-01-01");
+        userDao.update(conn,user);
+    }
+
+    static void TestFavorite(Connection conn) throws SQLException{
+        Dao favorite = DaoFactory.getInstance().makeDao("Favorite");
+        Favorite fac = new Favorite();
+        fac.setUserID(1);
+        fac.setItemID(38);
+        favorite.create(conn,fac);
+    }
 
     public static void main(String[] args){
         Connection conn = ConnectionFactory.getInstance().makeConnection();
@@ -50,6 +93,7 @@ public class TestDao {
             //TestTopicDao(conn);
             //TestItemDao(conn);
             //TestCommentDao(conn);
+            //TestFavorite(conn);
             conn.commit();
         }catch (SQLException e) {
             System.out.println(e.getMessage());

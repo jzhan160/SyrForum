@@ -15,10 +15,7 @@ package com.jc.service;
 
 import com.jc.dao.Dao;
 import com.jc.dao.TopicDao;
-import com.jc.entity.Comment;
-import com.jc.entity.Item;
-import com.jc.entity.Topic;
-import com.jc.entity.User;
+import com.jc.entity.*;
 import com.jc.factory.ConnectionFactory;
 import com.jc.factory.DaoFactory;
 
@@ -441,6 +438,7 @@ public class Service {
         }
     }
 
+
     public List<Item> searchItems(String keyword){
         List<Item> items = new ArrayList<>();
         Connection conn = ConnectionFactory.getInstance().makeConnection();
@@ -536,5 +534,56 @@ public class Service {
             System.out.println(e.getMessage());
         }
         return name;
+    }
+
+    //------------------< add a favorite > ------------------------------------------
+    public void addFavorite(int userId, int itemId){
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        Dao favorite = DaoFactory.getInstance().makeDao("Favorite");
+        Favorite fac = new Favorite();
+        fac.setUserID(userId);
+        fac.setItemID(itemId);
+        try {
+            favorite.create(conn,fac);
+            conn.commit();
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+    }
+
+    //------------------< check if a favorite exist > -------------------------------
+    public boolean isFavExist(int userId, int itemId){
+        boolean flag = false;
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        Dao favorite = DaoFactory.getInstance().makeDao("Favorite");
+        Favorite fac = new Favorite();
+        fac.setUserID(userId);
+        fac.setItemID(itemId);
+        ResultSet rs = null;
+        try {
+            rs = favorite.read(conn,fac);
+            if(rs.next()){
+                flag = true;
+            }
+            conn.commit();
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+        return flag;
+    }
+
+    //------------------< delete a favorite > -------------------------------
+    public void delFavorite(int userId, int itemId){
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        Dao favorite = DaoFactory.getInstance().makeDao("Favorite");
+        Favorite fac = new Favorite();
+        fac.setUserID(userId);
+        fac.setItemID(itemId);
+        try {
+            favorite.delete(conn,fac);
+            conn.commit();
+        } catch (SQLException e) {
+            e.getMessage();
+        }
     }
 }

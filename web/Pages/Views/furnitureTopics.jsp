@@ -132,6 +132,19 @@
 									<p class="overView">Address: <%=request.getAttribute("address")%></p>
 									<p class="overView">Contact info: <%=request.getAttribute("contact")%></p>
 									<p class="overView">Price: <%=request.getAttribute("price")%></p>
+
+									<!-- Favorite -->
+									<a id = "hrefForFav" href="<%=request.getContextPath()%>/DispatcherServlet?method=favorite&userName=<%=request.getAttribute("userName")%>&itemId=<%=request.getAttribute("itemId")%>&author=<%=request.getAttribute("author")%>&category=<%=request.getAttribute("category")%>&commentCount=<%=request.getAttribute("commentCount")%>&favorite=add" >
+										<button type="button" id ="butForFav" href=>
+											Favorite</button>
+									</a>
+
+									<script>
+                                        if(<%=request.getAttribute("favExist")%>){
+                                            document.getElementById("butForFav").innerHTML = "unfavorite";
+                                            document.getElementById("hrefForFav").href = "<%=request.getContextPath()%>/DispatcherServlet?method=favorite&userName=<%=request.getAttribute("userName")%>&itemId=<%=request.getAttribute("itemId")%>&author=<%=request.getAttribute("author")%>&category=<%=request.getAttribute("category")%>&commentCount=<%=request.getAttribute("commentCount")%>&favorite=del";
+                                        }
+									</script>
 								</div>
 								<div class="contentImage_large">
 									<div class="row">
