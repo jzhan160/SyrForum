@@ -55,10 +55,11 @@ public class DispatcherServlet extends HttpServlet {
                 register(request, response);
             } else if ("login".equals(method)) {
                 login(request, response);
-            } else if ("showUsers".equals(method)){
+            }else if ("showUsers".equals(method)){
                 showUsers(request,response);
-            }
-            else if ("showItems".equals(method)){
+            }else if ("admin".equals(method)){
+                admin(request,response);
+            }else if ("showItems".equals(method)){
                 showItems(request,response);
             }else if ("deleteItem".equals(method)){
                 deleteItem(request,response);
@@ -104,8 +105,10 @@ public class DispatcherServlet extends HttpServlet {
 
         boolean result = service.check(user);
         if (result) {
-            if (userName.equals("admin"))
-                forward = "admin.jsp";
+            if (userName.equals("admin")){
+                admin(req,res);
+                return;
+            }
             else
             //request redirect cannot catch form information
             //res.sendRedirect(req.getContextPath()+"/Pages/mainPage.jsp");
@@ -126,10 +129,10 @@ public class DispatcherServlet extends HttpServlet {
     }
 
     private void admin(HttpServletRequest req, HttpServletResponse res)
-            throws ServletException, IOException, SQLException{
-
+            throws ServletException, IOException{
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/Pages/Admin/admin.jsp");
+        requestDispatcher.forward(req, res);
     }
-
     //------------------<method to deal with the register request>----------------------------
     private void register(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
@@ -223,8 +226,12 @@ public class DispatcherServlet extends HttpServlet {
             throws ServletException, IOException, SQLException {
        // String userName = req.getParameter("userName");
         // req.setAttribute("userName",userName);
-        RequestDispatcher rDispatcher = req.getRequestDispatcher("/Pages/HomePage/mainPage.jsp");
-        rDispatcher.forward(req, res);
+        if (!req.getParameter("userName").equals("admin")){
+            RequestDispatcher rDispatcher = req.getRequestDispatcher("/Pages/HomePage/mainPage.jsp");
+            rDispatcher.forward(req, res);
+        }
+        else
+            admin(req,res);
     }
 
     //------------------<method to  redirect to pages of different categories >----------------------------
@@ -378,7 +385,7 @@ public class DispatcherServlet extends HttpServlet {
         User mockUser = new User();
         List<User> users = service.getUsers(mockUser);
         req.setAttribute("users",users);
-         RequestDispatcher requestDispatcher = req.getRequestDispatcher("admin.jsp");
+         RequestDispatcher requestDispatcher = req.getRequestDispatcher("Pages/Admin/users.jsp");
         requestDispatcher.forward(req, res);
     }
 
@@ -396,7 +403,7 @@ public class DispatcherServlet extends HttpServlet {
             itemsInfo.add(itemInfo);
         }
         req.setAttribute("itemsInfo",itemsInfo);
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("admin.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("Pages/Admin/items.jsp");
         requestDispatcher.forward(req, res);
 
 
