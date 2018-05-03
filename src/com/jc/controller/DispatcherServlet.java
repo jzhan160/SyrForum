@@ -81,13 +81,10 @@ public class DispatcherServlet extends HttpServlet {
                 item(request, response);
             } else if ("editPassword".equals(method)) {
                 editPassword(request, response);
-<<<<<<< HEAD
-=======
             } else if ("deleteTopic".equals(method)) {
-                deleteTopic(request, response);
+                deleteItem(request, response);
             }else if("favorite".equals(method)){
                 favorite(request,response);
->>>>>>> 4b008122afccbb4442e1f157fdd0ef9936552746
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -332,7 +329,7 @@ public class DispatcherServlet extends HttpServlet {
 
         User tempUser = new User();
         tempUser.setUserName(req.getParameter("userName"));
-        int UserID = service.getUser(tempUser).getId();
+        int UserID = service.getUsers(tempUser).get(0).getId();
 
         req.setAttribute("userName",req.getParameter("userName"));
         req.setAttribute("itemId",req.getParameter("itemId"));
@@ -375,7 +372,7 @@ public class DispatcherServlet extends HttpServlet {
         requestDispatcher.forward(req, res);
     }
 
-<<<<<<< HEAD
+
     private void showUsers(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException{
         User mockUser = new User();
@@ -406,16 +403,15 @@ public class DispatcherServlet extends HttpServlet {
     }
 
     private void deleteItem(HttpServletRequest req, HttpServletResponse res)
-            throws ServletException, IOException, SQLException{
+            throws ServletException, IOException, SQLException {
 
         int itemId = Integer.parseInt(req.getParameter("itemId"));
         service.deleteItem(itemId);
-        if(!req.getParameter("userName").equals("admin"))
-            profile(req,res);
+        if (!req.getParameter("userName").equals("admin"))
+            profile(req, res);
         else
-            showItems(req,res);
-=======
-
+            showItems(req, res);
+    }
     //------------------< add or delete a favorite >----------------------------
     private void favorite(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException{
@@ -423,7 +419,7 @@ public class DispatcherServlet extends HttpServlet {
         String userName = req.getParameter("userName");
         User tempUser = new User();
         tempUser.setUserName(userName);
-        int UserID = service.getUser(tempUser).getId();
+        int UserID = service.getUsers(tempUser).get(0).getId();
         System.out.println(service.isFavExist(UserID,itemID));
 
         if(req.getParameter("favorite").equals("add")){
@@ -445,7 +441,6 @@ public class DispatcherServlet extends HttpServlet {
 
         requestDispatcher = req.getRequestDispatcher(forward);
         requestDispatcher.forward(req, res);
->>>>>>> 4b008122afccbb4442e1f157fdd0ef9936552746
     }
 
 }
