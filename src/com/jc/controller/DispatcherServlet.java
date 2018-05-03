@@ -1,56 +1,151 @@
-//////////////////////////////////////////////////////////////
-// DispatcherServlet.java  response to web requests         //
-// ver 1.0                                                  //
-// Author: Jiacheng Zhang, Cankan He, Biao A                //
-//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+// ItemDao.java   the data access object to the user table  //
+// ver 1.0                                              //
+//                                                      //
+//////////////////////////////////////////////////////////
 /*
- * This package provides one Java class DispatcherServlet
- * which extends HttpServlet. DispatcherServlet will receive
- * different requests from clients and dispatcher them by their
- * method types.
- *
- *
+ * This package provides one Java class which is a data access
+ * object to the items table.
  *
  *
  *
  *
  * */
-package com.jc.controller;
+package com.jc.service;
 
+import com.jc.dao.Dao;
+import com.jc.dao.TopicDao;
 import com.jc.entity.*;
-import com.jc.service.Service;
+import com.jc.factory.ConnectionFactory;
+import com.jc.factory.DaoFactory;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.swing.*;
-import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
-@WebServlet(name = "DispatcherServlet")
-public class DispatcherServlet extends HttpServlet {
+public class Service {
 
-    private Service service = new Service();
-
-    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        String method = req.getParameter("method");
-        dispatcher(method, req, res);
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
-    }
-
-    //----------------<assign requests to different services according to the method parameter>-------------------------------
-    private void dispatcher(String method, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    //check userName and password when logging in
+    public boolean check(User user){
+        Connection conn = null;
         try {
+            conn = ConnectionFactory.getInstance().makeConnection();
+            conn.setAutoCommit(false);
+            Dao userDao =  DaoFactory.getInstance().makeDao("User");
+            ResultSet rs = userDao.read(conn,user);
+            conn.commit();
+            while (rs.next()){
+                return true;
+            }
+
+        }catch(Exception ex){
+            try{
+                conn.rollback();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+    //register
+    public void register(User user) {
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        try{
+            conn.setAutoCommit(false);
+            Dao userDao =  DaoFactory.getInstance().makeDao("User");
+            userDao.create(conn,user);
+            conn.commit();
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void changePassword(User user){
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        try{
+            conn.setAutoCommit(false);
+            Dao userDao =  DaoFactory.getInstance().makeDao("User");
+            userDao.update(conn,user);
+            conn.commit();
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    // get user information to show in the profile
+    public List<User> getUsers(User user) {
+        List<User> users = new ArrayList<>();
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        try
+        {
+            conn.setAutoCommit(false);
+            Dao userDao =  DaoFactory.getInstance().makeDao("User");
+            ResultSet res = userDao.read(conn,user);
+            while(res.next()){
+                User getUser = new User();
+                getUser.setUserName(res.getString("UserName"));
+                getUser.setId(res.getInt("UserID"));
+                getUser.setCreateTime(res.getString("CreateTime"));
+                getUser.setUserBirthday(res.getString("UserBirthday"));
+                getUser.setGender(res.getString("Gender"));
+                getUser.setEmail(res.getString("Email"));
+                System.out.println(getUser);
+                users.add(getUser);
+            }
+
+            conn.commit();
+        }
+        catch(SQLException e)
+        {
+            try{
+                System.out.println("roll back");
+                conn.rollback();
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
+        }
+        return users;
+    }
+
+
+    public List<Item> getAllItems(){
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        List<Item> items = new ArrayList<>();
+        try{
+            conn.setAutoCommit(false);
+            Dao itemDao = DaoFactory.getInstance().makeDao("Item");
+            Item mockItem = new Item();
+            ResultSet rs = itemDao.read(conn,mockItem);
+            while(rs.next()) {
+                Item getItem = new Item();
+                getItem.setId(rs.getInt("ItemID"));
+                getItem.setItemName(rs.getString("ItemName"));
+                getItem.setReadingTimes(rs.getInt("ReadingTimes"));
+                getItem.setCatID(rs.getInt("CatID"));
+                items.add(getItem);
+            }
+            conn.commit();
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        finally {
+            return items;
+        }
+    }
+
+    public List<Item> getPreviousItems(User user){
+        Connection conn = null;
+      //  List<Topic> topics  = new ArrayList<>();
+        List<Item> itemList  = new ArrayList<>();
+        try {
+<<<<<<< HEAD
             if ("register".equals(method)) {
                 register(request, response);
             } else if ("login".equals(method)) {
@@ -86,12 +181,40 @@ public class DispatcherServlet extends HttpServlet {
                 deleteItem(request, response);
             }else if("favorite".equals(method)){
                 favorite(request,response);
+=======
+            conn = ConnectionFactory.getInstance().makeConnection();
+            conn.setAutoCommit(false);
+            Dao userDao = DaoFactory.getInstance().makeDao("User");
+            ResultSet rs = userDao.read(conn, user);
+            while (rs.next()){  //get userID by userName
+                user.setId(rs.getInt("UserID"));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            Topic topic= new Topic();
+            List<Integer> ids = new ArrayList<>();
+            topic.setUsers_UserID(user.getId());
+            Dao topicDao = DaoFactory.getInstance().makeDao("Topic");
+            ResultSet topicRs = topicDao.read(conn, topic);
+            while (topicRs.next()){
+               ids.add(topicRs.getInt("TopicID"));
+            }
+            for (int i = 0; i <ids.size() ; i++) {
+                List<Item> itemsInOneTopic =  readItemsByTopicId(ids.get(i));
+                itemList.addAll(itemsInOneTopic);
+>>>>>>> 39d84376350f2dd1d1391b0d1145e2b1ba96ac67
+            }
+            conn.commit();
+        }catch(Exception ex){
+            try{
+                conn.rollback();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }finally {
+            return itemList;
         }
     }
 
+<<<<<<< HEAD
     //------------------<method to deal with the login request>----------------------------
     private void login(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
@@ -158,69 +281,154 @@ public class DispatcherServlet extends HttpServlet {
         requestDispatcher = req.getRequestDispatcher(forward);
         requestDispatcher.forward(req, res);
     }
-
-    //------------------<method to deal with the showing profile request>----------------------------
-    private void profile(HttpServletRequest req, HttpServletResponse res)
-            throws ServletException, IOException, SQLException {
-        String userName = req.getParameter("userName");
-        User user = new User();
-        user.setUserName(userName);
-        user = service.getUsers(user).get(0);
-        req.setAttribute("userName", userName);
-        req.setAttribute("birthday", user.getUserBirthday());
-        req.setAttribute("createTime", user.getCreateTime());
-        req.setAttribute("email", user.getEmail());
-        List<Item> items = service.getPreviousItems(user);
-        List<ItemInfo> itemsInfo = new ArrayList<>();
-        for (Item item: items){
-            ItemInfo itemInfo = new ItemInfo();
-            Topic topic = service.readOneTopicByItemId(item.getId());
-            itemInfo.setItem(item);
-            itemInfo.setCommentCount(service.readComments(item.getId()).size());
-            itemInfo.setCreateTime(topic.getCreateTime());
-            itemInfo.setUserName(service.getUserById(topic.getUsers_UserID()));
-            itemsInfo.add(itemInfo);
-        }
-        req.setAttribute("itemsInfo", itemsInfo);
-        RequestDispatcher rDispatcher = req.getRequestDispatcher("/Pages/Profile/myprofile.jsp");
-        rDispatcher.forward(req, res);
-    }
-
-
-    //------------------<method to deal with the editing password request>----------------------------
-    private void editPassword(HttpServletRequest req, HttpServletResponse res)
-            throws ServletException, IOException, SQLException {
-        String newPassword = req.getParameter("password");
-        String forward = "";
-        RequestDispatcher rDispatcher = null;
-        if (newPassword == null)
-            forward = "/Pages/Profile/editpassword.jsp";
-        else {
-            String userName = req.getParameter("userName");
+=======
+    public void addTopic(Topic topic, String userName,List<Item> items){
+        Connection conn = null;
+        try {
+            conn = ConnectionFactory.getInstance().makeConnection();
+            conn.setAutoCommit(false);
+            Dao userDao = DaoFactory.getInstance().makeDao("User");
             User user = new User();
             user.setUserName(userName);
-            user.setId(service.getUsers(user).get(0).getId());
-            user.setUserPassword(newPassword);
-            service.changePassword(user);
-            forward = "DispatcherServlet?method=profile&userName=" + userName;
+            ResultSet rs = userDao.read(conn, user);
+            while (rs.next()){
+                topic.setUsers_UserID(rs.getInt("UserID"));
+            }
+           // System.out.println("userID: "+ topic.getUsers_UserID());
+            Dao topicDao =  DaoFactory.getInstance().makeDao("Topic");
+            topicDao.create(conn,topic);
+            conn.commit();
+            //System.out.println("commit items");
+            Dao itemDao = DaoFactory.getInstance().makeDao("Item");
+            for(Item item : items) {
+                System.out.println("Item:"+item);
+                itemDao.create(conn, item);
+                conn.commit();
+            }
+        }catch(Exception ex){
+            try{
+                System.out.println("roll back");
+                conn.rollback();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
-        rDispatcher = req.getRequestDispatcher(forward);
-        rDispatcher.forward(req, res);
     }
 
-    //------------------<method to deal with the seeing previous posted topics request>----------------------------
-    private void personalTopic(HttpServletRequest req, HttpServletResponse res)
-            throws ServletException, IOException, SQLException {
-        int topicId = Integer.parseInt(req.getParameter("topicId"));
-        Topic topic = service.readOneTopicByTopicId(topicId);
-        topic.setId(topicId);
-        List<Item> items = service.readItemsByTopicId(topicId);
-        req.setAttribute("topic", topic);
-        req.setAttribute("items", items);
-        RequestDispatcher rDispatcher = req.getRequestDispatcher("/Pages/Views/personalTopic.jsp");
-        rDispatcher.forward(req, res);
+    public void deleteItem(int itemId){
+        Connection conn = null;
+        try {
+            conn = ConnectionFactory.getInstance().makeConnection();
+            conn.setAutoCommit(false);
+            Dao itemDao = DaoFactory.getInstance().makeDao("Item");
+            Dao topicDao = DaoFactory.getInstance().makeDao("Topic");
+            Item item = new Item();
+            item.setId(itemId);
+            ResultSet  rs = itemDao.read(conn,item);
+            Topic topic = new Topic();
+            while(rs.next())
+                topic.setId(rs.getInt("TopicID"));
+            Item itemInTheSameTopic = new Item();
+            itemInTheSameTopic.setTopicID(topic.getId());
+            itemDao.delete(conn, item);
+            ResultSet  rs1 = itemDao.read(conn,itemInTheSameTopic);
+            if (!rs1.next()) {
+                topicDao.delete(conn,topic);
+            }
+            conn.commit();
+        }catch(Exception ex){
+            try{
+                System.out.println("roll back");
+                conn.rollback();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
     }
 
+    //-----------------< return all topics have the item with this carId s>--------------------------
+    public List<Topic> readAllTopic(int catId){
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        List<Topic> topics = new ArrayList<>();
+        try{
+            conn.setAutoCommit(false);
+            Dao itemDao = DaoFactory.getInstance().makeDao("Item");
+            Item item = new Item();
+            item.setCatID(catId);
+            ResultSet rs = itemDao.read(conn,item);
+            Set<Integer> idSet = new HashSet<>();
+            while(rs.next()) {
+                idSet.add(rs.getInt("TopicID"));
+            }
+>>>>>>> 39d84376350f2dd1d1391b0d1145e2b1ba96ac67
+
+            for(int i : idSet){
+                Dao topicDao = DaoFactory.getInstance().makeDao("Topic");
+                Topic topic = new Topic();
+                topic.setId(i);
+                ResultSet topicRs = topicDao.read(conn, topic);
+                while (topicRs.next()){
+                    topic.setTitle(topicRs.getString("Title"));
+                    topic.setCreateTime(topicRs.getString("CreateTime"));
+                    topic.setAddress(topicRs.getString("Address"));
+                    topic.setContact(topicRs.getString("Contact"));
+                }
+                topics.add(topic);
+            }
+            conn.commit();
+
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        finally {
+            return topics;
+        }
+    }
+
+    public Topic readOneTopicByTopicId(int topicId) {
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        Topic topic = new Topic();
+        try {
+            conn.setAutoCommit(false);
+            Dao topicDao = DaoFactory.getInstance().makeDao("Topic");
+
+            topic.setId(topicId);
+            ResultSet rs = topicDao.read(conn, topic);
+            while (rs.next()) {
+                topic.setTitle(rs.getString("Title"));
+                topic.setCreateTime(rs.getString("CreateTime"));
+                topic.setContact(rs.getString("Contact"));
+                topic.setAddress(rs.getString("Address"));
+            }
+
+            conn.commit();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return topic;
+    }
+
+    public int countComments(int itemId){
+        int count = 0;
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        try {
+            conn.setAutoCommit(false);
+            Dao commentDao = DaoFactory.getInstance().makeDao("Comment");
+           Comment comment = new Comment();
+            comment.setItemID(itemId);
+            ResultSet rs = commentDao.read(conn, comment);
+            if(rs.next()) {
+                count = rs.getInt("CommentsCount");
+            }
+            conn.commit();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return count;
+
+<<<<<<< HEAD
     //------------------<method to  redirect to home page>----------------------------
     private void main(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
@@ -232,101 +440,126 @@ public class DispatcherServlet extends HttpServlet {
         }
         else
             admin(req,res);
+=======
+>>>>>>> 39d84376350f2dd1d1391b0d1145e2b1ba96ac67
     }
 
-    //------------------<method to  redirect to pages of different categories >----------------------------
-    private void view(HttpServletRequest req, HttpServletResponse res)
-            throws ServletException, IOException, SQLException {
-        String forward = null;
-        RequestDispatcher requestDispatcher = null;
-        String category = req.getParameter("category");
-        String userName = req.getParameter("userName");
-        req.setAttribute("userName", userName);
-        req.setAttribute("category", category);
-        int catId = 0;
-        if (category.equals("books")) {
-            catId = 2;
-            forward = "/Pages/Views/books.jsp";
-        } else if (category.equals("cars")) {
-            catId = 1;
-            forward = "/Pages/Views/cars.jsp";
-        } else if (category.equals("furniture")) {
-            catId = 3;
-            forward = "/Pages/Views/furniture.jsp";
-        }
+    public Topic readOneTopicByItemId(int itemId) {
+        Topic topic = new Topic();
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        try {
+            conn.setAutoCommit(false);
+            Dao itemDao = DaoFactory.getInstance().makeDao("Item");
+            Item item = new Item();
+            item.setId(itemId);
+            ResultSet rs = itemDao.read(conn, item);
+            if(rs.next()) {
+                int id = rs.getInt("TopicID");
+                Dao topicDao = DaoFactory.getInstance().makeDao("Topic");
+                topic.setId(id);
+                ResultSet topicResult = topicDao.read(conn, topic);
 
-        List<Item> items = service.readAllItems(catId);
-        List<ItemInfo> itemsInfo = new ArrayList<>();
-        for (Item item: items){
-            ItemInfo itemInfo = new ItemInfo();
-            Topic topic = service.readOneTopicByItemId(item.getId());
-            itemInfo.setItem(item);
-            itemInfo.setCommentCount(service.readComments(item.getId()).size());
-            itemInfo.setCreateTime(topic.getCreateTime());
-            itemInfo.setUserName(service.getUserById(topic.getUsers_UserID()));
-            itemsInfo.add(itemInfo);
-        }
-        req.setAttribute("itemsInfo", itemsInfo);
-        requestDispatcher = req.getRequestDispatcher(forward);
-        requestDispatcher.forward(req, res);
-    }
-
-    //------------------<method to  add comments >----------------------------
-    private void addComment(HttpServletRequest req, HttpServletResponse res)
-            throws ServletException, IOException, SQLException {
-        int itemId = Integer.parseInt(req.getParameter("itemId"));
-        String contents = req.getParameter("contents");
-        String userName = req.getParameter("userName");
-        Comment comment = new Comment();
-        comment.setContent(contents);
-        comment.setItemID(itemId);
-       // System.out.println(req.getParameter("userName"));
-        service.addComment(comment, userName);
-        RequestDispatcher requestDispatcher = null;
-        String forward = null;
-
-        forward = "DispatcherServlet?method=item&" +
-                "itemId=" + itemId + "&userName=" + userName + "&category=" + req.getParameter("category");
-        requestDispatcher = req.getRequestDispatcher(forward);
-        requestDispatcher.forward(req, res);
-
-    }
-
-    //------------------<method to logout>----------------------------
-    private void logout(HttpServletRequest req, HttpServletResponse res)
-            throws ServletException, IOException, SQLException {
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("Pages/LoginAndRegister/login.jsp");
-        requestDispatcher.forward(req, res);
-    }
-
-    //------------------<method to search items by keywords>----------------------------
-    private void search(HttpServletRequest req, HttpServletResponse res)
-            throws ServletException, IOException, SQLException {
-        String keyword = req.getParameter("keyword");
-        Item item = new Item();
-        item.setDescription(keyword);
-        item.setItemName(keyword);
-        List<Item> items = service.searchItems(keyword);
-        if (items.size() == 0)
-            System.out.println("NO found!");
-        else {
-            List<ItemInfo> itemsInfo = new ArrayList<>();
-            for (Item it: items){
-                ItemInfo itemInfo = new ItemInfo();
-                Topic topic = service.readOneTopicByItemId(it.getId());
-                itemInfo.setItem(it);
-                itemInfo.setCommentCount(service.readComments(it.getId()).size());
-                itemInfo.setCreateTime(topic.getCreateTime());
-                itemInfo.setUserName(service.getUserById(topic.getUsers_UserID()));
-                itemsInfo.add(itemInfo);
+                if (topicResult.next()) {
+                    topic.setCreateTime(topicResult.getString("CreateTime"));
+                    topic.setContact(topicResult.getString("Contact"));
+                    topic.setAddress(topicResult.getString("Address"));
+                    topic.setId(topicResult.getInt("TopicID"));
+                    topic.setUsers_UserID(topicResult.getInt("Users_UserID"));
+                }
             }
-            req.setAttribute("itemsInfo", itemsInfo);
+            conn.commit();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-        req.setAttribute("userName", req.getParameter("userName"));
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("Pages/Views/searchItems.jsp");
-        requestDispatcher.forward(req, res);
+        return topic;
     }
 
+    public List<Item> readItemsByTopicId(int topicId){
+        List<Item> items = new ArrayList<>();
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        try{
+            conn.setAutoCommit(false);
+            Dao itemDao = DaoFactory.getInstance().makeDao("Item");
+            Item temp = new Item();
+            temp.setTopicID(topicId);
+            ResultSet rs = itemDao.read(conn,temp);
+            while(rs.next()){
+                Item item =new Item();
+                item.setId(rs.getInt("ItemID"));
+                item.setItemName(rs.getString("ItemName"));
+                item.setDescription(rs.getString("Description"));
+                item.setCatID(rs.getInt("CatID"));
+                item.setPrice(rs.getDouble("Price"));
+                item.setImagePath(rs.getString("ImagePath"));
+                items.add(item);
+            }
+            conn.commit();
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return items;
+    }
+
+    public Item readOneItemByItemId(int itemId){
+        Item item = new Item();
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        try{
+            conn.setAutoCommit(false);
+            Dao itemDao = DaoFactory.getInstance().makeDao("Item");
+            Item temp = new Item();
+            temp.setId(itemId);
+            ResultSet rs = itemDao.read(conn,temp);
+            int count = 0;
+            if(rs.next()){
+                item.setItemName(rs.getString("ItemName"));
+                item.setDescription(rs.getString("Description"));
+                item.setPrice(rs.getDouble("Price"));
+                item.setImagePath(rs.getString("ImagePath"));
+                count = rs.getInt("ReadingTimes");
+                item.setReadingTimes(++count);
+            }
+            temp.setReadingTimes(count);
+            itemDao.update(conn,temp);
+            conn.commit();
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return item;
+    }
+
+
+    //-----------------< return all topics have the item with this carId s>--------------------------
+    public List<Item> readAllItems(int catId){
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        List<Item> items = new ArrayList<>();
+        try{
+            conn.setAutoCommit(false);
+            Dao itemDao = DaoFactory.getInstance().makeDao("Item");
+            Item item = new Item();
+            item.setCatID(catId);
+            ResultSet rs = itemDao.read(conn,item);
+            while(rs.next()) {
+                Item getItem = new Item();
+                getItem.setId(rs.getInt("ItemID"));
+                getItem.setItemName(rs.getString("ItemName"));
+                getItem.setReadingTimes(rs.getInt("ReadingTimes"));
+                items.add(getItem);
+            }
+            conn.commit();
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        finally {
+            return items;
+        }
+    }
+
+<<<<<<< HEAD
     //------------------<method to show one item in detail>----------------------------
     private void item(HttpServletRequest req, HttpServletResponse res)//search topic by item id
             throws ServletException, IOException, SQLException {
@@ -387,28 +620,128 @@ public class DispatcherServlet extends HttpServlet {
         req.setAttribute("users",users);
          RequestDispatcher requestDispatcher = req.getRequestDispatcher("Pages/Admin/users.jsp");
         requestDispatcher.forward(req, res);
+=======
+
+    public List<Item> searchItems(String keyword){
+        List<Item> items = new ArrayList<>();
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        try{
+            conn.setAutoCommit(false);
+            Dao itemDao = DaoFactory.getInstance().makeDao("Item");
+            Item temp = new Item();
+            temp.setItemName(keyword);
+            temp.setDescription(keyword);
+            ResultSet rs = itemDao.read(conn,temp);
+            while(rs.next()){
+                Item item =new Item();
+                item.setId(rs.getInt("ItemID"));
+                item.setItemName(rs.getString("ItemName"));
+               // item.setDescription(rs.getString("Description"));
+               // item.setPrice(rs.getDouble("Price"));
+                item.setCatID(rs.getInt("CatID"));
+             //   item.setImagePath(rs.getString("ImagePath"));
+                items.add(item);
+            }
+            conn.commit();
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return items;
     }
 
-    private void showItems(HttpServletRequest req, HttpServletResponse res)
-            throws ServletException, IOException, SQLException{
-        List<Item> items = service.getAllItems();
-        List<ItemInfo> itemsInfo = new ArrayList<>();
-        for(Item item : items){
-            ItemInfo itemInfo = new ItemInfo();
-            itemInfo.setItem(item);
-            Topic topic = service.readOneTopicByItemId(item.getId());
-            itemInfo.setCommentCount(service.readComments(item.getId()).size());
-            itemInfo.setCreateTime(topic.getCreateTime());
-            itemInfo.setUserName(service.getUserById(topic.getUsers_UserID()));
-            itemsInfo.add(itemInfo);
+
+    public List<Comment> readComments(int itemId){
+        List<Comment> comments = new ArrayList<>();
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        try{
+            conn.setAutoCommit(false);
+            Dao commentDao = DaoFactory.getInstance().makeDao("Comment");
+            Comment comment = new Comment();
+            comment.setItemID(itemId);
+            ResultSet rs = commentDao.read(conn,comment);
+            while (rs.next()){
+                Comment comt = new Comment();
+                comt.setContent(rs.getString("Content"));
+                comt.setUsers_UserID(rs.getInt("Users_UserID"));
+                comt.setId(rs.getInt("CommentID"));
+                comt.setCreateTime(rs.getString("CreateTime"));
+                comments.add(comt);
+            }
+            conn.commit();
         }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return comments;
+>>>>>>> 39d84376350f2dd1d1391b0d1145e2b1ba96ac67
+    }
+
+    //-----------------< add a comment in item page >-----------------------------------
+    public void addComment(Comment comment,String userName){
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        try{
+            conn.setAutoCommit(false);
+            Dao userDao = DaoFactory.getInstance().makeDao("User");
+            User user = new User();
+            user.setUserName(userName);
+            ResultSet rs = userDao.read(conn, user);
+            while (rs.next()){
+                comment.setUsers_UserID(rs.getInt("UserID"));
+            }
+            Dao commentDao = DaoFactory.getInstance().makeDao("Comment");
+            commentDao.create(conn, comment);
+            conn.commit();
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+<<<<<<< HEAD
         req.setAttribute("itemsInfo",itemsInfo);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("Pages/Admin/items.jsp");
         requestDispatcher.forward(req, res);
+=======
+    }
+>>>>>>> 39d84376350f2dd1d1391b0d1145e2b1ba96ac67
 
-
+    //------------------< read a user name by its id> -------------------------------
+    public String getUserById(int UserId){
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        String name = "";
+        try{
+            conn.setAutoCommit(false);
+            Dao userDao = DaoFactory.getInstance().makeDao("User");
+            User user = new User();
+            user.setId(UserId);
+            ResultSet rs = userDao.read(conn, user);
+            if (rs.next()){
+                name = rs.getString("UserName");
+            }
+            conn.commit();
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return name;
     }
 
+    //------------------< add a favorite > ------------------------------------------
+    public void addFavorite(int userId, int itemId){
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        Dao favorite = DaoFactory.getInstance().makeDao("Favorite");
+        Favorite fac = new Favorite();
+        fac.setUserID(userId);
+        fac.setItemID(itemId);
+        try {
+            favorite.create(conn,fac);
+            conn.commit();
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+    }
+
+<<<<<<< HEAD
     private void deleteItem(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
 
@@ -448,8 +781,41 @@ public class DispatcherServlet extends HttpServlet {
 
         requestDispatcher = req.getRequestDispatcher(forward);
         requestDispatcher.forward(req, res);
+=======
+    //------------------< check if a favorite exist > -------------------------------
+    public boolean isFavExist(int userId, int itemId){
+        boolean flag = false;
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        Dao favorite = DaoFactory.getInstance().makeDao("Favorite");
+        Favorite fac = new Favorite();
+        fac.setUserID(userId);
+        fac.setItemID(itemId);
+        ResultSet rs = null;
+        try {
+            rs = favorite.read(conn,fac);
+            if(rs.next()){
+                flag = true;
+            }
+            conn.commit();
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+        return flag;
+>>>>>>> 39d84376350f2dd1d1391b0d1145e2b1ba96ac67
     }
 
+    //------------------< delete a favorite > -------------------------------
+    public void delFavorite(int userId, int itemId){
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        Dao favorite = DaoFactory.getInstance().makeDao("Favorite");
+        Favorite fac = new Favorite();
+        fac.setUserID(userId);
+        fac.setItemID(itemId);
+        try {
+            favorite.delete(conn,fac);
+            conn.commit();
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+    }
 }
-
-
