@@ -81,13 +81,10 @@ public class DispatcherServlet extends HttpServlet {
                 item(request, response);
             } else if ("editPassword".equals(method)) {
                 editPassword(request, response);
-<<<<<<< HEAD
-=======
             } else if ("deleteTopic".equals(method)) {
                 deleteTopic(request, response);
             }else if("favorite".equals(method)){
                 favorite(request,response);
->>>>>>> 4b008122afccbb4442e1f157fdd0ef9936552746
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -375,7 +372,6 @@ public class DispatcherServlet extends HttpServlet {
         requestDispatcher.forward(req, res);
     }
 
-<<<<<<< HEAD
     private void showUsers(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException{
         User mockUser = new User();
@@ -414,7 +410,7 @@ public class DispatcherServlet extends HttpServlet {
             profile(req,res);
         else
             showItems(req,res);
-=======
+    }
 
     //------------------< add or delete a favorite >----------------------------
     private void favorite(HttpServletRequest req, HttpServletResponse res)
@@ -445,7 +441,7 @@ public class DispatcherServlet extends HttpServlet {
 
         requestDispatcher = req.getRequestDispatcher(forward);
         requestDispatcher.forward(req, res);
->>>>>>> 4b008122afccbb4442e1f157fdd0ef9936552746
+
     }
 
 }
