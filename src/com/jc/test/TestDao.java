@@ -93,7 +93,7 @@ public class TestDao {
             //TestTopicDao(conn);
             //TestItemDao(conn);
             //TestCommentDao(conn);
-            TestFavorite(conn);
+            //TestFavorite(conn);
             conn.commit();
         }catch (SQLException e) {
             System.out.println(e.getMessage());
