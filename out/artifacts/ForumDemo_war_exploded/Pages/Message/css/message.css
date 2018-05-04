@@ -222,6 +222,9 @@ section.message div.message_content{
   flex:3;
   background-color: white;
   margin:1em 0;
+    border:solid 2px #9d9d9d;
+    background:#ecf0f1;
+
 }
 section.message div.message_content iframe{
   width:100%;

@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <html>
 <head>
   <meta charset="utf-8">
@@ -10,6 +12,12 @@
   <title>Messages</title>
 </head>
 
+<script>
+    function onClick() {
+        document.getElementById("messageClick").action = "<%=request.getContextPath()%>/DispatcherServlet?method=messages&userName=<%=request.getParameter("userName")%>";
+        document.getElementById("messageClick").submit();
+    }
+</script>
 
 <body>
     <!-- title and header background -->
@@ -24,32 +32,33 @@
       <section class="navi">
         <div class="nav-bar">
           <ul class="nav-menu">
-              <li><a href=" ">HOME</a></li>
+              <li><a href="/DispatcherServlet?method=main&userName=<%=request.getParameter("userName")%>">HOME</a></li>
               <li><a href="">SECTION</a>
                   <ul>
-                      <li><a href="Forum UsedBook.html">Used Books</a></li>
-                      <li><a href="Forum UsedCar.html">Used Cars</a></li>
-                      <li><a href="Forum UsedFurniture.html">Used Furniture</a></li>
-                      <li><a href="mainpage.html">Syracuse Life</a></li>
-                      <li><a href="mainpage.html">People</a></li>
-                      <li><a href="mainpage.html">Join Us</a></li>
+                      <li><a href="<%=request.getContextPath()%>/DispatcherServlet?method=view&userName=<%=request.getParameter("userName")%>&category=books">Used Books</a></li>
+                      <li><a href="<%=request.getContextPath()%>/DispatcherServlet?method=view&userName=<%=request.getParameter("userName")%>&category=cars">Used Cars</a></li>
+                      <li><a href="<%=request.getContextPath()%>/DispatcherServlet?method=view&userName=<%=request.getParameter("userName")%>&category=furniture">Used Furniture</a></li>
                   </ul>
               </li>
-              <li><a href="message.jsp">Message Box</a>
+            <%--  <li><a href="message.jsp">Message Box</a>--%>
             </li>
             <li class="userconsole"><img src="Pages/Message/img/user.svg" >
               <ul>
-                <li><a href="myprofile.html">My Profile</a></li>
-                <!-- <li><a href="#">Setting</a></li> -->
-                <li><a href="#">Logout</a></li>
+                  <ul>
+                      <li><a href="<%=request.getContextPath()%>/DispatcherServlet?method=profile&userName=<%=request.getParameter("userName")%>">My Profile</a></li>
+                      <li><a href="<%=request.getContextPath()%>/DispatcherServlet?method=showfavorites&userName=<%=request.getParameter("userName")%>">My Favorites</a></li>
+                      <li><a href="<%=request.getContextPath()%>/DispatcherServlet?method=logout">Logout</a></li>
+                  </ul>
               </ul>
             </li>
             <!-- <li class="userconsole"><img src="img/notifications-bell-button.svg" ></li> -->
             <li class="userconsole">
                 <a href="message.jsp">
               	<div class="notification_button">
-              		<img src="Pages/Message/img/notifications-bell-button.svg" />
-              		<span class="button__badge">2</span>
+                    <form class="button" id="messageClick" action="#"
+                          method="post">
+                        <img src="Pages/HomePage/img/notifications-bell-button.svg" id="messages" onclick="onClick()"/>
+                    </form>
               	</div>
               </a>
             </li>
@@ -58,10 +67,10 @@
                   <ul>
                     <li>
                           <div class="w_search">
-                              <div class="w_searchbox">
-                                <input type="text" placeholder="search" />
-                                <button>Search</button>
-                              </div>
+                              <form class="w_searchbox" method="post" action="<%=request.getContextPath()%>/DispatcherServlet?method=search&userName=<%=request.getParameter("userName")%>">
+                                  <input type="text" placeholder="search" name="keyword"/>
+                                  <button type="submit">Search</button>
+                              </form>
                             </div>
                     </li>
                 </ul>
@@ -70,20 +79,50 @@
         </div>
       </section>
       <section class="message">
+
           <div class="message_section">
-            <p>My Message Box</p>
-            <ul>
-              <li id="comments_iframe"><a >Comments</a></li>
-              <li id="messages_iframe"><a >Messages</a></li>
-            </ul>
+              <p>My Message Box</p>
+          <%--<ul>
+          <li id="comments_iframe"><a >Comments</a></li>
+          <li id="messages_iframe"><a >Messages</a></li>
+          </ul>--%>
+          </div>
+          <div class="message_content">
+
+                  <div class="title_line">
+                      <p>Comments received:</p>
+                  </div>
+
+                  <c:if test="${empty noteList}">
+                      <h1>No new message!</h1>
+
+                  </c:if>
+
+                  <c:forEach items="${noteList}" var="note">
+
+                      <div class=message_wraper>
+                          <!-- link to the post -->
+                              <%--            <a  href="/DispatcherServlet?method=item&itemId=${note.getItemID()}&userName=<%=request.getParameter("userName")%>&category=${temp.getItem().getCatID()}&author=${temp.getUserName()}&commentCount=${temp.getCommentCount()}"
+                                              name="recent_post1"></a>--%>
+                          <div class="comments_received">
+                              <div class="profile_img">
+                                  <img src="Pages/Message/img/profile1.jpg" />
+                              </div>
+                              <div class="sender_info">
+                                  <p>${note.getAuthor()}</p>
+                                  <p>${note.getCreateTime()}</p>
+                              </div>
+                              <div class="content_box">
+                                  <p class="commnet_content">${note.getCommentContent()}</p>
+                                  <p class="original_post">Item: ${note.getItemName()}</p>
+                              </div>
+                          </div>
+                      </div>
+                  </c:forEach>
+
           </div>
 
-          <div class="message_content">
-            <iframe src="Pages/Message/iframe_comments.html" frameBoder=0></iframe>
-          </div>
-          <div class="latest_contact">
-            <p>Latest Contact:</p>
-          </div>
+
       </section>
       <div class="clearfix"></div >
 

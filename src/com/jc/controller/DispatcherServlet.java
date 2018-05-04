@@ -85,8 +85,11 @@ public class DispatcherServlet extends HttpServlet {
                 deleteItem(request, response);
             } else if ("favorite".equals(method)) {
                 favorite(request, response);
-            }else if ("messages".equals(method))
+            }else if ("messages".equals(method)){
                 messages(request,response);
+            } else if("showfavorites".equals(method)){
+                showFavorites(request,response);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -253,7 +256,6 @@ public class DispatcherServlet extends HttpServlet {
             catId = 3;
             forward = "/Pages/Views/furniture.jsp";
         }
-
         List<Item> items = service.readAllItems(catId);
         List<ItemInfo> itemsInfo = new ArrayList<>();
         for (Item item : items) {
@@ -279,14 +281,11 @@ public class DispatcherServlet extends HttpServlet {
         Comment comment = new Comment();
         comment.setContent(contents);
         comment.setItemID(itemId);
-        // System.out.println(req.getParameter("userName"));
         service.addComment(comment, userName);
-        RequestDispatcher requestDispatcher = null;
-        String forward = null;
-
-        forward = "DispatcherServlet?method=item&" +
+        service.addNotification(comment, userName);
+        String forward = "DispatcherServlet?method=item&" +
                 "itemId=" + itemId + "&userName=" + userName + "&category=" + req.getParameter("category");
-        requestDispatcher = req.getRequestDispatcher(forward);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher(forward);
         requestDispatcher.forward(req, res);
 
     }
@@ -343,6 +342,7 @@ public class DispatcherServlet extends HttpServlet {
 
         req.setAttribute("favExist", service.isFavExist(UserID, Integer.parseInt(req.getParameter("itemId"))) ? 1 : 0);
 
+        System.out.println(service.isFavExist(UserID, Integer.parseInt(req.getParameter("itemId"))) ? 1 : 0);
         Topic topic = service.readOneTopicByItemId(itemId);
         //req.setAttribute("topicId", itemId);
         req.setAttribute("createTime", topic.getCreateTime());
@@ -378,7 +378,6 @@ public class DispatcherServlet extends HttpServlet {
         requestDispatcher.forward(req, res);
     }
 
-
     private void showUsers(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
         User mockUser = new User();
@@ -387,6 +386,7 @@ public class DispatcherServlet extends HttpServlet {
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("Pages/Admin/users.jsp");
         requestDispatcher.forward(req, res);
     }
+
 
     private void showItems(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
@@ -408,6 +408,7 @@ public class DispatcherServlet extends HttpServlet {
 
     }
 
+    //------------------< delete a item from profile >----------------------------
     private void deleteItem(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
 
@@ -427,7 +428,6 @@ public class DispatcherServlet extends HttpServlet {
         User tempUser = new User();
         tempUser.setUserName(userName);
         int UserID = service.getUsers(tempUser).get(0).getId();
-        System.out.println(service.isFavExist(UserID, itemID));
 
         if (req.getParameter("favorite").equals("add")) {
             if (!service.isFavExist(UserID, itemID))
@@ -451,8 +451,44 @@ public class DispatcherServlet extends HttpServlet {
 
     private void messages(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
-         RequestDispatcher requestDispatcher = req.getRequestDispatcher("Pages/Message/message.jsp");
-        requestDispatcher.forward(req,res);
+        List<Notification> noteList = service.readNotifications();
+        System.out.println(noteList.get(0));
+        req.setAttribute("noteList",noteList);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("Pages/Message/message.jsp");
+        requestDispatcher.forward(req,res);}
+    //------------------< show the favorite list for each user >-----------------
+    private void showFavorites(HttpServletRequest req, HttpServletResponse res)
+            throws ServletException, IOException, SQLException{
+        String userName = req.getParameter("userName");
+        User tempUser = new User();
+        tempUser.setUserName(userName);
+        int UserID = service.getUsers(tempUser).get(0).getId();
+        List<Favorite> favorite = service.getFavorites(UserID);
+
+        List<Item> items = new ArrayList<>();
+
+        for(Favorite fav : favorite){
+            Item temp = service.readOneItemByItemId(fav.getItemID());
+            items.add(temp);
+        }
+        List<ItemInfo> itemsInfo = new ArrayList<>();
+
+        for (Item item : items) {
+            ItemInfo itemInfo = new ItemInfo();
+            Topic topic = service.readOneTopicByItemId(item.getId());
+            itemInfo.setItem(item);
+            itemInfo.setCommentCount(service.readComments(item.getId()).size());
+            itemInfo.setCreateTime(topic.getCreateTime());
+            itemInfo.setUserName(service.getUserById(topic.getUsers_UserID()));
+            itemsInfo.add(itemInfo);
+        }
+
+        req.setAttribute("userName",userName);
+        req.setAttribute("itemsInfo",itemsInfo);
+        RequestDispatcher requestDispatcher = null;
+        String forward ="Pages/Profile/myfavorites.jsp?userName=" + req.getParameter("userName");
+        requestDispatcher = req.getRequestDispatcher(forward);
+        requestDispatcher.forward(req, res);
     }
 
 }

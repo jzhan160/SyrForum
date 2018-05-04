@@ -392,6 +392,8 @@ public class Service {
             ResultSet rs = itemDao.read(conn,temp);
             int count = 0;
             if(rs.next()){
+                item.setId(rs.getInt("ItemID"));
+                item.setCatID(rs.getInt("CatID"));
                 item.setItemName(rs.getString("ItemName"));
                 item.setDescription(rs.getString("Description"));
                 item.setPrice(rs.getDouble("Price"));
@@ -536,18 +538,27 @@ public class Service {
         return name;
     }
 
+
     //------------------< add a favorite > ------------------------------------------
     public void addFavorite(int userId, int itemId){
         Connection conn = ConnectionFactory.getInstance().makeConnection();
+
         Dao favorite = DaoFactory.getInstance().makeDao("Favorite");
         Favorite fac = new Favorite();
         fac.setUserID(userId);
         fac.setItemID(itemId);
         try {
+            conn.setAutoCommit(false);
             favorite.create(conn,fac);
             conn.commit();
-        } catch (SQLException e) {
-            e.getMessage();
+        } catch (Exception e) {
+            try {
+                conn.rollback();
+            }catch (SQLException e1){
+                System.out.println(e1);
+                System.out.println("roll back");
+
+            }
         }
     }
 
@@ -559,15 +570,26 @@ public class Service {
         Favorite fac = new Favorite();
         fac.setUserID(userId);
         fac.setItemID(itemId);
+        System.out.println(fac);
         ResultSet rs = null;
         try {
+            conn.setAutoCommit(false);
+
+           // System.out.println("read");
             rs = favorite.read(conn,fac);
-            if(rs.next()){
+            while (rs.next()){
+                System.out.println(rs.getInt("ItemID"));
                 flag = true;
             }
             conn.commit();
-        } catch (SQLException e) {
-            e.getMessage();
+        } catch (Exception e) {
+            try {
+                conn.rollback();
+            }catch (SQLException e1){
+                System.out.println(e1);
+                System.out.println("roll back");
+
+            }
         }
         return flag;
     }
@@ -580,10 +602,150 @@ public class Service {
         fac.setUserID(userId);
         fac.setItemID(itemId);
         try {
+            conn.setAutoCommit(false);
+
             favorite.delete(conn,fac);
             conn.commit();
         } catch (SQLException e) {
-            e.getMessage();
+            try {
+                conn.rollback();
+            }catch (SQLException e1){
+                System.out.println(e1);
+                System.out.println("roll back");
+
+            }
         }
     }
+
+    //------------------< read favorite list for one user > -------------------------------
+    public List<Favorite> getFavorites(int userId){
+        List<Favorite> favorites = new ArrayList<>();
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        Dao favorite = DaoFactory.getInstance().makeDao("Favorite");
+        Favorite fac = new Favorite();
+        fac.setUserID(userId);
+        try {
+            conn.setAutoCommit(false);
+
+            ResultSet rs = favorite.read(conn,fac);
+            while(rs.next()){
+                Favorite temp = new Favorite();
+                temp.setItemID(rs.getInt("ItemID"));
+                temp.setUserID(rs.getInt("UserID"));
+                favorites.add(temp);
+            }
+            conn.commit();
+        } catch (SQLException e) {
+            try {
+                conn.rollback();
+            }catch (SQLException e1){
+                System.out.println(e1);
+                System.out.println("roll back");
+
+            }
+        }
+        return favorites;
+    }
+    //------------------<add new comments to the notification list > -------------------------------
+    public void addNotification(Comment comment, String userName){
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        Notification notification = new Notification();
+        try{
+            conn.setAutoCommit(false);
+            notification.setAuthor(userName);
+            notification.setCommentID(comment.getId());
+
+            Dao itemDao = DaoFactory.getInstance().makeDao("Item");
+            Item item = new Item();
+            item.setId(comment.getItemID());
+            ResultSet rs = itemDao.read(conn, item);
+            Topic topic = new Topic();
+            while (rs.next()){
+                topic.setId(rs.getInt("TopicID"));
+            }
+            //System.out.println("commit item===getTopicID");
+            conn.commit();
+
+            Dao topicDao = DaoFactory.getInstance().makeDao("Topic");
+            rs = topicDao.read(conn, topic);
+            while (rs.next()){
+                notification.setUserID(rs.getInt("Users_UserID"));
+            }
+           // System.out.println("commit topic===getUserID");
+            conn.commit();
+
+            Dao noteDao =  DaoFactory.getInstance().makeDao("Note");
+            noteDao.create(conn,notification);
+            //System.out.println("commit note===add new note");
+            conn.commit();
+        }
+        catch(SQLException e){
+            try{
+                System.out.println("roll back");
+                conn.rollback();
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public  List<Notification> readNotifications(){
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        List<Notification> noteList= new ArrayList<>();
+        try{
+            conn.setAutoCommit(false);
+            Dao noteDao =  DaoFactory.getInstance().makeDao("Note");
+            Notification notification = new Notification();
+            ResultSet rs = noteDao.read(conn,notification);
+            while (rs.next()){
+                Notification getNote = new Notification();
+                getNote.setId(rs.getInt("NoteID"));
+                getNote.setUserID(rs.getInt("UserID"));
+                getNote.setAuthor(rs.getString("Author"));
+                getNote.setCommentID(rs.getInt("CommentID"));
+                noteList.add(getNote);
+            }
+            //System.out.println("Commit note===read notes");
+            conn.commit();
+
+            Dao commentDao = DaoFactory.getInstance().makeDao("Comment");
+            Dao itemDao = DaoFactory.getInstance().makeDao("Item");
+            Comment comment = new Comment();
+            Item item = new Item();
+            for(Notification note:noteList){
+                 comment.setId(note.getCommentID());
+                 rs = commentDao.read(conn,comment);
+                 while (rs.next()){
+                     note.setCreateTime(rs.getString("CreateTime"));
+                     note.setCommentContent(rs.getString("Content"));
+                     note.setItemID(rs.getInt("ItemID"));
+                 }
+              //  System.out.println("Commit comment == read comment");
+
+                conn.commit();
+
+                item.setId(note.getItemID());
+                 rs = itemDao.read(conn,item);
+                 while(rs.next()){
+                     note.setItemName(rs.getString("ItemName"));
+                 }
+              //  System.out.println("Commit item===get item names");
+
+                conn.commit();
+            }
+
+            //conn.commit();
+        }
+        catch(SQLException e){
+            try{
+                System.out.println("roll back");
+                conn.rollback();
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
+        }
+        return noteList;
+    }
+
+
 }

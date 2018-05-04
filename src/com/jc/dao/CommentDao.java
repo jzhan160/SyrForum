@@ -40,9 +40,13 @@ public class CommentDao implements Dao {
     // ----------------< read by topic id>----------------
     public ResultSet read(Connection conn, Entity entity) throws SQLException {
         Comment comment = (Comment)entity;
-        String readSql = "SELECT * FROM comments WHERE ItemID = ? ORDER BY CommentID;";
+        String readSql = "SELECT * FROM comments WHERE ";
+        String condition = "";
+        condition+=comment.getId()==0?"CommentID = CommentID":"CommentID = "+comment.getId();
+        condition+=comment.getItemID()==0?"":" AND ItemID = "+comment.getItemID();
+        condition+=";";
+        readSql+=condition;
         PreparedStatement ps = conn.prepareCall(readSql);
-        ps.setInt(1,comment.getItemID());
         return ps.executeQuery();
     }
 

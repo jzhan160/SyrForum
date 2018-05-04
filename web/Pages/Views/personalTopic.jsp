@@ -19,7 +19,7 @@
 <script src="Pages/Views/page.js"></script>
 <script>
     function onClick() {
-        document.getElementById("messageClick").action = "<%=request.getContextPath()%>/DispatcherServlet?method=messages";
+        document.getElementById("messageClick").action = "<%=request.getContextPath()%>/DispatcherServlet?method=messages&userName=<%=request.getParameter("userName")%>";
         document.getElementById("messageClick").submit();
     }
 </script>
@@ -44,7 +44,7 @@
 						<li><img src="Pages/Views/img/user.svg" />
 						    <ul>
                                 <li><a href="<%=request.getContextPath()%>/DispatcherServlet?method=profile&userName=<%=request.getParameter("userName")%>">My Profile</a></li>
-                                <li><a href="#">Setting</a></li>
+                                <li><a href="<%=request.getContextPath()%>/DispatcherServlet?method=showfavorites&userName=<%=request.getParameter("userName")%>">My Favorites</a></li>
                                 <li><a href="<%=request.getContextPath()%>/DispatcherServlet?method=logout">Log Out</a></li>
                             </ul>
 						</li>

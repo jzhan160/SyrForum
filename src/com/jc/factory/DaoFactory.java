@@ -8,12 +8,12 @@ public class DaoFactory {
     private static final CommentDao commentDao = new CommentDao();
     private static final ItemDao itemDao = new ItemDao();
     private static final FavoriteDao favoriteDao = new FavoriteDao();
-    private static DaoFactory factory =new DaoFactory();
+    private static final NoteDao noteDao = new NoteDao();
+    private static DaoFactory factory = new DaoFactory();
 
-
-    public Dao makeDao(String DaoImpl){
+    public Dao makeDao(String DaoImpl) {
         Dao dao = null;
-        try{
+        try {
             switch (DaoImpl) {
                 case "User":
                     dao = userDao;
@@ -29,11 +29,13 @@ public class DaoFactory {
                     break;
                 case "Favorite":
                     dao = favoriteDao;
+                case "Note":
+                    dao = noteDao;
                 default:
                     break;
             }
-        }catch(Exception ex){
-              System.out.println(ex);
+        } catch (Exception ex) {
+            System.out.println(ex);
         }
         return dao;
     }

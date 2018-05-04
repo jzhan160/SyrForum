@@ -39,6 +39,7 @@ public class FavoriteDao implements Dao{
     }
 
     public ResultSet read(Connection conn, Entity entity) throws SQLException{
+        System.out.println("////////////////");
         Favorite favorite = (Favorite) entity;
         String readSql = "SELECT * FROM favorites WHERE ";
         String condition = "";
@@ -47,6 +48,7 @@ public class FavoriteDao implements Dao{
         condition += favorite.getItemID() == 0?" ":(" AND ItemID = " + favorite.getItemID());
         readSql+= condition + ";";
 
+        System.out.println(readSql);
         PreparedStatement ps = conn.prepareCall(readSql);
         return ps.executeQuery();
     }
@@ -61,7 +63,6 @@ public class FavoriteDao implements Dao{
         PreparedStatement ps = conn.prepareCall(readSql);
         ps.setInt(1,favorite.getUserID());
         ps.setInt(2,favorite.getItemID());
-        System.out.println(ps);
         ps.execute();
     }
 }
