@@ -85,7 +85,8 @@ public class DispatcherServlet extends HttpServlet {
                 deleteItem(request, response);
             } else if ("favorite".equals(method)) {
                 favorite(request, response);
-            }
+            }else if ("messages".equals(method))
+                messages(request,response);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -446,6 +447,12 @@ public class DispatcherServlet extends HttpServlet {
 
         requestDispatcher = req.getRequestDispatcher(forward);
         requestDispatcher.forward(req, res);
+    }
+
+    private void messages(HttpServletRequest req, HttpServletResponse res)
+            throws ServletException, IOException, SQLException {
+         RequestDispatcher requestDispatcher = req.getRequestDispatcher("Pages/Message/message.jsp");
+        requestDispatcher.forward(req,res);
     }
 
 }

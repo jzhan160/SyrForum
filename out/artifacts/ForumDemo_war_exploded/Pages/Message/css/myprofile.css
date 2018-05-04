@@ -1,0 +1,353 @@
+*{
+  padding:0;
+  margin:0;
+  font-family: sans-serif;
+}
+body{
+  background-color:lightgrey;
+  font-size:16px;
+}
+h1{
+  font-size:4em;
+  margin:0 0 0.5em 0;
+  font-weight:700;
+}
+h2{
+  font-size:1.6em;
+  margin:0 0 0.1em 0;
+  font-weight:700;
+}
+div.frame{
+  width:100%;
+  margin:auto;
+}
+header{
+  height:360px;
+
+  width:100%;
+  min-width:800px;
+  background:lightgrey url(../img/Syracuse.jpg) no-repeat center top;
+  position:relative;
+
+}
+header div{
+  position:relative;
+  display:block;
+  color:white;
+  top:40%;
+  text-align: center;
+}
+section{
+  /* position:relative; */
+  width:100%;
+  /* display:inline-block; */
+  background-color: white;
+  margin: 0 0;
+  padding:0;
+}
+section.navi{
+  height:3em;
+  padding:0;
+  margin:0em 0em;
+  background-color: #FFA500;
+}
+.nav-bar {
+  background:	#FFA500;
+  font-size: 18px;
+  font-family: Arial, sans-serif;
+  text-align: left;
+  margin:0;
+  padding:0;
+}
+.nav-menu a {
+  color: #fff;
+}
+.nav-menu,
+.nav-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-menu li {
+  position: relative;
+}
+.nav-menu a {
+  padding: 0.75em 1em;
+  margin: 0em 0em;
+  display: block;
+  text-decoration: none;
+  border-radius: .1em;
+  text-align:left;
+}
+.nav-menu a:hover {
+  opacity: 1.0;
+  background: #ff7733;
+}
+
+/* Navigation Bar - Level 1 Drop Down Menu */
+
+.nav-menu > li {
+  height:2.7em;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: -4px;
+}
+/* .nav-menu > li:first-child {
+  margin-left: 0;
+} */
+
+/* Navigation Bar - Level 2 */
+
+.nav-menu > li > ul {
+  text-align: left;
+  width: auto;
+  display: none;
+  background:#FF8C00;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding-bottom: 0px;
+  min-width: 160px;
+  border-radius: 0 0 .5em .5em;
+  z-index: 9999999;
+}
+.nav-menu > li:hover > ul {
+  display: block;
+}
+
+
+
+/* Navigation Bar - Level 1 Drop Down Menu */
+
+.nav_menu > li {
+  height:2.7em;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: -4px;
+}
+.nav_menu > li:first-child {
+  margin-left: 0;
+}
+
+/* Navigation Bar - Level 2 */
+
+.nav_menu > li > ul {
+  text-align: left;
+  width: auto;
+  display: none;
+  background:#FF8C00;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding-bottom: 0px;
+  min-width: 140px;
+  border-radius: 0 0 .5em .5em;
+  z-index: 9999999;
+}
+.nav_menu > li:hover > ul {
+  display: block;
+}
+
+
+li.user_console{
+  float:right;
+  width:2.3em;
+  padding: 0em 1em;
+}
+li.user_console  img{
+  width:1.6em;
+  height:1.6em;
+  position:relative;
+  top:0.5em;
+  /* border: 1px solid black; */
+}
+li.user_console:hover>ul{
+  text-align: left;
+  width: auto;
+  display: block;
+  background:#FF8C00;
+  position: absolute;
+  top: 100%;
+  left:  -1.5em;
+  padding-bottom: 0px;
+  min-width: 120px;
+  border-radius: 0 0 .5em .5em;
+  z-index: 9999999;
+}
+
+div.w_search button{
+}
+
+.notification_button {
+  color: white;
+  display: inline-block; /* Inline elements with width and height. TL;DR they make the icon buttons stack from left-to-right instead of top-to-bottom */
+  position: relative; /* All 'absolute'ly positioned elements are relative to this one */
+  padding: 2px 5px; /* Add some padding so it looks nice */
+  left:-20px;
+  top:-14px;
+}
+li.user_console a:hover{
+  /* background-color: white; */
+  height:1em;
+}
+
+/* Make the badge float in the top right corner of the button */
+.button__badge {
+  background-color: #fa3e3e;
+  border-radius: 2px;
+  color: white;
+
+  padding: 1px 3px;
+  font-size: 10px;
+
+  position: absolute; /* Position the badge within the relatively positioned button */
+  top: 0;
+  right: 0;
+}
+
+/* footer style */
+footer{
+  background-color:	grey;
+  text-align: center;
+  /* position:relative; */
+  background-color: #7f8c8d;
+  /* margin-top:180px; */
+   width:100%;
+   height:80px;
+   /* background:blue;//optional */
+}
+footer p{
+  position:relative;
+  top:2em;
+}
+
+div.profile_frame{
+  width:84%;
+  margin:0 auto;
+  height:30em;
+  background:#ecf0f1;
+}
+div.clearfix{
+  clear:both;
+
+}
+div.profile_frame div.containner{
+  position:relative;
+  top:2em;
+  margin:0 2em 2em 2em;
+  height:26em;
+  padding:0em;
+  /* border:1px solid black; */
+  display:flex;
+}
+div.profile_frame div.containner div{
+  padding:2em;
+}
+div.profile_frame div.containner div.profile{
+  flex:1;
+}
+div.profile_frame div.containner div.profile input{
+  margin:1.5em 1em;
+  height:40px;
+  width:130px;
+  background-color: #95a5a6;
+  border-radius: 10px;
+  color:white;
+}
+div.profile_frame div.containner div.personal_info{
+  background-color: white;
+  flex:2;
+}
+div.profile_frame div.containner div.personal_info div{
+  margin:1em auto;
+  padding:0.5em;
+}
+div.profile_frame div.containner div.personal_info p{
+  margin:0;
+  padding:0;
+  display:inline-block;
+  width:30%;
+  font-weight: bold;
+}
+
+
+div.profile_frame div.containner div.recent_posts{
+  flex:2;
+  position: relative;
+  left:4em;
+  padding-top:3em;
+  margin-right:0em;
+}
+div.profile_frame div.containner div.recent_posts div{
+  margin:0;
+  padding-top:0;
+  padding:0
+}
+div.profile_frame div.containner div.recent_posts p{
+  margin:0.7em 2em;
+  margin-left:0;
+  width:40%;
+  display: inline-block;
+}
+div.profile_frame div.containner div.recent_posts span{
+  margin:0 1em;
+  display: inline-block;
+}
+div.profile_frame div.containner img{
+  height:10em;
+  width:10em;
+  border-radius: 50%;
+}
+
+div#interface{
+  width:60%;
+  height:300px;
+  position: absolute;
+  top:500px;
+  left:20%;
+  /* background-color: #bdc3c7; */
+  background-color: white;
+ border:4px solid #3498db;
+  border-radius:10px;
+  visibility:hidden;
+}
+div#interface div:first-of-type{
+  width:100%;
+  height:45%;
+  padding:1em;
+  margin:0 auto;
+  /* background-color: #3498db; */
+}
+div#interface p{
+  margin:1em 1em;
+}
+div#interface img{
+  height:9em;
+  width:8em;
+  margin:0 2px;
+  border:1px solid white;
+}
+div#interface img:hover{
+  border:1px solid black;
+}
+
+div#interface>input{
+  position:relative;
+  top:2em;
+  margin:top: 0em;
+  margin-right: 1em;
+  margin-bottom:3em;
+  float:right;
+}
+div#interface div{
+  margin:0;
+  padding:0;
+  height:20px;
+}
+div#interface>div>input{
+  float:none;
+  margin:0em 4.5em;
+}
+div#interface>div>input:first-of-type{
+    margin-left:5.7em;
+}

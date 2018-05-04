@@ -14,6 +14,12 @@
         background: url("Pages/HomePage/img/Syracuse.jpg")   center top;
     }
 </style>
+<script>
+    function onClick() {
+            document.getElementById("messageClick").action = "<%=request.getContextPath()%>/DispatcherServlet?method=messages";
+            document.getElementById("messageClick").submit();
+    }
+</script>
 <body>
 <div class="header">
     <!-- <img src = "mainpage-img/Syracuse.jpg" width="100%"> -->
@@ -50,10 +56,10 @@
                         </ul>
 					</li>
                     <li>
-							<div class="button">
-								<img src="Pages/HomePage/img/notifications-bell-button.svg" />
-								<span class="button__badge">2</span>
-							</div>
+							<form class="button" id="messageClick" action="#"
+                                  method="post">
+								<img src="Pages/HomePage/img/notifications-bell-button.svg" id="messages" onclick="onClick()"/>
+							</form>
                     </li>
 
                     <li><img src="Pages/HomePage/img/magnifier.svg"/>

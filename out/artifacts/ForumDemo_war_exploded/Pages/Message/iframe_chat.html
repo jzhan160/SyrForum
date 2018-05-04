@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+
+    <script src="js\jquery-3.3.1.js"></script>
+    <script src="js\chat.js"></script>
+    <link rel="stylesheet" href="css\chat.css">
+    <title>Chat Session</title>
+  </head>
+  <body>
+
+    <div class="chatwith">
+      <input type=button id="backBtn" value="<">
+      Chatwith(username)
+    </div>
+    <div class="chat_wrapper">
+      <div>
+        <img class="opposite" src="img\profile1.jpg">
+        <p class="opposite">Hello, my name is ...</p>
+        <p class="clearfix"></p>
+      </div>
+      <div class="date_display">
+        <a>9:30am</a>
+      </div>
+      <div>
+        <img class="self" src="img\profile2.jpg">
+        <p class="self">Hello, my name is ...</p>
+        <p class="clearfix"></p>
+      </div>
+      <div>
+        <img class="opposite" src="img\profile1.jpg">
+        <p class="opposite">I want to ...Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+           quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p class="clearfix"></p>
+      </div>
+      <div>
+        <img class="self" src="img\profile2.jpg">
+        <p class="self">So ..Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..</p>
+
+        <p class="clearfix"></p>
+      </div>
+      <div>
+        <img class="self" src="img\profile2.jpg">
+        <p class="self">I want to Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p class="clearfix"></p>
+      </div>
+      <div>
+        <img class="opposite" src="img\profile1.jpg">
+        <p class="opposite">Hello, my name is ...</p>
+        <p class="clearfix"></p>
+      </div>
+    </div>
+    <form class="send_message" action="chat.php" method="get">
+      <textarea id="inputMsg"rows="3"></textarea>
+      <input id="sendMsgBtn" type="button" name="sendMessageBtn" value="send">
+    </form>
+  </body>
+</html>

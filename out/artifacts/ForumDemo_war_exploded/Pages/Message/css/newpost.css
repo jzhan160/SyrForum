@@ -1,0 +1,528 @@
+@media  screen and (min-device-width: 800px) {
+*{
+  padding:0;
+  margin:0;
+  font-family: sans-serif;
+}
+body{
+  background-color:lightgrey;
+  font-size:16px;
+}
+h1{
+  font-size:4em;
+  margin:0 0 0.5em 0;
+  font-weight:700;
+}
+h2{
+  font-size:1.6em;
+  margin:0 0 0.1em 0;
+  font-weight:700;
+}
+div.frame{
+  width:100%;
+  margin:auto;
+}
+header{
+  height:360px;
+
+  width:100%;
+  min-width:800px;
+  background:lightgrey url(../img/Syracuse.jpg) no-repeat center top;
+  position:relative;
+
+}
+header div{
+  position:relative;
+  display:block;
+  color:white;
+  top:40%;
+  text-align: center;
+}
+section , footer{
+  position:relative;
+  width:100%;
+  display:inline-block;
+  background-color: white;
+  margin: 0 0;
+  padding:0;
+}
+section.navi{
+  height:3em;
+  padding:0;
+  margin:0em 0em;
+  background-color: #FFA500;
+}
+.nav-bar {
+  background:	#FFA500;
+  font-size: 18px;
+  font-family: Arial, sans-serif;
+  text-align: left;
+  margin:0;
+  padding:0;
+}
+.nav-menu a {
+  color: #fff;
+}
+.nav-menu,
+.nav-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-menu li {
+  position: relative;
+}
+.nav-menu a {
+  padding: 0.75em 1em;
+  margin: 0em 0em;
+  display: block;
+  text-decoration: none;
+  border-radius: .1em;
+  text-align:left;
+}
+.nav-menu a:hover {
+  opacity: 1.0;
+  background: #ff7733;
+}
+
+/* Navigation Bar - Level 1 Drop Down Menu */
+
+.nav-menu > li {
+  height:2.7em;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: -4px;
+}
+/* .nav-menu > li:first-child {
+  margin-left: 0;
+} */
+
+/* Navigation Bar - Level 2 */
+
+.nav-menu > li > ul {
+  text-align: left;
+  width: auto;
+  display: none;
+  background:#FF8C00;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding-bottom: 0px;
+  min-width: 160px;
+  border-radius: 0 0 .5em .5em;
+  z-index: 9999999;
+}
+.nav-menu > li:hover > ul {
+  display: block;
+}
+
+
+li.userconsole{
+  float:right;
+  width:2.3em;
+  padding: 0em 1em;
+}
+li.userconsole  img{
+  width:1.6em;
+  height:1.6em;
+  position:relative;
+  top:0.5em;
+  /* border: 1px solid black; */
+}
+li.userconsole:hover>ul{
+  text-align: left;
+  width: auto;
+  display: block;
+  background:#FF8C00;
+  position: absolute;
+  top: 100%;
+  left:  -2.8em;
+  padding-bottom: 0px;
+  min-width: 7em;
+  border-radius: 0 0 .5em .5em;
+  z-index: 9999999;
+}
+
+section.userinput{
+  min-height:250px;
+  position:relative;
+  width:90%;
+  margin: 0 5%;
+  margin-top:0em;
+  padding:0;
+}
+section.userinput form{
+  min-height:240px;
+}
+section.userinput div{
+  margin: 1.5em 15%;
+}
+section.userinput div span{
+  display:inline-block;
+  width:13%;
+  font-size:1.2em;
+  margin:0.4em 0em;
+  text-align: center;
+}
+section.userinput div span:first-of-type{
+  font-size:1.4em;
+  font-weight: bold;
+
+}
+section.userinput div input{
+  width:83%;
+  font-size: 1.2em;
+  margin-left:0em;
+  display:inline-block;
+}
+section.userinput #plusitem{
+  margin-left: 0em;
+  font-size: 1em;
+  width:1.4em;
+  height:1.4em;
+}
+#plus label{
+  font-size: 1em;
+}
+/* new item box style */
+section.userinput .itemlist{
+  padding:0;
+  border: 2px dashed orange;
+  margin-top:0;
+  margin-bottom:0;
+}
+
+.notification_button {
+  color: white;
+  display: inline-block; /* Inline elements with width and height. TL;DR they make the icon buttons stack from left-to-right instead of top-to-bottom */
+  position: relative; /* All 'absolute'ly positioned elements are relative to this one */
+  padding: 2px 5px; /* Add some padding so it looks nice */
+  left:-20px;
+  top:-14px;
+}
+
+/* Make the badge float in the top right corner of the button */
+.button__badge {
+  background-color: #fa3e3e;
+  border-radius: 2px;
+  color: white;
+
+  padding: 1px 3px;
+  font-size: 10px;
+
+  position: absolute; /* Position the badge within the relatively positioned button */
+  top: 0;
+  right: 0;
+}
+
+
+
+div.itemlist button{
+  vertical-align: top;
+  font-size:1em;
+  float:left;
+  width:1.5em;
+  height:1.5em;
+  margin-right:0.5em;
+}
+div.itemlist div.iteminput{
+  margin: 0.5em 2em;
+  padding:0;
+  font-size: 1em;
+}
+
+div.itemlist div.iteminput label{
+  width:25%;
+  display:inline-block;
+  float:left;
+}
+div.itemlist div.iteminput:first-of-type{
+  display:inline-block;
+  width:100%;
+  font-size:1.2em;
+  font-weight: bold;
+  vertical-align: bottom;
+  margin:0.5em 1.7em;
+  margin-bottom: 0;
+}
+div.itemlist div.iteminput:first-of-type label{
+  margin-top: 0.3em;
+}
+div.itemlist div.iteminput:first-of-type button{
+  float:left;
+}
+div.itemlist div.iteminput input{
+  width:70%;
+  font-size: 1em;
+  margin-left: 0;
+}
+
+div.itemlist div.iteminput textarea{
+  width:73%;
+  font-size: 1em;
+  margin-left: 0;
+}
+
+section.userinput div.buttons{
+  margin:0 30% 3em 40%;
+  margin-bottom:3em;
+}
+section.userinput div.buttons input{
+  font-size: 1em;
+  margin-left:3em;
+  border-radius: 0.3em;
+  width:4em;
+  height:1.4em;
+}
+/* footer style */
+footer{
+  background-color:	#FFA500;
+  text-align: center;
+  height:80px;
+}
+footer p{
+  margin-top:2em;
+}
+
+
+
+}
+@media  screen and (max-device-width: 800px){
+  *{
+    padding:0;
+    margin:0;
+    font-family: sans-serif;
+    /* width:100%; */
+  }
+   body{
+    background-color:lightgrey;
+    font-size:16px;
+    width:100%;
+  }
+  h1{
+    font-size:4em;
+    margin:0 0 0.5em 0;
+    font-weight:700;
+  }
+  h2{
+    font-size:1.6em;
+    margin:0 0 0.1em 0;
+    font-weight:700;
+  }
+  img{
+    max-width: 100%;
+  }
+  h1{
+    font-size:2em;
+    margin:0 0 0.5em 0;
+    font-weight:700;
+  }
+  h2{
+    font-size:1em;
+    margin:0 0 0.1em 0;
+    font-weight:700;
+  }
+  div.frame{
+    width:100%;
+    margin:auto;
+  }
+   header{
+    height:20em;
+    width:100%;
+    /* min-width:800px; */
+    background:lightgrey url(../img/Syracuse.jpg) no-repeat center top;
+    position:relative;
+  }
+   header div{
+    position: relative;
+    top:40%;
+    text-align: center;
+    color:white;
+  }
+
+
+  section.navi{
+    width:100;
+    height:2em;
+    background-color: #FFA500;
+    display: block;
+  }
+  ul.nav-menu{
+    margin:0em 0em;
+    height:2em;
+    width:100%;
+    display: inline-block;
+    list-style:none;
+    background-color:#FFA500;
+  }
+  ul.nav-menu a{
+    color:white;
+    font-size: 0.8em;
+    text-align: center;
+    margin:0em auto;
+  }
+  ul.nav-menu>li{
+  /* margin:0.3em 1em; */
+    height:2em;
+    padding:0;
+    padding:0 0.1em;
+    float:left;
+    display:block;
+    color:grey;
+    text-align: center;
+    vertical-align: middle;
+    /* background-color: purple; */
+   }
+  ul.nav-menu>li:hover{
+      background-color: #ff7733;
+      color:white;
+      /* background-color: purple; */
+   }
+  ul.nav-menu>li>ul{
+    /* width:100%; */
+    color:purple
+    background-color: black;
+  }
+
+  ul.nav-menu>li>ul>li{
+    margin:0;
+    position:relative;
+    top:0.8em;
+    list-style:none;
+    background-color: #ff7733;
+    visibility: hidden;
+    text-align: left;
+    z-index: 0;
+  }
+  ul.nav-menu>li:hover>ul>li{
+    visibility:visible;
+  }
+
+
+  section.navi img{
+    width:1.7em;
+    height:1.7em;
+    padding:0;
+    margin:0;
+  }
+  section.navi>div.nav-bar>ul.nav-menu>li.userconsole{
+    /* float: right; */
+    margin:0.1em 0em;
+    padding:0;
+    width:1.7em;
+  }
+  section.navi>div.nav-bar>ul.nav-menu>li.userconsole>ul{
+    position: relative;
+    top:-1em;
+
+    left:-2em;
+    width:4em;
+  }
+
+   div.clearfix{
+    clear:both;
+  }
+  section.userinput{
+    margin: 2em 0;
+    padding:0;
+    z-index: 0;
+    width:100%;
+  }
+  section.userinput button{
+    width:1.7em;
+  }
+  section.userinput div{
+    margin:1em 3%;
+  }
+  section.userinput div span{
+    display: inline-block;
+    width:25%;
+  }
+  section.userinput div input{
+    display:inline-block;
+    width:70%;
+  }
+  section.userinput div textarea{
+    display:inline-block;
+    width:90%;
+  }
+  section.userinput div.buttons input{
+    display:inline-block;
+    width:30%;
+    margin:0 30%;
+  }
+
+}
+/* for setting password page */
+section.edit_password{
+  min-height:250px;
+  position:relative;
+  width:90%;
+  margin: 0 5%;
+  margin-top:0em;
+  padding:0;
+}
+section.edit_password form{
+  min-height:240px;
+}
+section.edit_password div{
+  margin: 1.5em 15%;
+}
+section.edit_password p{
+  font-size:2em;
+  margin-left:0%;
+}
+
+
+section.edit_password div div span:nth-of-type(1){
+  display:inline-block;
+  width:25%;
+  font-size:1em;
+  margin:0.4em 0em;
+  text-align: left;
+  /* background-color: blue; */
+}
+
+
+section.edit_password div input{
+  width:30%;
+  font-size: 1.2em;
+  margin-left:0em;
+  display:inline-block;
+  border-width: 1px;
+ /* background-color: : red; */
+  /* background-color: grey; */
+}
+
+section.edit_password div input:focus{
+  background-color: #ecf0f1;
+}
+
+
+section.edit_password div.buttons{
+  margin:0 40% 3em 30%;
+  margin-bottom:3em;
+}
+section.edit_password div.buttons input{
+  font-size: 1em;
+  margin-left:3em;
+  border-radius: 0.3em;
+  width:4em;
+  height:1.4em;
+}
+.normal_warning{
+   /* border-color:#bdc3c7; */
+   border-width:1px;
+   background-color: white;
+ }
+ .error_warning{
+   border-color:#95a5a6;
+   border-width:3px;
+   background-color: #bdc3c7;
+ }
+input[type=number]::webkit-inner-spin-button,
+input[type=number]::webkit-outer-spin-button{
+  -webkit-appearance:none;
+  margin:0;
+
+}

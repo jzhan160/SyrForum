@@ -12,7 +12,12 @@
         <link rel="stylesheet" type="text/css" href="Pages/HomePage/css/common.css" />
         <title>Create New Post</title>
     </head>
-
+    <script>
+        function onClick() {
+            document.getElementById("messageClick").action = "<%=request.getContextPath()%>/DispatcherServlet?method=messages";
+            document.getElementById("messageClick").submit();
+        }
+    </script>
     <body>
         <header>
             <div>
@@ -40,7 +45,10 @@
                             <li><a href="<%=request.getContextPath()%>/DispatcherServlet?method=logout">Logout</a></li>
                         </ul>
                     </li>
-                    <li class="userconsole"><img src="img/magnifier.svg" ></li>
+                    <li class="userconsole"><form class="button" id="messageClick" action="#"
+                                                  method="post">
+                        <img src="Pages/HomePage/img/notifications-bell-button.svg" id="messages" onclick="onClick()"/>
+                    </form></li>
                 </ul>
             </div>
         </section>

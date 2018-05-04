@@ -1,0 +1,94 @@
+body{
+ padding: 0;
+ margin:0;
+ background-color: #ecf0f1;
+ font-family: sans-serif;
+}
+
+div.title_line{
+
+  margin-left: 3em;
+  margin-top:1em;
+}
+div.messages_action input{
+    margin-left:3em;
+}
+div.message_wraper{
+  height:5.0em;
+  width:90%;
+  border-bottom: 1px solid lightgrey;
+  display:flex;
+  margin:0.3em auto;
+}
+div.message_wraper div{
+
+
+}
+div.message_wraper div.message_profile{
+  width:10%;
+  flex:1;
+  background-color: white;
+   padding:0.5em 0.6em;
+}
+div.message_wraper div.message_profile img{
+  width:3.3em;
+  height:3.7em;
+  border-radius:50%;
+
+}
+
+div.message_wraper div.message_section{
+  flex:10;
+  background-color: white;
+}
+
+div.message_wraper div.message_section p{
+  margin:0.8em 0.3em;
+  padding:0;
+}
+div.message_wraper div.message_section p:nth-of-type(2){
+  color:grey;
+}
+div.message_wraper div.message_aside{
+  flex:4;
+  background-color: white;
+}
+div.message_wraper div.message_aside p{
+  margin:0.6em 0;
+  padding: 0;
+  display: block;
+  height:1em;
+  width:60%;
+  float: left;
+  font-size: 0.9em;
+  color:grey;
+}
+div.message_wraper div.message_aside>ul{
+  width:40%;
+  float: right;
+  margin:0.5em 0;
+  padding: 0;
+
+}
+div.message_wraper div.message_aside>ul>li{
+  visibility: hidden;
+  color:grey;
+  font-size: 0.8em;
+  margin-left: 0.2em;
+}
+div.message_wraper div.message_aside>ul:hover>li{
+  visibility: visible;
+  list-style: none;
+}
+div.unread_messages{
+  display:inline-block;
+  background-color: #f39c12;
+  font-size: 0.8em;
+  text-align: center;
+  width:20px;
+  height:1.2em;
+  margin-top: 0.4em;
+  margin-left:0.3em;
+  float: right;
+
+}

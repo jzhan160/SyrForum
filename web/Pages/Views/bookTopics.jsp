@@ -14,7 +14,12 @@
 	<script src="Pages/Views/plugin/bootstrap/js/bootstrap.min.js"></script>
 
 	<script src="Pages/Views/page.js"></script>
-
+	<script>
+        function onClick() {
+            document.getElementById("messageClick").action = "<%=request.getContextPath()%>/DispatcherServlet?method=messages";
+            document.getElementById("messageClick").submit();
+        }
+	</script>
 	<body>
 		<div class="w_header">
 			<div class="container">
@@ -42,8 +47,10 @@
 						</li>
 							<li>
 							<div class="button">
-								<img src="Pages/HomePage/img/notifications-bell-button.svg" />
-								<span class="button__badge">2</span>
+								<form class="button" id="messageClick" action="#"
+									  method="post">
+								    <img src="Pages/HomePage/img/notifications-bell-button.svg" id="messages" onclick="onClick()"/>
+							</form>
 							</div>
 						</li>
                         <li><img src="Pages/Views/img/magnifier.svg" />

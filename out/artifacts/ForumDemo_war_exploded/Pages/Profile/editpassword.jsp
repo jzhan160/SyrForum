@@ -9,6 +9,12 @@
   <link rel="stylesheet" href="Pages/Profile/css/newpost.css">
   <title>Edit Personal Profile</title>
 </head>
+<script>
+    function onClick() {
+        document.getElementById("messageClick").action = "<%=request.getContextPath()%>/DispatcherServlet?method=messages";
+        document.getElementById("messageClick").submit();
+    }
+</script>
 
 <body>
   <div class="frame">
@@ -42,8 +48,10 @@
           <!-- <li class="userconsole"><img src="img/notifications-bell-button.svg" ></li> -->
           <li class="userconsole">
             <div class="notification_button">
-              <img src="Pages/Profile/img/notifications-bell-button.svg" />
-              <span class="button__badge">2</span>
+              <form class="button" id="messageClick" action="#"
+                    method="post">
+                <img src="Pages/HomePage/img/notifications-bell-button.svg" id="messages" onclick="onClick()"/>
+              </form>
             </div>
           </li>
           <li class="userconsole"><img src="Pages/Profile/img/magnifier.svg" >
