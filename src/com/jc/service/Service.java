@@ -392,6 +392,8 @@ public class Service {
             ResultSet rs = itemDao.read(conn,temp);
             int count = 0;
             if(rs.next()){
+                item.setId(rs.getInt("ItemID"));
+                item.setCatID(rs.getInt("CatID"));
                 item.setItemName(rs.getString("ItemName"));
                 item.setDescription(rs.getString("Description"));
                 item.setPrice(rs.getDouble("Price"));
@@ -585,5 +587,27 @@ public class Service {
         } catch (SQLException e) {
             e.getMessage();
         }
+    }
+
+    //------------------< read favorite list for one user > -------------------------------
+    public List<Favorite> getFavorites(int userId){
+        List<Favorite> favorites = new ArrayList<>();
+        Connection conn = ConnectionFactory.getInstance().makeConnection();
+        Dao favorite = DaoFactory.getInstance().makeDao("Favorite");
+        Favorite fac = new Favorite();
+        fac.setUserID(userId);
+        try {
+            ResultSet rs = favorite.read(conn,fac);
+            while(rs.next()){
+                Favorite temp = new Favorite();
+                temp.setItemID(rs.getInt("ItemID"));
+                temp.setUserID(rs.getInt("UserID"));
+                favorites.add(temp);
+            }
+            conn.commit();
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+        return favorites;
     }
 }

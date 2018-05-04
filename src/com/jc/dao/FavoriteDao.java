@@ -48,6 +48,7 @@ public class FavoriteDao implements Dao{
         readSql+= condition + ";";
 
         PreparedStatement ps = conn.prepareCall(readSql);
+        System.out.println(ps);
         return ps.executeQuery();
     }
 
@@ -61,7 +62,6 @@ public class FavoriteDao implements Dao{
         PreparedStatement ps = conn.prepareCall(readSql);
         ps.setInt(1,favorite.getUserID());
         ps.setInt(2,favorite.getItemID());
-        System.out.println(ps);
         ps.execute();
     }
 }

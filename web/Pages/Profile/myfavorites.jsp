@@ -38,7 +38,7 @@
           <li class="user_console"><img src="Pages/Profile/img/user.svg" >
               <ul>
                   <li><a href="<%=request.getContextPath()%>/DispatcherServlet?method=profile&userName=<%=request.getParameter("userName")%>">My Profile</a></li>
-                <li><a href="<%=request.getContextPath()%>/DispatcherServlet?method=showfavorites&userName=<%=request.getParameter("userName")%>">My Favorites</a></li>
+                  <li><a href="<%=request.getContextPath()%>/DispatcherServlet?method=showfavorites&userName=<%=request.getParameter("userName")%>">My Favorites</a></li>
                   <li><a href="<%=request.getContextPath()%>/DispatcherServlet?method=logout">Logout</a></li>
               </ul>
           </li>
@@ -69,47 +69,19 @@
     <section>
       <div class="profile_frame">
         <div class="containner">
-          <div class="profile">
-            <!-- profile section -->
-            <img id="profileImage" src="Pages/Profile/img/sampleprofile.jpg" alt="myprofile">
-            <input type="button" id="editProfileBtn" value="Edit profile image" name="edit_profile">
-            <a href="<%=request.getContextPath()%>/DispatcherServlet?method=editPassword&userName=<%=request.getParameter("userName")%>"><input type="button" id="editPasswordBtn" value="Edit password" name="edit_password"></a>
-          </div>
 
-          <!--personal info <section>
-
-          </section>  -->
-          <div class="personal_info">
-            <div>
-              <p><b>Personal Info:</b></p>
-            </div>
-            <div>
-              <p>Username:</p><span><%=request.getParameter("userName")%></span>
-            </div>
-            <div>
-              <p>Joined:</p><span><%=request.getAttribute("createTime")%></span>
-            </div>
-            <div>
-              <p>Born:</p><span><%=request.getAttribute("birthday")%></span>
-            </div>
-            <div>
-              <p>Email:</p><span><%=request.getAttribute("email")%></span>
-            </div>
-          </div>
-
-          <!-- recent posts section -->
           <div class="recent_posts">
-            <p><b>Recent Posts:</b></p>
+            <p><b>My favorites</b></p>
 
               <c:forEach items="${itemsInfo}" var="temp">
                   <div>
                       <p>${temp.getItem().getItemName()}</p>
                       <a  href="/DispatcherServlet?method=item&itemId=${temp.getItem().getId()}&userName=<%=request.getParameter("userName")%>&category=${temp.getItem().getCatID()}&author=${temp.getUserName()}&commentCount=${temp.getCommentCount()}"
                          name="recent_post1">Open</a>
-                      <a href="<%=request.getContextPath()%>/DispatcherServlet?method=deleteItem&itemId=${temp.getItem().getId()}&userName=<%=request.getParameter("userName")%>">Delete</a>
                   </div>
               </c:forEach>
-          </div>
+              </div>
+
         </div>
       </div>
     </section>
