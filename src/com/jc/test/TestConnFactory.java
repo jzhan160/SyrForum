@@ -1,7 +1,20 @@
+////////////////////////////////////////////////////////////////////
+// TestConnFactory.java   test class                              //
+// ver 1.0                                                        //
+// Author: Group Work                                             //
+////////////////////////////////////////////////////////////////////
+/*
+ * This package provides one Java class TestConnFactory which test
+ * the connection factory in this website.
+ *
+ * Maintenance history
+ * Version 1.0
+ * 05/04/2018
+ *
+ * */
+
 package com.jc.test;
-
 import com.jc.factory.ConnectionFactory;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;

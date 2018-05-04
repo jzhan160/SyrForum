@@ -1,3 +1,18 @@
+////////////////////////////////////////////////////////////////////
+// TestUploadImage.java   test class                              //
+// ver 1.0                                                        //
+// Author: Jiacheng Zhang                                         //
+////////////////////////////////////////////////////////////////////
+/*
+ * This package provides one public Java class TestUploadImage
+ * which tests functions of uploading images.
+ *
+ * Maintenance history
+ * Version 1.0
+ * 05/04/2018
+ *
+ * */
+
 package com.jc.test;
 
 import com.jc.factory.ConnectionFactory;
@@ -9,7 +24,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class TestUploadImage {
-    //测试
+
     public static void main(String[] args) {
         ImageDemo.readImage2DB();
        // ImageDemo.readDB2Image();
@@ -18,12 +33,12 @@ public class TestUploadImage {
 
 class ImageUtil {
 
-    // 读取本地图片获取输入流
+    //----------------< Read local picture to get input stream >------------------------------
     public static FileInputStream readImage(String path) throws IOException {
         return new FileInputStream(new File(path));
     }
 
-    // 读取表中图片获取输出流
+    //----------------< Read the picture in the table to get output stream >------------------
     public static void readBin2Image(InputStream in, String targetPath) {
         File file = new File(targetPath);
         String path = targetPath.substring(0, targetPath.lastIndexOf("/"));
@@ -55,7 +70,7 @@ class ImageUtil {
 
 class ImageDemo {
 
-    // 将图片插入数据库
+    //----------------< Insert the picture into the database >--------------------------------
     public static void readImage2DB() {
         String path = "D:/1.jpg";
         ConnectionFactory factory = ConnectionFactory.getInstance();
@@ -98,7 +113,7 @@ class ImageDemo {
 
     }
 
-    // 读取数据库中图片
+    //----------------< Read the picture in the database >------------------------------------
     public static void readDB2Image() {
         String targetPath = "E:/1.jpg";
         ConnectionFactory factory = ConnectionFactory.getInstance();

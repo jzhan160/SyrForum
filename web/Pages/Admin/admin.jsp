@@ -1,3 +1,11 @@
+<%--
+////////////////////////////////////////////////////////////////////
+// admin.jsp   the main page for adminstertor                     //
+// ver 1.0                                                        //
+// Author: Jiacheng Zhang                                         //
+////////////////////////////////////////////////////////////////////
+--%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
