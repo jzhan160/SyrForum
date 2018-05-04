@@ -35,7 +35,7 @@
           <li class="userconsole"><img src="Pages/Profile/img/user.svg" >
             <ul>
               <li><a href="<%=request.getContextPath()%>/DispatcherServlet?method=profile&userName=<%=request.getParameter("userName")%>">My Profile</a></li>
-              <li><a href="#">Setting</a></li>
+              <li><a href="<%=request.getContextPath()%>/DispatcherServlet?method=showfavorites&userName=<%=request.getParameter("userName")%>">My Favorites</a></li>
               <li><a href="<%=request.getContextPath()%>/DispatcherServlet?method=logout">Logout</a></li>
             </ul>
           </li>
