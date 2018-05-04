@@ -1,3 +1,18 @@
+////////////////////////////////////////////////////////////////////
+// sendEmail.java   test class                                    //
+// ver 1.0                                                        //
+// Author: Group Work                                             //
+////////////////////////////////////////////////////////////////////
+/*
+ * This package provides one Java class sendEmail which test the function
+ * of resetting password by sending a email.
+ *
+ * Maintenance history
+ * Version 1.0
+ * 05/04/2018
+ *
+ * */
+
 package com.jc.test;
 import java.util.Properties;
 
@@ -13,36 +28,35 @@ public class SendEmail {
     public static void main(String [] args) throws MessagingException
     {
         Properties props = new Properties();
-        // 开启debug调试
+        // open debug mode
         props.setProperty("mail.debug", "true");
-        // 发送服务器需要身份验证
         props.setProperty("mail.smtp.auth", "true");
-        // 设置邮件服务器主机名 使用163邮箱发送
+        // Set the mail server host name and use 163 mailboxes to send
         props.setProperty("mail.host", "smtp.gmail.com");
-        // 发送邮件协议名称
+        // Send mail protocol name
         props.setProperty("mail.transport.protocol", "smtp");
-        // 设置环境信息
+        // Setting up environmental information
         Session session = Session.getInstance(props);
 
-        // 创建邮件对象
+        // Create a mail object
         Message msg = new MimeMessage(session);
         try {
-            msg.setSubject("邮件主题");
+            msg.setSubject("main subject");
         } catch (MessagingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        // 设置邮件内容
-        msg.setText("邮件内容，找回密码的连接");
-        // 设置发件人
+        // Set message content
+        msg.setText("the link to reset the password");
+        // Set sender
         msg.setFrom(new InternetAddress("rogerzjc@gmail.com"));
 
         Transport transport = session.getTransport();
-        // 连接邮件服务器     xzbbrvnlsjpdbfei
-        transport.connect("rogerzjc@gmail.com", "不是登录密码，需要开启客户授权密码，生成授权码，此处填写授权码");
-        // 发送邮件
-        transport.sendMessage(msg, new Address[] {new InternetAddress("目标地址，即接收邮件的邮箱地址")});
-        // 关闭连接
+        // Connect to mail server
+        transport.connect("rogerzjc@gmail.com", "It is not a login password. You need to open the client authorization password and generate an authorization code. Fill in the authorization code here.");
+        // send email
+        transport.sendMessage(msg, new Address[] {new InternetAddress("Destination address, the email address of the receiving email")});
+        // Close the connection
         transport.close();
     }
 }
