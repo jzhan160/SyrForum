@@ -141,7 +141,7 @@
 
 									<!-- Favorite -->
 									<a id = "hrefForFav" href="<%=request.getContextPath()%>/DispatcherServlet?method=favorite&userName=<%=request.getAttribute("userName")%>&itemId=<%=request.getAttribute("itemId")%>&author=<%=request.getAttribute("author")%>&category=<%=request.getAttribute("category")%>&commentCount=<%=request.getAttribute("commentCount")%>&favorite=add" >
-										<button type="button" id ="butForFav" href=>
+										<button type="button" id ="butForFav" >
 											Favorite</button>
 									</a>
 

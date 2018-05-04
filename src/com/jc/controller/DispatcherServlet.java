@@ -452,9 +452,8 @@ public class DispatcherServlet extends HttpServlet {
     private void messages(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
         List<Notification> noteList = service.readNotifications();
-        System.out.println(noteList.get(0));
         req.setAttribute("noteList",noteList);
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("Pages/Message/message.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/Pages/Message/message.jsp");
         requestDispatcher.forward(req,res);}
     //------------------< show the favorite list for each user >-----------------
     private void showFavorites(HttpServletRequest req, HttpServletResponse res)

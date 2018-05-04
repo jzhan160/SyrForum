@@ -29,8 +29,10 @@ public class DaoFactory {
                     break;
                 case "Favorite":
                     dao = favoriteDao;
+                    break;
                 case "Note":
                     dao = noteDao;
+                    break;
                 default:
                     break;
             }

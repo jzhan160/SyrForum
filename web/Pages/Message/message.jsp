@@ -53,13 +53,13 @@
             </li>
             <!-- <li class="userconsole"><img src="img/notifications-bell-button.svg" ></li> -->
             <li class="userconsole">
-                <a href="message.jsp">
-              	<div class="notification_button">
-                    <form class="button" id="messageClick" action="#"
-                          method="post">
-                        <img src="Pages/HomePage/img/notifications-bell-button.svg" id="messages" onclick="onClick()"/>
-                    </form>
-              	</div>
+
+              	<div class="button">
+                <form class="button" id="messageClick" action="#"
+                      method="post">
+                    <img src="Pages/HomePage/img/notifications-bell-button.svg" id="messages" onclick="onClick()"/>
+                </form>
+            </div>
               </a>
             </li>
 
