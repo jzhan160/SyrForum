@@ -1,3 +1,19 @@
+///////////////////////////////////////////////////////////////////////
+// Item.java   A JavaBean class which encapsulate item information   //
+// ver 1.0                                                           //
+// Author: Biao A                                                    //
+///////////////////////////////////////////////////////////////////////
+/*
+ * This package provides one Java class which is a JavaBean class encapsulating
+ * item information.
+ *
+ * Maintenance History:
+ * -------------------
+ * May 4th
+ * version 1.0
+ *
+ *
+ * */
 package com.jc.entity;
 
 public class Item implements Entity{

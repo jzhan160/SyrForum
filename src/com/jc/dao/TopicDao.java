@@ -1,14 +1,21 @@
-//////////////////////////////////////////////////////////////
-// TopicDao.java   the data access object to the user table //
-// ver 1.0                                                  //
-//                                                          //
-//////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+// TopicDao.java   the data access object to the topics table  //
+// ver 1.0                                                     //
+// Author: Biao A                                              //
+/////////////////////////////////////////////////////////////////
 /*
  * This package provides one Java class which is a data access
  * object to the topics table.
+ * It provides methods to:
+ * (1)insert a new topic into the topics table
+ * (2)get information of a specific topic
+ * (3)update: only Title, Contact and Address now
+ * (4)delete a topic by topicId
  *
- *
- *
+ * Maintenance History:
+ * --------------------
+ * 05/4/2018
+ * ver 1.0
  *
  * */
 package com.jc.dao;
@@ -26,6 +33,7 @@ import java.util.List;
 
 public class TopicDao implements Dao {
 
+    //----------------< insert a new topic into the topics table >-----------------------
     @Override
     public void create(Connection conn, Entity entity) throws SQLException {
         Topic topic = (Topic)entity;
@@ -40,7 +48,7 @@ public class TopicDao implements Dao {
     }
 
     @Override
-    //----------------< read by ID or User_UserID >-----------------------
+    //----------------< get information of a specific topic>-----------------------
     public ResultSet read(Connection conn, Entity entity) throws SQLException {
         Topic topic = (Topic)entity;
         String readSql = "SELECT * FROM topics WHERE ";
@@ -67,8 +75,7 @@ public class TopicDao implements Dao {
     }
 
     @Override
-    //----------------< delete terms by TopicID
-    //                         and also delete foreign terms in comments and items>-----------------------
+    //----------------< delete a topic by topicId>-----------------------
     public void delete(Connection conn, Entity entity) throws SQLException {
         Topic topic = (Topic)entity;
 

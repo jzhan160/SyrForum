@@ -1,3 +1,19 @@
+/////////////////////////////////////////////////////////////////////
+// ConnectionFactory.java  factory to create database connection   //
+// ver 1.0                                                         //
+// Jiacheng Zhang                                                  //
+/////////////////////////////////////////////////////////////////////
+/*
+ * This package provides one Java class which is a factory to get
+ * connection to the MySQL
+ *
+ * Maintenance History:
+ * --------------------
+ * 04/10/2018
+ * ver 1.0
+ *
+ *
+ * */
 package com.jc.factory;
 import java.io.InputStream;
 import java.sql.DriverManager;
@@ -29,14 +45,17 @@ public class ConnectionFactory {
 
     }
 
+    //--------------------<return the instance of the connection factory>-------------------
     public static ConnectionFactory getInstance() {
         return factory;
     }
-    public Connection makeConnection() { // 获取数据库连接
+
+    //-------------------<register jdbc driver and get connection>-----------------------
+    public Connection makeConnection() {
         try {
-            Class.forName(driver);   //注册MySQL jdbc驱动程序
+            Class.forName(driver);
             connection = (Connection) DriverManager.getConnection(db_url, user, password);
-            //获取数据库连接 url 用户名 密码
+
         } catch (Exception e) {
             e.printStackTrace();
         }

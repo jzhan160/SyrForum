@@ -1,3 +1,19 @@
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ItemInfo.java   A JavaBean class which encapsulate information to display for each item      //
+// ver 1.0                                                                                      //
+// Author: Jiacheng Zhang                                                                       //
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+ * This package provides one Java class which is a JavaBean class which
+ * encapsulate information to display for each item.
+ *
+ * Maintenance History:
+ * -------------------
+ * May 4th
+ * version 1.0
+ *
+ *
+ * */
 package com.jc.entity;
 
 public class ItemInfo{

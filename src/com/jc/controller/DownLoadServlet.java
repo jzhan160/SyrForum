@@ -1,3 +1,18 @@
+//////////////////////////////////////////////////////////////
+// DownLoadServlet.java  response to download requests      //
+// ver 1.0                                                  //
+// Author: Jiacheng Zhang                                   //
+//////////////////////////////////////////////////////////////
+/*
+ * This package provides one Java class DownLoadServlet which extends HttpServlet.
+ * It is used to download pictures in the website and save pictures in a
+ * specific local path.
+ *
+ * maintenance history:
+ * May 4
+ * version 1.0
+ *
+ * */
 package com.jc.controller;
 
 import java.io.File;

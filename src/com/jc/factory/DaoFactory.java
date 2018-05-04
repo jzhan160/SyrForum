@@ -1,3 +1,19 @@
+////////////////////////////////////////////////////////////////
+// DaoFactory.java    factory to create Daos                  //
+// ver 1.0                                                    //
+// Jiacheng Zhang                                             //
+////////////////////////////////////////////////////////////////
+/*
+ * This package provides one Java class which is a factory to
+ * create different Daos.
+ *
+ * Maintenance History:
+ * --------------------
+ * 04/10/2018
+ * ver 1.0
+ *
+ *
+ * */
 package com.jc.factory;
 
 import com.jc.dao.*;
@@ -11,6 +27,7 @@ public class DaoFactory {
     private static final NoteDao noteDao = new NoteDao();
     private static DaoFactory factory = new DaoFactory();
 
+    //-------------<return different dao according to a parameter>----------------------
     public Dao makeDao(String DaoImpl) {
         Dao dao = null;
         try {

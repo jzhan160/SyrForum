@@ -1,3 +1,19 @@
+/////////////////////////////////////////////////////////////////////////////
+// Category.java   A JavaBean class which encapsulate category information //
+// ver 1.0                                                                 //
+// Author: Biao A                                                          //
+/////////////////////////////////////////////////////////////////////////////
+/*
+ * This package provides one Java class which is a JavaBean class encapsulating
+ * category information.
+ *
+ * Maintenance History:
+ * -------------------
+ * May 4th
+ * version 1.0
+ *
+ *
+ * */
 package com.jc.entity;
 
 public class Category implements Entity{

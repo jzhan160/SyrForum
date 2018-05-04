@@ -19,6 +19,7 @@ import com.jc.entity.*;
 import com.jc.factory.ConnectionFactory;
 import com.jc.factory.DaoFactory;
 
+import javax.jws.soap.SOAPBinding;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -689,13 +690,14 @@ public class Service {
         }
     }
 
-    public  List<Notification> readNotifications(){
+    public  List<Notification> readNotifications(User user){
         Connection conn = ConnectionFactory.getInstance().makeConnection();
         List<Notification> noteList= new ArrayList<>();
         try{
             conn.setAutoCommit(false);
             Dao noteDao =  DaoFactory.getInstance().makeDao("Note");
             Notification notification = new Notification();
+            notification.setUserID(user.getId());
             ResultSet rs = noteDao.read(conn,notification);
             while (rs.next()){
                 Notification getNote = new Notification();

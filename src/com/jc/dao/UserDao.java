@@ -1,14 +1,21 @@
 //////////////////////////////////////////////////////////////
 // UserDao.java   the data access object to the user table  //
 // ver 1.0                                                  //
-//                                                          //
+// Author: Biao A, Jiacheng Zhang                           //
 //////////////////////////////////////////////////////////////
 /*
  * This package provides one Java class which is a data access
  * object to the users table.
+ * It provides methods to:
+ * (1)insert a new user record into the users table
+ * (2)read user information
+ * (3)update user information
+ * (4)delete a specific user from the users table
  *
- *
- *
+ * Maintenance History:
+ * --------------------
+ * 05/4/2018
+ * ver 1.0
  *
  * */
 package com.jc.dao;
@@ -77,7 +84,7 @@ public class UserDao implements Dao {
                 (" OR Email = '" + user.getEmail() + "'");
         checkSql += condition + ";";
 
-      //  System.out.println(checkSql);
+        System.out.println(checkSql);
         PreparedStatement ps = conn.prepareCall(checkSql);
         return ps.executeQuery();
     }

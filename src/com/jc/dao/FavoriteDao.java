@@ -1,22 +1,26 @@
-/////////////////////////////////////////
-// Dao.java   the data access object   //
-// ver 1.0                             //
-// Biao A                              //
-/////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+// FavoriteDao.java   the data access object to the favorites table //
+// ver 1.0                                                          //
+// Author: Biao A                                                   //
+//////////////////////////////////////////////////////////////////////
 /*
  * This package provides one Java class which is a data access
- * object to the Favorite table.
+ * object to the favorite table.
+ * It provides methods to:
+ * (1)insert a new favorite record into the favorites table
+ * (2)read favorites by ItemID, UserID
+ * (3)update: no need to implement now
+ * (4)delete a Favorite record by a specific UserID and ItemID
  *
  * Maintenance History:
  * --------------------
- * 04/10/2018
+ * 05/4/2018
  * ver 1.0
  *
  *
  * */
 package com.jc.dao;
 
-import com.jc.entity.Comment;
 import com.jc.entity.Entity;
 import com.jc.entity.Favorite;
 
@@ -27,6 +31,7 @@ import java.sql.SQLException;
 
 public class FavoriteDao implements Dao{
 
+    //----------<insert a new favorite record into the favorites table>-------
     public void create(Connection conn, Entity entity) throws SQLException{
         Favorite favorite = (Favorite) entity;
         String insertSql = "INSERT INTO favorites (UserID, ItemID)" +
@@ -38,8 +43,8 @@ public class FavoriteDao implements Dao{
         ps.execute();
     }
 
+    //----------<read favorites by ItemID, UserID>-------
     public ResultSet read(Connection conn, Entity entity) throws SQLException{
-        System.out.println("////////////////");
         Favorite favorite = (Favorite) entity;
         String readSql = "SELECT * FROM favorites WHERE ";
         String condition = "";
@@ -53,10 +58,12 @@ public class FavoriteDao implements Dao{
         return ps.executeQuery();
     }
 
+    //----------<no need to implement now>-------
     public void update(Connection conn, Entity entity) throws SQLException{
 
     }
 
+    //----------<delete a Favorite record by a specific UserID and ItemID>-------
     public void delete(Connection conn, Entity entity) throws SQLException{
         Favorite favorite = (Favorite) entity;
         String readSql = "DELETE From favorites WHERE UserID = ? AND ItemID = ?;";

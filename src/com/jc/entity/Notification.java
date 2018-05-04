@@ -1,6 +1,20 @@
+///////////////////////////////////////////////////////////////////////////////////////////
+// Notification.java   A JavaBean class which encapsulate Notification information       //
+// ver 1.0                                                                               //
+// Author: Jiacheng Zhang                                                                //
+//////////////////////////////////////////////////////////////////////////////////////////
+/*
+ * This package provides one Java class which is a JavaBean class encapsulating
+ * Notification information.
+ *
+ * Maintenance History:
+ * -------------------
+ * May 4th
+ * version 1.0
+ *
+ *
+ * */
 package com.jc.entity;
-
-import com.sun.scenario.effect.impl.prism.PrImage;
 
 public class Notification implements Entity{
     private int NoteID;

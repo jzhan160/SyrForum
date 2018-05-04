@@ -4,12 +4,13 @@
 // Author: Jiacheng Zhang                                   //
 //////////////////////////////////////////////////////////////
 /*
- * This package provides one Java class
+ * This package provides one Java class UploadHandleServlet which extends HttpServlet.
+ * It is used to accept new items posted by users, make new dirs to
+ * save pictures
  *
- *
- *
- *
- *
+ * maintenance history:
+ * May 4
+ * version 1.0
  *
  * */
 package com.jc.controller;

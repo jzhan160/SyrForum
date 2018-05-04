@@ -1,14 +1,21 @@
-//////////////////////////////////////////////////////////////
-// ItemDao.java   the data access object to the user table  //
-// ver 1.0                                                  //
-//                                                          //
-//////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+// ItemDao.java   the data access object to the items table  //
+// ver 1.0                                                   //
+// Author: Biao A                                            //
+///////////////////////////////////////////////////////////////
 /*
  * This package provides one Java class which is a data access
  * object to the items table.
+ * It provides methods to:
+ * (1)Insert s new item into the items table
+ * (2)search entity information from the items table search by ID, Name or rex of description
+ * (3)update information in the items table
+ * (4)delete the item from the items table
  *
- *
- *
+ * Maintenance History:
+ * --------------------
+ * 05/4/2018
+ * ver 1.0
  *
  * */
 package com.jc.dao;
@@ -27,7 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemDao implements Dao {
-    //----------------<Insert new entity into the items table>-----------------------
+
+    //----------------<Insert s new item into the items table>-----------------------
     @Override
     public void create(Connection conn,Entity entity) throws SQLException {
         Item item = (Item)entity;
@@ -85,7 +93,7 @@ public class ItemDao implements Dao {
         ps.execute();
     }
 
-    //----------------<delete the entity from the items table>-----------------------
+    //----------------<delete the item from the items table>-----------------------
     @Override
     public void delete(Connection conn, Entity entity) throws SQLException {
         Item item = (Item)entity;

@@ -1,3 +1,18 @@
+///////////////////////////////////////////////////////////////////////////////////
+// ListFileServlet.java  response to show all picture in the server storage      //
+// ver 1.0                                                                       //
+// Author: Jiacheng Zhang                                                        //
+///////////////////////////////////////////////////////////////////////////////////
+/*
+ * This package provides one Java class ListFileServlet which extends HttpServlet.
+ * It is used to  show all pictures uploaded by users which are
+ * stored on the server
+ *
+ * maintenance history:
+ * May 4
+ * version 1.0
+ *
+ * */
 package com.jc.controller;
 
 import java.io.File;

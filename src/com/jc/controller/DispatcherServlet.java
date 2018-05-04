@@ -9,24 +9,22 @@
  * different requests from clients and dispatcher them by their
  * method types.
  *
- *
- *
+ * maintenance history:
+ * May 4
+ * version 1.0
  *
  *
  *
  * */
 package com.jc.controller;
-
 import com.jc.entity.*;
 import com.jc.service.Service;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -130,6 +128,7 @@ public class DispatcherServlet extends HttpServlet {
         //But sendRedirect can go outside.
     }
 
+    //------------------<method to direct for the home page for admin>----------------------------
     private void admin(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/Pages/Admin/admin.jsp");
@@ -272,7 +271,7 @@ public class DispatcherServlet extends HttpServlet {
         requestDispatcher.forward(req, res);
     }
 
-    //------------------<method to  add comments >----------------------------
+    //------------------<method to processing add_comments request>----------------------------
     private void addComment(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
         int itemId = Integer.parseInt(req.getParameter("itemId"));
@@ -378,6 +377,7 @@ public class DispatcherServlet extends HttpServlet {
         requestDispatcher.forward(req, res);
     }
 
+    //------------------<method to show all users for the administrator>----------------------------
     private void showUsers(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
         User mockUser = new User();
@@ -387,7 +387,7 @@ public class DispatcherServlet extends HttpServlet {
         requestDispatcher.forward(req, res);
     }
 
-
+    //------------------<method to show all items for the administrator>----------------------------
     private void showItems(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
         List<Item> items = service.getAllItems();
@@ -420,7 +420,7 @@ public class DispatcherServlet extends HttpServlet {
             showItems(req, res);
     }
 
-    //------------------< add or delete a favorite >----------------------------
+    //------------------< add or delete a favorite item>----------------------------
     private void favorite(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
         int itemID = Integer.parseInt(req.getParameter("itemId"));
@@ -449,12 +449,19 @@ public class DispatcherServlet extends HttpServlet {
         requestDispatcher.forward(req, res);
     }
 
+    //------------------<method to show new messages>----------------------------
     private void messages(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException {
-        List<Notification> noteList = service.readNotifications();
+        String userName = req.getParameter("userName");
+        User mockUser = new User();
+        mockUser.setUserName(userName);
+        mockUser = service.getUsers(mockUser).get(0);
+        List<Notification> noteList = service.readNotifications(mockUser);
         req.setAttribute("noteList",noteList);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/Pages/Message/message.jsp");
-        requestDispatcher.forward(req,res);}
+        requestDispatcher.forward(req,res);
+    }
+
     //------------------< show the favorite list for each user >-----------------
     private void showFavorites(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException, SQLException{
