@@ -1,3 +1,10 @@
+<%--
+////////////////////////////////////////////////////////////////////
+// newPost.jsp   Post new items to website                        //
+// ver 1.0                                                        //
+// Author: Group Work                                             //
+////////////////////////////////////////////////////////////////////
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>

@@ -1,15 +1,15 @@
-/////////////////////////////////////////
-// TestDao.java   test class           //
-// ver 1.0                             //
-// Biao A                              //
-/////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+// TestDao.java   test class                                      //
+// ver 1.0                                                        //
+// Author: Biao A                                           //
+////////////////////////////////////////////////////////////////////
 /*
+ * This package provides one Java class TestDao which tests
+ * functions of all the Dao members
  *
- * Maintenance History:
- * --------------------
- * 05/02/2018
- * ver 1.0
- *
+ * Maintenance history
+ * Version 1.0
+ * 05/04/2018
  *
  * */
 package com.jc.test;

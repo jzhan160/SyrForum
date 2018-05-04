@@ -1,14 +1,15 @@
-//////////////////////////////////////////////////////////
-// ItemDao.java   the data access object to the user table  //
-// ver 1.0                                              //
-//                                                      //
-//////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+// Service.java   provide interfaces to DAO                       //
+// ver 1.0                                                        //
+// Author: Group Work                                             //
+////////////////////////////////////////////////////////////////////
 /*
- * This package provides one Java class which is a data access
- * object to the items table.
+ * This package provides one Java class Service which will be used in
+ * DispatcherServlet and provide data access for this website.
  *
- *
- *
+ * Maintenance history
+ * Version 1.0
+ * 05/04/2018
  *
  * */
 package com.jc.service;
@@ -30,7 +31,7 @@ import java.util.Set;
 
 public class Service {
 
-    //check userName and password when logging in
+    //----------------< check userName and password when logging in >-------------------------------
     public boolean check(User user){
         Connection conn = null;
         try {
@@ -52,7 +53,8 @@ public class Service {
         }
         return false;
     }
-    //register
+
+    //----------------< register this userName and password to database >---------------------------
     public void register(User user) {
         Connection conn = ConnectionFactory.getInstance().makeConnection();
         try{
@@ -66,6 +68,7 @@ public class Service {
         }
     }
 
+    //----------------< provide change password function for website >------------------------------
     public void changePassword(User user){
         Connection conn = ConnectionFactory.getInstance().makeConnection();
         try{
@@ -79,7 +82,7 @@ public class Service {
         }
     }
 
-    // get user information to show in the profile
+    //----------------< read all users which match this query condition >---------------------------
     public List<User> getUsers(User user) {
         List<User> users = new ArrayList<>();
         Connection conn = ConnectionFactory.getInstance().makeConnection();
@@ -114,7 +117,7 @@ public class Service {
         return users;
     }
 
-
+    //----------------< read all items which match this query condition >---------------------------
     public List<Item> getAllItems(){
         Connection conn = ConnectionFactory.getInstance().makeConnection();
         List<Item> items = new ArrayList<>();
@@ -141,6 +144,7 @@ public class Service {
         }
     }
 
+    //----------------< read recent post for this user >--------------------------------------------
     public List<Item> getPreviousItems(User user){
         Connection conn = null;
       //  List<Topic> topics  = new ArrayList<>();
@@ -177,6 +181,7 @@ public class Service {
         }
     }
 
+    //----------------< add one topic to database >-------------------------------------------------
     public void addTopic(Topic topic, String userName,List<Item> items){
         Connection conn = null;
         try {
@@ -210,6 +215,7 @@ public class Service {
         }
     }
 
+    //----------------< delete a item from database >-----------------------------------------------
     public void deleteItem(int itemId){
         Connection conn = null;
         try {
@@ -242,7 +248,7 @@ public class Service {
 
     }
 
-    //-----------------< return all topics have the item with this carId s>--------------------------
+    //-----------------< return all topics have the item with this carId s>-------------------------
     public List<Topic> readAllTopic(int catId){
         Connection conn = ConnectionFactory.getInstance().makeConnection();
         List<Topic> topics = new ArrayList<>();
@@ -281,6 +287,7 @@ public class Service {
         }
     }
 
+    //----------------< read one topic which match this query condition >---------------------------
     public Topic readOneTopicByTopicId(int topicId) {
         Connection conn = ConnectionFactory.getInstance().makeConnection();
         Topic topic = new Topic();
@@ -304,6 +311,7 @@ public class Service {
         return topic;
     }
 
+    //----------------< read the number of comment for this item >----------------------------------
     public int countComments(int itemId){
         int count = 0;
         Connection conn = ConnectionFactory.getInstance().makeConnection();
@@ -324,6 +332,7 @@ public class Service {
 
     }
 
+    //----------------< read one topic which match this query condition >---------------------------
     public Topic readOneTopicByItemId(int itemId) {
         Topic topic = new Topic();
         Connection conn = ConnectionFactory.getInstance().makeConnection();
@@ -354,6 +363,7 @@ public class Service {
         return topic;
     }
 
+    //----------------< read all items which match this query condition >---------------------------
     public List<Item> readItemsByTopicId(int topicId){
         List<Item> items = new ArrayList<>();
         Connection conn = ConnectionFactory.getInstance().makeConnection();
@@ -382,6 +392,7 @@ public class Service {
         return items;
     }
 
+    //----------------< read one items which match this query condition >---------------------------
     public Item readOneItemByItemId(int itemId){
         Item item = new Item();
         Connection conn = ConnectionFactory.getInstance().makeConnection();
@@ -413,8 +424,7 @@ public class Service {
         return item;
     }
 
-
-    //-----------------< return all topics have the item with this carId s>--------------------------
+    //-----------------< return all topics have the item with this carId >--------------------------
     public List<Item> readAllItems(int catId){
         Connection conn = ConnectionFactory.getInstance().makeConnection();
         List<Item> items = new ArrayList<>();
@@ -441,7 +451,7 @@ public class Service {
         }
     }
 
-
+    //----------------< read all items which match this query condition >---------------------------
     public List<Item> searchItems(String keyword){
         List<Item> items = new ArrayList<>();
         Connection conn = ConnectionFactory.getInstance().makeConnection();
@@ -471,7 +481,7 @@ public class Service {
         return items;
     }
 
-
+    //----------------< read all comments which match this query condition >------------------------
     public List<Comment> readComments(int itemId){
         List<Comment> comments = new ArrayList<>();
         Connection conn = ConnectionFactory.getInstance().makeConnection();
@@ -497,7 +507,7 @@ public class Service {
         return comments;
     }
 
-    //-----------------< add a comment in item page >-----------------------------------
+    //----------------< add a comment to database >-------------------------------------------------
     public void addComment(Comment comment,String userName){
         Connection conn = ConnectionFactory.getInstance().makeConnection();
         try{
@@ -518,7 +528,7 @@ public class Service {
         }
     }
 
-    //------------------< read a user name by its id> -------------------------------
+    //------------------< read a user name by its id>-----------------------------------------------
     public String getUserById(int UserId){
         Connection conn = ConnectionFactory.getInstance().makeConnection();
         String name = "";
@@ -539,8 +549,7 @@ public class Service {
         return name;
     }
 
-
-    //------------------< add a favorite > ------------------------------------------
+    //------------------< add a favorite to database> ----------------------------------------------
     public void addFavorite(int userId, int itemId){
         Connection conn = ConnectionFactory.getInstance().makeConnection();
 
@@ -563,7 +572,7 @@ public class Service {
         }
     }
 
-    //------------------< check if a favorite exist > -------------------------------
+    //------------------< check if a favorite exist > ----------------------------------------------
     public boolean isFavExist(int userId, int itemId){
         boolean flag = false;
         Connection conn = ConnectionFactory.getInstance().makeConnection();
@@ -595,7 +604,7 @@ public class Service {
         return flag;
     }
 
-    //------------------< delete a favorite > -------------------------------
+    //------------------< delete a favorite > ------------------------------------------------------
     public void delFavorite(int userId, int itemId){
         Connection conn = ConnectionFactory.getInstance().makeConnection();
         Dao favorite = DaoFactory.getInstance().makeDao("Favorite");
@@ -618,7 +627,7 @@ public class Service {
         }
     }
 
-    //------------------< read favorite list for one user > -------------------------------
+    //------------------< read favorite list for one user > ----------------------------------------
     public List<Favorite> getFavorites(int userId){
         List<Favorite> favorites = new ArrayList<>();
         Connection conn = ConnectionFactory.getInstance().makeConnection();
@@ -647,7 +656,8 @@ public class Service {
         }
         return favorites;
     }
-    //------------------<add new comments to the notification list > -------------------------------
+
+    //------------------< add new comments to the notification list > ------------------------------
     public void addNotification(Comment comment, String userName){
         Connection conn = ConnectionFactory.getInstance().makeConnection();
         Notification notification = new Notification();
@@ -690,7 +700,12 @@ public class Service {
         }
     }
 
+<<<<<<< HEAD
     public  List<Notification> readNotifications(User user){
+=======
+    //------------------< add new comments to the notification list >-------------------------------
+    public  List<Notification> readNotifications(){
+>>>>>>> 057cfea8936cbfcf86efe0813c919f93865a1577
         Connection conn = ConnectionFactory.getInstance().makeConnection();
         List<Notification> noteList= new ArrayList<>();
         try{
