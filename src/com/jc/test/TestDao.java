@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////
 // TestDao.java   test class                                      //
 // ver 1.0                                                        //
-// Author: Biao A                                           //
+// Author: Biao A                                                 //
 ////////////////////////////////////////////////////////////////////
 /*
  * This package provides one Java class TestDao which tests
