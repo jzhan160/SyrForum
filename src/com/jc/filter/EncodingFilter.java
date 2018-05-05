@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////
 // EncodingFilter.java   deal with different encoding function    //
 // ver 1.0                                                        //
-// Author: Jiacheng Zhang                                                               //
+// Author: Jiacheng Zhang                                         //
 ////////////////////////////////////////////////////////////////////
 /*
  * This package provides one Java class EncodingFilter which implement
